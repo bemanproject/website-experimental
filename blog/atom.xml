@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://bemanproject.org/blog</id>
+    <id>https://sakshamsharma.github.io/beman-website/blog</id>
     <title>The Beman Project Blog</title>
     <updated>2025-09-15T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://bemanproject.org/blog"/>
+    <link rel="alternate" href="https://sakshamsharma.github.io/beman-website/blog"/>
     <subtitle>The Beman Project Blog</subtitle>
-    <icon>https://bemanproject.org/./img/beman_logo.png</icon>
+    <icon>https://sakshamsharma.github.io/beman-website/./img/beman_logo.png</icon>
     <entry>
         <title type="html"><![CDATA[Reliable CI within a shared container infrastructure]]></title>
-        <id>https://bemanproject.org/blog/beman-infra-containers</id>
-        <link href="https://bemanproject.org/blog/beman-infra-containers"/>
+        <id>https://sakshamsharma.github.io/beman-website/blog/beman-infra-containers</id>
+        <link href="https://sakshamsharma.github.io/beman-website/blog/beman-infra-containers"/>
         <updated>2025-09-15T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[intro]]></summary>
-        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="intro" src="https://bemanproject.org/assets/images/splash-61e67e6c117017022d9b378ad901137f.jpg" width="9504" height="6336" class="img_ev3q"></p>
+        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="intro" src="https://sakshamsharma.github.io/beman-website/assets/images/splash-61e67e6c117017022d9b378ad901137f.jpg" width="9504" height="6336" class="img_ev3q"></p>
 <p>A challenge that comes up when creating a library or any other tool is setting up a reliable and consistent <a href="https://en.wikipedia.org/wiki/Continuous_integration" target="_blank" rel="noopener noreferrer">continuous integration</a> (CI) pipeline for running tests, checks and other tasks. For The Beman Project, it is especially important to have a consistent and reliable CI pipeline that can be used across the full gamut of library projects.</p>
 <p>This is where <a href="https://github.com/bemanproject/infra-containers" target="_blank" rel="noopener noreferrer">bemanproject/infra-containers</a> comes in. In this post, we'll briefly examine:</p>
 <ul>
@@ -58,20 +58,20 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Beman Sofia Hackathon]]></title>
-        <id>https://bemanproject.org/blog/sofia-hackathon</id>
-        <link href="https://bemanproject.org/blog/sofia-hackathon"/>
+        <id>https://sakshamsharma.github.io/beman-website/blog/sofia-hackathon</id>
+        <link href="https://sakshamsharma.github.io/beman-website/blog/sofia-hackathon"/>
         <updated>2025-07-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[intro]]></summary>
-        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="intro" src="https://bemanproject.org/assets/images/intro-v2-c384966db7c0c1c3f89f720ecd5efcf1.png" width="4000" height="3000" class="img_ev3q"></p>
+        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="intro" src="https://sakshamsharma.github.io/beman-website/assets/images/intro-v2-c384966db7c0c1c3f89f720ecd5efcf1.png" width="4000" height="3000" class="img_ev3q"></p>
 <p>During the ISO WG21 C++ Meeting in <a href="https://wg21.link/N5004" target="_blank" rel="noopener noreferrer">Sofia, June 2025</a>, we hosted an in-person Beman - Evening Session — a mix of short presentations, a hands-on hackathon, and plenty of big ideas for the future of C++. What started as a relaxed gathering quickly turned into a productive (and caffeinated) brainstorming hub, where we explored potential C++29 library proposals, shared early-stage experiments, and even wrote code live. It was part workshop, part jam session, and fully in the spirit of what makes the C++ community so unique: collaboration, creativity, and a shared passion for pushing the language forward.</p>
 <p>Since November 2024, we have been organizing Beman presentations at ISO WG21 C++ meetings (Warsaw 2024 - Poland, Hagenberg 2025 - Austria). Since we have been receiving positive feedback, we decided to organize another one in Sofia, June 2025 - Bulgaria. (Note that our next session will be at CppCon in September in Colorado - stay tuned for more details!)</p>
-<p><img decoding="async" loading="lazy" alt="intro" src="https://bemanproject.org/assets/images/intro-v1-35ea2e02ec29c01ba071312a59d54dab.png" width="8160" height="4592" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="intro" src="https://sakshamsharma.github.io/beman-website/assets/images/intro-v1-35ea2e02ec29c01ba071312a59d54dab.png" width="8160" height="4592" class="img_ev3q"></p>
 <p>We had a great turnout, with 25 participants. The evening started with a great discussion about The Beman Project and where it is going, especially considering the C++26 is closed and the design cycle for C++29 is starting.</p>
 <p>We presented our first <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#production-ready-api-may-undergo-changes" target="_blank" rel="noopener noreferrer">Production ready. API may undergo changes.</a> library, which is the <a href="https://github.com/bemanproject/optional" target="_blank" rel="noopener noreferrer">beman.optional</a> library, hoping to get it into the C++26 standard and become <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#production-ready-stable-api" target="_blank" rel="noopener noreferrer">Production ready. Stable API.</a>. We counted a total of 10 <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#production-ready-stable-api" target="_blank" rel="noopener noreferrer">Under development and not yet ready for production use.</a> Beman libraries.</p>
 <p>We have continued the discussion around our set of guidelines for the Beman libraries, which are described in <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_standard.md" target="_blank" rel="noopener noreferrer">The Beman Standard</a>. This strong set of rules is a great foundation for our libraries, and it helps the authors to create libraries that are easy to use, maintain, and extend by example, using our awesome <a href="https://github.com/bemanproject/exemplar" target="_blank" rel="noopener noreferrer">beman.exemplar</a> template library.</p>
 <p>The second part of the evening was a hackathon with our latest tool <a href="https://github.com/bemanproject/infra/tree/main/tools/beman-tidy" target="_blank" rel="noopener noreferrer">beman-tidy: The Codebase Bemanification Tool</a>. For more context, the <code>beman-tidy</code> helps you to apply the Beman Standard to your codebase, at a later stage in the library development.</p>
 <p>Since the <code>beman-tidy</code> framework was already ready to use, but still required some work to implement around 40-50 checks, we created the <a href="https://github.com/orgs/bemanproject/projects/8" target="_blank" rel="noopener noreferrer">beman-tidy Project on GitHub</a> to track the progress of the implementation and to split the work into smaller tasks.</p>
-<p><img decoding="async" loading="lazy" alt="beman tidy board" src="https://bemanproject.org/assets/images/beman-tidy-board-d8f4ec7a433c56bf3cd8dc35942b654a.png" width="3456" height="1956" class="img_ev3q"></p>
+<p><img decoding="async" loading="lazy" alt="beman tidy board" src="https://sakshamsharma.github.io/beman-website/assets/images/beman-tidy-board-d8f4ec7a433c56bf3cd8dc35942b654a.png" width="3456" height="1956" class="img_ev3q"></p>
 <p>The implication during the hackathon was substantial, with 10 participants working on the <code>beman-tidy</code> framework, and more pushing PRs at a later point in time. The tool is not completed yet, so feel free to contribute (ping <a href="https://github.com/neatudarius" target="_blank" rel="noopener noreferrer">@neatudarius</a> on GitHub, which is the <code>beman-tidy</code> author).</p>
 <p>We were very happy with the impact of that evening (Wednesday evening, in the middle of the ISO WG21 C++ Meeting), but surprises continued ...</p>
 <p>After Friday's LEWG session, <a href="https://wg21.link/P3655R1" target="_blank" rel="noopener noreferrer">P3655R1: std::zstring_view</a> was presented and got feedback to continue the proposed direction. As an immediate consequence of this event, a new author created the <a href="https://github.com/bemanproject/cstring_view" target="_blank" rel="noopener noreferrer">beman.cstring_view</a> library, to pursue the C++29 proposal.</p>
@@ -93,11 +93,11 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[NYC Hackathon]]></title>
-        <id>https://bemanproject.org/blog/nyc-hackathon</id>
-        <link href="https://bemanproject.org/blog/nyc-hackathon"/>
+        <id>https://sakshamsharma.github.io/beman-website/blog/nyc-hackathon</id>
+        <link href="https://sakshamsharma.github.io/beman-website/blog/nyc-hackathon"/>
         <updated>2025-01-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[busy coding]]></summary>
-        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="busy coding" src="https://bemanproject.org/assets/images/hacking-5945c8c4c7e6f3bfb41d42196d483662.jpg" title="Several hackathon members busy coding. They give the impression of serious and intense work happening!" width="4000" height="3000" class="img_ev3q"></p>
+        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="busy coding" src="https://sakshamsharma.github.io/beman-website/assets/images/hacking-5945c8c4c7e6f3bfb41d42196d483662.jpg" title="Several hackathon members busy coding. They give the impression of serious and intense work happening!" width="4000" height="3000" class="img_ev3q"></p>
 <p>Adobe hosted an exciting and intense half-day Beman hackathon where we worked on
 adding new Beman libraries, addressed infrastructure issues, and brainstormed
 designs for the Beman website.</p>
@@ -119,7 +119,7 @@ design</a> for the new website.</li>
 </ul>
 <p>Overall it was productive and a ton of fun. Thanks to Robert, Eddie, Linus,
 River, Nick, Bret, and Robert for participating!</p>
-<p><img decoding="async" loading="lazy" alt="portrait of attendees" src="https://bemanproject.org/assets/images/final-photo-407637652af7b6439137bab178736b99.jpg" title="All the hackathon folks standing together in a portrait looking very cool." width="4000" height="3000" class="img_ev3q"></p>]]></content>
+<p><img decoding="async" loading="lazy" alt="portrait of attendees" src="https://sakshamsharma.github.io/beman-website/assets/images/final-photo-407637652af7b6439137bab178736b99.jpg" title="All the hackathon folks standing together in a portrait looking very cool." width="4000" height="3000" class="img_ev3q"></p>]]></content>
         <author>
             <name>David Sankel</name>
             <uri>https://github.com/camio</uri>
@@ -129,8 +129,8 @@ River, Nick, Bret, and Robert for participating!</p>
     </entry>
     <entry>
         <title type="html"><![CDATA[Beman Project Introduction Online]]></title>
-        <id>https://bemanproject.org/blog/beman-tutorial</id>
-        <link href="https://bemanproject.org/blog/beman-tutorial"/>
+        <id>https://sakshamsharma.github.io/beman-website/blog/beman-tutorial</id>
+        <link href="https://sakshamsharma.github.io/beman-website/blog/beman-tutorial"/>
         <updated>2025-01-13T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[David Sankel’s talk on Beman at 2024 CppCon is now online!]]></summary>
         <content type="html"><![CDATA[<p>David Sankel’s talk on Beman at 2024 CppCon is now online!
@@ -145,11 +145,11 @@ The presentation answers many questions about the project purpose and policies.<
     </entry>
     <entry>
         <title type="html"><![CDATA[About Beman]]></title>
-        <id>https://bemanproject.org/blog/about-beman</id>
-        <link href="https://bemanproject.org/blog/about-beman"/>
+        <id>https://sakshamsharma.github.io/beman-website/blog/about-beman</id>
+        <link href="https://sakshamsharma.github.io/beman-website/blog/about-beman"/>
         <updated>2024-10-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A photo of Beman Dawes]]></summary>
-        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="A photo of Beman Dawes" src="https://bemanproject.org/assets/images/beman-6694694642e14174e61829c7aae7c8c8.png" width="1920" height="1654" class="img_ev3q"></p>
+        <content type="html"><![CDATA[<p><img decoding="async" loading="lazy" alt="A photo of Beman Dawes" src="https://sakshamsharma.github.io/beman-website/assets/images/beman-6694694642e14174e61829c7aae7c8c8.png" width="1920" height="1654" class="img_ev3q"></p>
 <p>I met Beman Dawes when I attended my first C++ committee meeting in 1997. I wasn’t even a committee member at that time; I showed up at the meeting because I was trying to get exception safety into the C++ standard and Andrew Koenig had made it clear that arguing for it over email wasn’t going to cut it; I needed to show my face.</p>
 <p>I didn’t know what to expect; I sat in one of the chairs at the edge of the room while the committee took seats at a big “U” of tables in the center. After some preliminary business, the meeting broke into Core and Library “working groups.” Since exception safety was mostly a library issue, I stayed with the library group, of which Beman was the chair.</p>
 <p>Beman started by asking me to join the other members in the center of the room and filling me in on the job at hand: working through issues people had reported with the draft C++ standard. That was my first indication of the extraordinarily inclusive tone he set for these meetings. Everyone, and every idea, was treated with collegial respect, and the spirit of openness and contribution flowing from Beman had clearly “infected” the other participants. I cautiously made a few points, which were greeted with appreciation, where I thought I could contribute.</p>

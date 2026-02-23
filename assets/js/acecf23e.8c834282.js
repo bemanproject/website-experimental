@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbemanproject=self.webpackChunkbemanproject||[]).push([[1903],{1912:e=>{e.exports=JSON.parse('{"blogBasePath":"/beman-website/blog","blogTitle":"Blog","authorsListPath":"/beman-website/blog/authors"}')}}]);
