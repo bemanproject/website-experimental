@@ -40,3 +40,62 @@ Inserting sidebar position 6 into /Users/dariusn/dev/dn/git/Beman/website/docs/g
 Copying ../beman/docs/code_of_conduct.md to /Users/dariusn/dev/dn/git/Beman/website/docs/code_of_conduct.md
 Inserting sidebar position 7 into /Users/dariusn/dev/dn/git/Beman/website/docs/code_of_conduct.md
 ```
+
+## sync-external-docs.py
+
+Sync generated documentation outputs from external repos into a destination root.
+
+Currently supported repos are listed in the script's `REPO_DOCS` whitelist.
+
+```shell
+$ python3 scripts/sync-external-docs.py --output-root /tmp/website-stage
+Building docs in /path/to/optional with: make docs
+Copying /path/to/optional/docs/html to /tmp/website-stage/static/optional
+
+# Override the parent folder containing external repos
+$ python3 scripts/sync-external-docs.py --repos-root ../ --output-root /tmp/website-stage
+
+# In CI: clone missing repos and update them before syncing docs
+$ python3 scripts/sync-external-docs.py --repos-root /tmp/beman-external --clone-missing --update-repos --output-root /tmp/website-stage
+```
+
+## run-staged-website.py
+
+Prepare a temporary staged docs/static tree, overlay generated `beman.optional` docs, then run Docusaurus against that staged content.
+
+By default this uses a persistent temporary workspace rooted at:
+
+```shell
+$TMPDIR/beman-website-work/
+```
+
+Its final staged source tree lives at:
+
+```shell
+$TMPDIR/beman-website-work/site/
+```
+
+Its final rendered artifacts live in the local `build/` `gh-pages` worktree by default:
+
+```shell
+/path/to/website/build/
+```
+
+If `build/` already exists as a legacy non-worktree directory, the script warns and asks before deleting and replacing it.
+
+```shell
+$ python3 scripts/run-staged-website.py start
+$ python3 scripts/run-staged-website.py build
+$ python3 scripts/run-staged-website.py serve
+```
+
+`make` and `make start` are equivalent and both go through this staged workflow.
+
+## publish-gh-pages.sh
+
+Publish an existing `gh-pages` worktree to the remote `gh-pages` branch.
+
+```shell
+$ bash scripts/publish-gh-pages.sh gh-pages
+$ bash scripts/publish-gh-pages.sh gh-pages /tmp/custom-gh-pages-worktree
+```

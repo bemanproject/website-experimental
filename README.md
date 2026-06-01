@@ -137,3 +137,28 @@ $ make
 ## Development
 
 Local setup, dependencies, and running the site: see **[CONTRIBUTING.md](CONTRIBUTING.md#development)**.
+
+`make` and `make start` are equivalent: both install dependencies, prepare the staged external docs inputs, ensure the local `build/` worktree exists, and then start the Docusaurus development server.
+
+## Automated `gh-pages` publishing
+
+GitHub Actions publishes this site to the `gh-pages` branch on:
+
+- pushes to `main`
+- a 6-hour schedule (`0 */6 * * *`)
+- manual dispatch
+
+```shell
+$ python3 scripts/run-staged-website.py build --repos-root /tmp/beman-external --clone-missing --update-repos
+```
+
+For builds published from a fork or any GitHub Pages project site, set the site
+URL and base URL to match the repository path. Example:
+
+```shell
+$ BEMAN_SITE_URL="https://<your_username>.github.io" \
+  BEMAN_BASE_URL="/beman-website/" \
+  BEMAN_GITHUB_ORG="<your_username>" \
+  BEMAN_GITHUB_REPO="beman-website" \
+  python3 scripts/run-staged-website.py build --repos-root ..
+```
