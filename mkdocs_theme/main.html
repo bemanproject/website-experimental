@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="{{ config.theme.locale or 'en' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="mkdocs-{{ mkdocs_version }}">
+    <title>{% if page and page.title %}{{ page.title }} | {% endif %}{{ config.site_name }}</title>
+    <meta name="description" content="{{ config.site_description }}">
+    <link rel="icon" href="{{ 'img/beman_logo.png'|url }}">
+    <link rel="stylesheet" href="{{ 'assets/beman.css'|url }}">
+    {% for path in config.extra_css %}
+    <link rel="stylesheet" href="{{ path|url }}">
+    {% endfor %}
+    {% block extrahead %}{% endblock %}
+  </head>
+  <body class="page-kind-{{ page.meta.layout or 'standard' if page else 'standard' }}">
+    {% macro page_href(href) -%}
+      {%- if href == 'index.md' -%}
+        {{ './'|url }}
+      {%- elif href and href[-9:] == '/index.md' -%}
+        {{ href[:-8]|url }}
+      {%- elif href and href[-3:] == '.md' -%}
+        {{ (href[:-3] ~ '/')|url }}
+      {%- else -%}
+        {{ href|url }}
+      {%- endif -%}
+    {%- endmacro %}
+
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Main navigation">
+        <a class="brand" href="{{ 'index.html'|url }}">
+          <img src="{{ 'img/beman_logo.png'|url }}" alt="The Beman Project Logo">
+          <span>{{ config.site_name }}</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">Menu</button>
+        <div class="nav-menu" id="nav-menu">
+          <div class="nav-links">
+            {% for nav_item in nav %}
+              {% if nav_item.children %}
+                {% set href = nav_item.children[0].url %}
+              {% else %}
+                {% set href = nav_item.url %}
+              {% endif %}
+              <a class="{% if nav_item.active %}active{% endif %}" href="{{ page_href(href) }}">{{ nav_item.title }}</a>
+            {% endfor %}
+          </div>
+          <div class="social-links" aria-label="Community links">
+            <a class="social-link discourse" href="{{ config.extra.social.discourse }}" aria-label="Discourse Forum"></a>
+            <a class="social-link discord" href="{{ config.extra.social.discord }}" aria-label="Discord"></a>
+            <a class="social-link github" href="{{ config.extra.social.github }}" aria-label="GitHub Repository"></a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    {% set section = page.url.split('/')[0] if page and page.url else '' %}
+    {% set show_sidebar = section in ['docs', 'blog'] %}
+
+    {% if page and page.meta.layout == 'home' %}
+      <main class="home-main">
+        {{ page.content }}
+      </main>
+    {% else %}
+      <main class="page-shell{% if not show_sidebar %} no-sidebar{% endif %}">
+        {% if show_sidebar %}
+        <aside class="sidebar" aria-label="{{ section|capitalize }} navigation">
+          {% macro render_sidebar(items) %}
+            <ul>
+              {% for item in items %}
+                <li class="{% if item.active %}active{% endif %}">
+                  {% if item.children %}
+                    <details{% if item.active %} open{% endif %}>
+                      <summary>{{ item.title }}</summary>
+                      {{ render_sidebar(item.children) }}
+                    </details>
+                  {% else %}
+                    <a href="{{ page_href(item.url) }}">{{ item.title }}</a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endmacro %}
+
+          {% for nav_item in nav %}
+            {% if nav_item.title|lower == section %}
+              {% if nav_item.children %}
+                {{ render_sidebar(nav_item.children) }}
+              {% else %}
+                <ul><li class="active"><a href="{{ page_href(nav_item.url) }}">{{ nav_item.title }}</a></li></ul>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </aside>
+        {% endif %}
+        <article class="content-panel">
+          {% if page and page.meta.blog_post %}
+            <p class="post-meta">{{ page.meta.post_date }}{% if page.meta.author_names %} · {{ page.meta.author_names }}{% endif %}</p>
+          {% endif %}
+          {{ page.content }}
+          {% if page and page.meta.comments %}
+            <div id="discourse-comments" data-discourse-url="{{ config.extra.discourse_url }}"></div>
+          {% endif %}
+        </article>
+        {% if page and page.toc %}
+          <aside class="toc-panel">
+            <strong>On this page</strong>
+            <ul>
+              {% for toc_item in page.toc %}
+                <li><a href="{{ toc_item.url }}">{{ toc_item.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </aside>
+        {% endif %}
+      </main>
+    {% endif %}
+
+    <footer class="site-footer">
+      <div>
+        <h2>Community</h2>
+        <a href="{{ config.extra.social.discord }}">Discord</a>
+        <a href="{{ config.extra.social.discourse }}">Discourse</a>
+      </div>
+      <div>
+        <h2>More</h2>
+        <a href="{{ config.extra.social.github }}">GitHub</a>
+      </div>
+      <p>Copyright © {{ build_date_utc.strftime('%Y') }} The Beman Project. Built with MkDocs.</p>
+    </footer>
+
+    <script src="{{ 'assets/beman.js'|url }}"></script>
+    {% if page and page.meta.comments %}
+    <script src="{{ 'assets/discourse-comments.js'|url }}"></script>
+    {% endif %}
+    {% for path in config.extra_javascript %}
+    <script src="{{ path|url }}"></script>
+    {% endfor %}
+  </body>
+</html>
