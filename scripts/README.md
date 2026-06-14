@@ -61,7 +61,7 @@ $ python3 scripts/sync-external-docs.py --repos-root /tmp/beman-external --clone
 
 ## run-staged-website.py
 
-Prepare a temporary staged docs/static tree, overlay generated `beman.optional` docs, then run Docusaurus against that staged content.
+Prepare a temporary staged MkDocs content tree, overlay generated library docs, then run MkDocs against that staged content.
 
 By default this uses a persistent temporary workspace rooted at:
 

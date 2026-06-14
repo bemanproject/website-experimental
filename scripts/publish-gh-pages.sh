@@ -5,7 +5,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BRANCH="${1:-gh-pages}"
-WORKTREE_DIR="${2:-${REPO_ROOT}/build
+WORKTREE_DIR="${2:-${REPO_ROOT}/build}"
 SOURCE_SHA="$(git -C "${REPO_ROOT}" rev-parse --short HEAD)"
 
 if [[ ! -d "${WORKTREE_DIR}" ]]; then

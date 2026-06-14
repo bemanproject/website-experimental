@@ -3,10 +3,14 @@
 
 import argparse
 import os
+import re
 import shutil
 import subprocess  # nosec B404
+import sys
 import tempfile
 from pathlib import Path
+
+import yaml
 
 
 def parse_args():
@@ -54,7 +58,18 @@ def run_command(*args, **kwargs) -> subprocess.CompletedProcess:
 
 def list_tracked_files(repo_root: Path, *paths: str) -> list[Path]:
     result = run_command(
-        ["git", "-C", str(repo_root), "ls-files", "-z", "--", *paths],
+        [
+            "git",
+            "-C",
+            str(repo_root),
+            "ls-files",
+            "-z",
+            "--cached",
+            "--others",
+            "--exclude-standard",
+            "--",
+            *paths,
+        ],
         check=True,
         capture_output=True,
     )
@@ -73,20 +88,190 @@ def copy_tracked_tree(repo_root: Path, stage_root: Path):
 def stage_repo_content(repo_root: Path, stage_root: Path):
     copy_tracked_tree(repo_root, stage_root)
 
-    node_modules = repo_root / "node_modules"
-    if node_modules.exists():
-        (stage_root / "node_modules").symlink_to(node_modules)
-
-    for directory in [stage_root / "docs" / "Libraries", stage_root / "static"]:
+    for directory in [stage_root / "site_content" / "docs" / "Libraries"]:
         directory.mkdir(parents=True, exist_ok=True)
+
+
+def strip_frontmatter(content: str) -> tuple[dict, str]:
+    if not content.startswith("---\n"):
+        return {}, content
+    end = content.find("\n---\n", 4)
+    if end == -1:
+        return {}, content
+    metadata = yaml.safe_load(content[4:end]) or {}
+    body = content[end + len("\n---\n") :]
+    return metadata, body.lstrip("\n")
+
+
+def write_markdown_page(target: Path, metadata: dict, body: str):
+    target.parent.mkdir(parents=True, exist_ok=True)
+    frontmatter = yaml.safe_dump(metadata, sort_keys=False).strip()
+    target.write_text(f"---\n{frontmatter}\n---\n\n{body}")
+
+
+def copy_tree_if_exists(source: Path, target: Path):
+    if source.exists():
+        shutil.copytree(source, target, dirs_exist_ok=True)
+
+
+def copy_static_assets(stage_root: Path, content_root: Path):
+    copy_tree_if_exists(stage_root / "static", content_root)
+    copy_tree_if_exists(stage_root / "images", content_root / "images")
+
+
+def migrate_core_docs(stage_root: Path, content_root: Path):
+    copy_tree_if_exists(stage_root / "docs", content_root / "docs")
+    maturity_model = content_root / "docs" / "beman_library_maturity_model.md"
+    if maturity_model.exists():
+        maturity_model.write_text(
+            maturity_model.read_text().replace(
+                "](/images/beman_flow-beman_library_maturity_model.png)",
+                "](../images/beman_flow-beman_library_maturity_model.png)",
+            )
+        )
+
+
+def migrate_pages(stage_root: Path, content_root: Path):
+    shutil.copy2(stage_root / "pages" / "index.md", content_root / "index.md")
+    shutil.copy2(stage_root / "pages" / "talks.md", content_root / "talks.md")
+
+    libraries_source = stage_root / "src" / "pages" / "libraries.md"
+    metadata, body = strip_frontmatter(libraries_source.read_text())
+    metadata["title"] = metadata.get("title", "Beman Libraries")
+    body = re.sub(
+        r'href="/docs/Libraries/([^"/]+)/"',
+        r'href="docs/Libraries/\1/index.md"',
+        body,
+    )
+    body = re.sub(
+        r"\]\(/docs/Libraries/([^/)]+)/\)",
+        r"](docs/Libraries/\1/index.md)",
+        body,
+    )
+    body = body.replace('src="/img/book.svg"', 'src="../img/book.svg"')
+    write_markdown_page(content_root / "libraries.md", metadata, body)
+
+
+def youtube_embed(url: str) -> str:
+    video_id = ""
+    if "youtu.be/" in url:
+        video_id = url.rsplit("/", 1)[-1].split("?", 1)[0]
+    elif "youtube.com" in url:
+        marker = "v="
+        if marker in url:
+            video_id = url.split(marker, 1)[1].split("&", 1)[0]
+    if not video_id:
+        return url
+    return (
+        '<div class="video-frame">\n'
+        f'  <iframe src="https://www.youtube.com/embed/{video_id}" allowfullscreen title="YouTube video"></iframe>\n'
+        "</div>"
+    )
+
+
+def first_heading(markdown: str) -> str:
+    for line in markdown.splitlines():
+        if line.startswith("# "):
+            return line[2:].strip()
+    return "Blog post"
+
+
+def normalize_blog_post(source: Path, target: Path, authors: dict) -> dict:
+    metadata, body = strip_frontmatter(source.read_text())
+    slug = metadata.get("slug") or source.parent.name
+    post_date = source.parent.name[:10]
+    author_keys = metadata.get("authors") or []
+    if isinstance(author_keys, str):
+        author_keys = [author_keys]
+    author_names = [
+        authors.get(author_key, {}).get("name", str(author_key))
+        for author_key in author_keys
+    ]
+
+    body = "\n".join(
+        youtube_embed(line.strip()) if "youtu.be/" in line or "youtube.com/watch" in line else line
+        for line in body.splitlines()
+    )
+    body = body.replace("<!-- truncate -->", "")
+
+    page_meta = {
+        "title": first_heading(body),
+        "blog_post": True,
+        "post_date": post_date,
+        "author_names": ", ".join(author_names),
+        "comments": bool(metadata.get("comments", False)),
+    }
+    write_markdown_page(target / "index.md", page_meta, body)
+    copy_tree_if_exists(source.parent / "images", target / "images")
+    return {
+        "title": page_meta["title"],
+        "url": f"{slug}/",
+        "date": post_date,
+        "authors": page_meta["author_names"],
+        "tags": metadata.get("tags") or [],
+    }
+
+
+def migrate_blog(stage_root: Path, content_root: Path):
+    blog_source = stage_root / "blog"
+    blog_target = content_root / "blog"
+    blog_target.mkdir(parents=True, exist_ok=True)
+    authors = yaml.safe_load((blog_source / "authors.yml").read_text()) or {}
+    posts = []
+
+    for source in sorted(blog_source.glob("*/index.md"), reverse=True):
+        metadata, _ = strip_frontmatter(source.read_text())
+        slug = metadata.get("slug") or source.parent.name
+        posts.append(normalize_blog_post(source, blog_target / slug, authors))
+
+    cards = [
+        "---",
+        "title: Blog",
+        "---",
+        "",
+        "# Blog",
+        "",
+        '<div class="blog-index">',
+    ]
+    for post in posts:
+        tags = post["tags"]
+        if isinstance(tags, str):
+            tags = [tags]
+        tag_html = "".join(f'<span class="badge">{tag}</span>' for tag in tags)
+        cards.extend(
+            [
+                '<article class="blog-index-item">',
+                f'  <time>{post["date"]}</time>',
+                '  <div>',
+                f'    <h2><a href="{post["url"]}">{post["title"]}</a></h2>',
+                f'    <p class="blog-card-meta">{post["authors"]}</p>' if post["authors"] else "",
+                f'    <div class="blog-tags">{tag_html}</div>' if tag_html else "",
+                "  </div>",
+                "</article>",
+            ]
+        )
+    cards.append("</div>")
+    (blog_target / "index.md").write_text("\n".join(line for line in cards if line) + "\n")
+
+
+def prepare_mkdocs_content(stage_root: Path):
+    content_root = stage_root / "site_content"
+    if content_root.exists():
+        shutil.rmtree(content_root)
+    content_root.mkdir(parents=True)
+    copy_static_assets(stage_root, content_root)
+    migrate_core_docs(stage_root, content_root)
+    migrate_pages(stage_root, content_root)
+    migrate_blog(stage_root, content_root)
+    (content_root / "docs" / "Libraries").mkdir(parents=True, exist_ok=True)
 
 
 def sync_external_docs(repo_root: Path, stage_root: Path, args):
     cmd = [
-        "python3",
+        sys.executable,
         str(repo_root / "scripts" / "sync-external-docs.py"),
         "--output-root",
-        str(stage_root),
+        str(stage_root / "site_content"),
     ]
     if args.repos_root:
         cmd.extend(["--repos-root", args.repos_root])
@@ -382,7 +567,7 @@ def sync_build_output(build_root: Path, pages_root: Path):
     shutil.rmtree(build_root, ignore_errors=True)
 
 
-def run_docusaurus(repo_root: Path, stage_root: Path, out_dir: Path, command: str):
+def run_mkdocs(repo_root: Path, stage_root: Path, out_dir: Path, command: str):
     env = os.environ.copy()
     env["BEMAN_WEBSITE_BRANCH"] = (
         run_command(
@@ -395,11 +580,11 @@ def run_docusaurus(repo_root: Path, stage_root: Path, out_dir: Path, command: st
     )
 
     if command == "start":
-        cmd = ["yarn", "docusaurus", "start"]
+        cmd = [sys.executable, "-m", "mkdocs", "serve", "--dev-addr", "127.0.0.1:8000"]
     elif command == "build":
-        cmd = ["yarn", "docusaurus", "build", "--out-dir", str(out_dir)]
+        cmd = [sys.executable, "-m", "mkdocs", "build", "--site-dir", str(out_dir)]
     else:
-        cmd = ["yarn", "docusaurus", "serve", "--dir", str(out_dir)]
+        cmd = [sys.executable, "-m", "http.server", "8000", "--directory", str(out_dir)]
 
     run_command(cmd, cwd=stage_root, check=True, env=env)
 
@@ -415,19 +600,24 @@ def main():
 
     prepare_stage_workspace(stage_root, build_root)
     stage_repo_content(repo_root, stage_root)
+    prepare_mkdocs_content(stage_root)
     sync_external_docs(repo_root, stage_root, args)
 
-    ensure_pages_worktree(repo_root, pages_root, "gh-pages")
+    using_default_pages_root = not args.pages_root
+    if using_default_pages_root:
+        ensure_pages_worktree(repo_root, pages_root, "gh-pages")
+    else:
+        pages_root.mkdir(parents=True, exist_ok=True)
 
     if args.command == "start":
-        run_docusaurus(repo_root, stage_root, build_root, "start")
+        run_mkdocs(repo_root, stage_root, build_root, "start")
         return
 
-    run_docusaurus(repo_root, stage_root, build_root, "build")
+    run_mkdocs(repo_root, stage_root, build_root, "build")
     sync_build_output(build_root, pages_root)
 
     if args.command == "serve":
-        run_docusaurus(repo_root, stage_root, pages_root, "serve")
+        run_mkdocs(repo_root, stage_root, pages_root, "serve")
     else:
         print(f"Built site output: {pages_root}")
 

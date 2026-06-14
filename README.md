@@ -2,9 +2,9 @@
 
 This is the repository hosting the code for the future Beman Website: https://bemanproject.org/.
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
-Documentation is written in MDX format.
-Building and deploying it requires Node and NPM.
+This website is built using [MkDocs](https://www.mkdocs.org/), a static website generator.
+Documentation is written in Markdown.
+Building and deploying it requires Python and the dependencies listed in `requirements.txt`.
 
 ## Add a blog post
 
@@ -101,24 +101,7 @@ The CI preview deployment logs should be public. Please ping a codeowner otherwi
 <details>
 <summary> [DEBUG] Inspect local deployment error logs. </summary>
 
-- On local setup, run `make` (see [CONTRIBUTING.md](CONTRIBUTING.md#development)) and check if there is any error in the console - example:
-
-```shell
-$ make
-...
-[INFO] Starting the development server...
-...
-[ERROR] Error: Processing of blog source file path=2000-10-30-my-blog-example/index.md failed.
-    at doProcessBlogSourceFile (/Users/dariusn/dev/dn/git/Beman/website/node_modules/@docusaurus/plugin-content-blog/lib/blogUtils.js:268:19)
-    at async Promise.all (index 0)
-    ... 10 lines matching cause stack trace ...
-    at async file:///Users/dariusn/dev/dn/git/Beman/website/node_modules/@docusaurus/core/bin/docusaurus.mjs:44:3 {
-  [cause]: Error: Blog author with key "neatudarius" not found in the authors map file.
-  Valid author keys are:
-  - JeffGarland
-  - dabrahams
-  - DavidSankel
-```
+- On local setup, run `make` (see [CONTRIBUTING.md](CONTRIBUTING.md#development)) and check if there is any error in the console.
 
 - Fix the error, re-deploy the local website.
 
@@ -138,7 +121,7 @@ $ make
 
 Local setup, dependencies, and running the site: see **[CONTRIBUTING.md](CONTRIBUTING.md#development)**.
 
-`make` and `make start` are equivalent: both install dependencies, prepare the staged external docs inputs, ensure the local `build/` worktree exists, and then start the Docusaurus development server.
+`make` and `make start` are equivalent: both install dependencies, prepare the staged external docs inputs, ensure the local `build/` worktree exists, and then start the MkDocs development server.
 
 ## Automated `gh-pages` publishing
 

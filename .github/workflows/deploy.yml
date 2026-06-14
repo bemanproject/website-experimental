@@ -27,11 +27,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          node-version: 20
-          cache: yarn
+          python-version: "3.x"
+          cache: pip
 
       - name: Install docs toolchain
         run: |
