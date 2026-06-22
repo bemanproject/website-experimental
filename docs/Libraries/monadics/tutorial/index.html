@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="mkdocs-1.6.1">
+    <title>Tutorial | The Beman Project</title>
+    <meta name="description" content="Tomorrow's C++ Standard Libraries Today">
+    <link rel="icon" href="../../../../img/beman_logo.png">
+    <link rel="stylesheet" href="../../../../assets/beman.css">
+    
+    
+  </head>
+  <body class="page-kind-standard">
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Main navigation">
+        <a class="brand" href="../../../../index.html">
+          <img src="../../../../img/beman_logo.png" alt="The Beman Project Logo">
+          <span>The Beman Project</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">Menu</button>
+        <div class="nav-menu" id="nav-menu">
+          <div class="nav-links">
+            
+              
+                
+              
+              <a class="" href="../../../..">Home</a>
+            
+              
+                
+              
+              <a class="active" href="../../../">Docs</a>
+            
+              
+                
+              
+              <a class="" href="../../../../libraries/">Libraries</a>
+            
+              
+                
+              
+              <a class="" href="../../../../talks/">Talks</a>
+            
+              
+                
+              
+              <a class="" href="../../../../blog/">Blog</a>
+            
+          </div>
+          <div class="social-links" aria-label="Community links">
+            <a class="social-link discourse" href="https://discourse.bemanproject.org/" aria-label="Discourse Forum"></a>
+            <a class="social-link discord" href="https://discord.com/invite/BKpNyJgSbm" aria-label="Discord"></a>
+            <a class="social-link github" href="https://github.com/bemanproject" aria-label="GitHub Repository"></a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    
+    
+
+    
+      <main class="page-shell">
+        
+        <aside class="sidebar" aria-label="Docs navigation">
+          
+
+          
+            
+          
+            
+              
+                
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../../../">Docs</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../../beman_library_maturity_model/">Beman Library Maturity Model</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../../beman_standard/">Beman Standard</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../../mission/">Mission</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../../faq/">FAQ</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../../governance/">Governance</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../../code_of_conduct/">Code of Conduct</a>
+                  
+                </li>
+              
+                <li class="active">
+                  
+                    <details open>
+                      <summary>Library Docs</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <details>
+                      <summary>beman.optional</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../../optional/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../optional/overview/">Guide</a>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <details>
+                      <summary>beman.cstring_view</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../../cstring_view/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../cstring_view/using_cstring_view/">Guide</a>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <details>
+                      <summary>beman.copyable_function</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../../copyable_function/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../copyable_function/overview/">Guide</a>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <details>
+                      <summary>beman.cache_latest</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../../cache_latest/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../cache_latest/overview/">Guide</a>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <details>
+                      <summary>beman.execution</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../../execution/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../execution/overview/">Guide</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../execution/resources/">Resources</a>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+                <li class="active">
+                  
+                    <details open>
+                      <summary>beman.monadics</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../">Overview</a>
+                  
+                </li>
+              
+                <li class="active">
+                  
+                    <a href="./">Tutorial</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../design_rationale/">Design Rationale</a>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <details>
+                      <summary>beman.scope</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../../scope/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../scope/resources/">Resources</a>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <details>
+                      <summary>beman.task</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../../task/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../task/resources/">Resources</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../task/examples/">Examples</a>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <details>
+                      <summary>beman.transform_view</summary>
+                      
+            <ul>
+              
+                <li class="">
+                  
+                    <a href="../../transform_view/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../transform_view/intro/">Intro</a>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+            </ul>
+          
+                    </details>
+                  
+                </li>
+              
+            </ul>
+          
+              
+            
+          
+            
+          
+            
+          
+            
+          
+        </aside>
+        
+        <article class="content-panel">
+          
+          <!--
+SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+-->
+
+<h1 id="tutorial">Tutorial<a class="headerlink" href="#tutorial" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p><code>beman.monadics</code> provides four monadic operations — <code>and_then</code>, <code>transform</code>, <code>or_else</code>,
+<code>transform_error</code> — as free functions that work uniformly across any type that models a "box":
+a container that either holds a value or signals absence/failure.</p>
+<pre><code class="language-cpp">#include &lt;beman/monadics/monadics.hpp&gt;
+namespace bms = beman::monadics;
+</code></pre>
+<p>All code examples in this document assume this setup, plus the relevant standard library
+header for the box type being demonstrated.</p>
+<h2 id="opting-in-a-type">Opting In a Type<a class="headerlink" href="#opting-in-a-type" title="Permanent link">&para;</a></h2>
+<p>Opting a type into the box abstraction is explicit: you must specialize
+<code>beman::monadics::box_traits&lt;T&gt;</code>, even if the type already exposes a fully compatible interface.
+This prevents types from being silently treated as boxes with incorrect behaviour.</p>
+<p>An empty specialization is the minimum required opt-in. Once opted in, any members the type
+already exposes are deduced automatically; you only need to supply what is missing.</p>
+<h3 id="case-1-minimal-opt-in-well-structured-types">Case 1: Minimal opt-in (well-structured types)<a class="headerlink" href="#case-1-minimal-opt-in-well-structured-types" title="Permanent link">&para;</a></h3>
+<p>If the type already exposes a compatible interface (<code>has_value()</code>, <code>value()</code>, <code>error()</code>,
+nested <code>value_type</code> / <code>error_type</code>, and <code>rebind</code> / <code>rebind_error</code>), only the members the
+deduction cascade cannot find need to be provided.</p>
+<p><code>std::expected</code> is the canonical example. It already exposes <code>has_value()</code>, <code>value()</code>,
+<code>error()</code>, <code>value_type</code>, <code>error_type</code>, and its template parameters provide <code>rebind</code> and
+<code>rebind_error</code>. However, <code>make_error</code> cannot be deduced: <code>std::expected</code> constructs error
+states via <code>std::unexpect</code>-tagged construction, not from the error type directly. One member
+suffices:</p>
+<pre><code class="language-cpp">#include &lt;beman/monadics/monadics.hpp&gt;
+#include &lt;expected&gt;
+#include &lt;string&gt;
+
+template &lt;typename T, typename E&gt;
+struct beman::monadics::box_traits&lt;std::expected&lt;T, E&gt;&gt; {
+    [[nodiscard]] static constexpr auto make_error(auto&amp;&amp; e) {
+        return std::expected&lt;T, E&gt;{std::unexpect, std::forward&lt;decltype(e)&gt;(e)};
+    }
+};
+</code></pre>
+<pre><code class="language-cpp">using E = std::expected&lt;int, std::string&gt;;
+
+auto result =
+    E{42}
+    | bms::and_then([](int v)            { return E{v * 2}; })
+    | bms::transform([](int v)           { return v + 1; })
+    | bms::or_else([](const std::string&amp;){ return E{0}; })
+    | bms::transform_error([](auto e)    { return &quot;error: &quot; + e; });
+</code></pre>
+<h3 id="case-2-partial-customization">Case 2: Partial customization<a class="headerlink" href="#case-2-partial-customization" title="Permanent link">&para;</a></h3>
+<p>If the type is mostly well-structured but misses one capability, provide only that piece. The
+rest is still deduced.</p>
+<p><code>std::optional</code> has <code>has_value()</code>, <code>value()</code>, and <code>value_type</code>, but has no <code>error()</code> member and
+no <code>error_type</code>. Provide those two things:</p>
+<pre><code class="language-cpp">#include &lt;beman/monadics/monadics.hpp&gt;
+#include &lt;optional&gt;
+
+template &lt;typename T&gt;
+struct beman::monadics::box_traits&lt;std::optional&lt;T&gt;&gt; {
+    [[nodiscard]] static constexpr auto error() { return std::nullopt; }
+};
+</code></pre>
+<p><code>and_then</code>, <code>transform</code>, and <code>or_else</code> now work. <code>transform_error</code> is automatically disabled
+because <code>optional</code> has no real error channel.</p>
+<pre><code class="language-cpp">#include &lt;optional&gt;
+#include &lt;string&gt;
+
+auto parse = [](const std::string&amp; s) -&gt; std::optional&lt;int&gt; {
+    try { return std::stoi(s); } catch (...) { return {}; }
+};
+
+auto result =
+    std::optional&lt;std::string&gt;{&quot;42&quot;}
+    | bms::and_then(parse)
+    | bms::transform([](int v) { return v * 2; })
+    | bms::or_else([]()        { return std::optional{0}; }); // optional{84}
+</code></pre>
+<p><code>std::shared_ptr</code> is another partial case: it has no <code>error()</code>, no <code>error_type</code>, no <code>rebind</code> or
+<code>rebind_error</code>, but <code>has_value</code> and <code>value</code> can be wired up:</p>
+<pre><code class="language-cpp">#include &lt;beman/monadics/monadics.hpp&gt;
+#include &lt;memory&gt;
+
+template &lt;typename T&gt;
+struct beman::monadics::box_traits&lt;std::shared_ptr&lt;T&gt;&gt; {
+    [[nodiscard]] static bool has_value(const std::shared_ptr&lt;T&gt;&amp; p) {
+        return static_cast&lt;bool&gt;(p);
+    }
+
+    [[nodiscard]] static decltype(auto) value(auto&amp;&amp; p) {
+        return *std::forward&lt;decltype(p)&gt;(p);
+    }
+
+    [[nodiscard]] static std::shared_ptr&lt;T&gt; make(T v) {
+        return std::make_shared&lt;T&gt;(std::move(v));
+    }
+
+    [[nodiscard]] static std::shared_ptr&lt;T&gt; error() { return nullptr; }
+};
+</code></pre>
+<p><code>and_then</code>, <code>transform</code>, and <code>or_else</code> work; <code>transform_error</code> is disabled.</p>
+<pre><code class="language-cpp">#include &lt;memory&gt;
+
+auto ptr = std::make_shared&lt;int&gt;(10);
+
+auto result =
+    ptr
+    | bms::and_then([](int v)  { return std::make_shared&lt;int&gt;(v * 2); })
+    | bms::transform([](int v) { return v + 3; })
+    | bms::or_else([]()        { return std::make_shared&lt;int&gt;(0); }); // 23
+</code></pre>
+<h3 id="case-3-fully-custom-type">Case 3: Fully custom type<a class="headerlink" href="#case-3-fully-custom-type" title="Permanent link">&para;</a></h3>
+<p>For types that expose no compatible interface at all, provide the full set of static members.</p>
+<pre><code class="language-cpp">#include &lt;beman/monadics/monadics.hpp&gt;
+
+template &lt;typename T&gt;
+struct Result {
+    bool ok;
+    T    data;
+    int  err;
+};
+
+template &lt;typename T&gt;
+struct beman::monadics::box_traits&lt;Result&lt;T&gt;&gt; {
+    using value_type = T;
+    using error_type = int;
+
+    template &lt;typename U&gt; using rebind       = Result&lt;U&gt;;
+    template &lt;typename E&gt; using rebind_error = Result&lt;T&gt;;
+
+    [[nodiscard]] static bool has_value(const Result&lt;T&gt;&amp; r) { return r.ok; }
+
+    [[nodiscard]] static decltype(auto) value(auto&amp;&amp; r) {
+        return std::forward&lt;decltype(r)&gt;(r).data;
+    }
+
+    [[nodiscard]] static int error(const Result&lt;T&gt;&amp; r) { return r.err; }
+
+    [[nodiscard]] static Result&lt;T&gt; make(T v)       { return {true,  std::move(v), 0}; }
+    [[nodiscard]] static Result&lt;T&gt; make_error(int e) { return {false, {},          e}; }
+};
+</code></pre>
+<p>All four operations are now available:</p>
+<pre><code class="language-cpp">constexpr Result&lt;int&gt; r{true, 10, 0};
+
+constexpr auto result =
+    r
+    | bms::transform([](int v)  { return v * 2; })          // Result{true, 20, 0}
+    | bms::and_then([](int v)   { return Result&lt;int&gt;{true, v + 1, 0}; }) // Result{true, 21, 0}
+    | bms::transform_error([](int e) { return e + 100; });  // error unchanged (has value)
+</code></pre>
+<h2 id="operations-reference">Operations Reference<a class="headerlink" href="#operations-reference" title="Permanent link">&para;</a></h2>
+<h3 id="and_then-flat-map-over-the-value"><code>and_then</code> — flat-map over the value<a class="headerlink" href="#and_then-flat-map-over-the-value" title="Permanent link">&para;</a></h3>
+<p>Calls <code>fn(value)</code> when the box is non-empty; propagates absence/error unchanged. <code>fn</code> must
+return the same box template with the same error type.</p>
+<pre><code class="language-cpp">#include &lt;optional&gt;
+
+constexpr auto result = std::optional{42}
+    | bms::and_then([](int v) { return std::optional{v * 2}; }); // optional{84}
+
+constexpr auto empty = std::optional&lt;int&gt;{}
+    | bms::and_then([](int v) { return std::optional{v * 2}; }); // nullopt
+</code></pre>
+<h3 id="transform-map-over-the-value"><code>transform</code> — map over the value<a class="headerlink" href="#transform-map-over-the-value" title="Permanent link">&para;</a></h3>
+<p>Calls <code>fn(value)</code> and rewraps the result. <code>fn</code> returns a plain value, not a box.</p>
+<pre><code class="language-cpp">#include &lt;optional&gt;
+
+constexpr auto result = std::optional{10}
+    | bms::transform([](int v) { return v + 1.5; }); // optional&lt;double&gt;{11.5}
+</code></pre>
+<h3 id="or_else-recover-from-absenceerror"><code>or_else</code> — recover from absence/error<a class="headerlink" href="#or_else-recover-from-absenceerror" title="Permanent link">&para;</a></h3>
+<p>Calls <code>fn</code> when the box is empty or in an error state; passes through the value unchanged.
+<code>fn</code> must return the same box template with the same value type.</p>
+<p>For boxes without an error channel, <code>fn</code> takes no arguments:</p>
+<pre><code class="language-cpp">#include &lt;optional&gt;
+
+constexpr auto result = std::optional&lt;int&gt;{}
+    | bms::or_else([]() { return std::optional{0}; }); // optional{0}
+</code></pre>
+<p>For boxes with an error channel, <code>fn</code> receives the error:</p>
+<pre><code class="language-cpp">#include &lt;expected&gt;
+#include &lt;string&gt;
+
+using E = std::expected&lt;int, std::string&gt;;
+auto result = E{std::unexpected, &quot;oops&quot;}
+    | bms::or_else([](const std::string&amp;) { return E{-1}; }); // expected{-1}
+</code></pre>
+<h3 id="transform_error-map-over-the-error"><code>transform_error</code> — map over the error<a class="headerlink" href="#transform_error-map-over-the-error" title="Permanent link">&para;</a></h3>
+<p>Calls <code>fn(error)</code> and replaces the error. Only available for box types with a real error
+channel (<code>std::expected</code>-like types; not <code>std::optional</code> or pointers).</p>
+<pre><code class="language-cpp">#include &lt;expected&gt;
+
+using E = std::expected&lt;int, int&gt;;
+constexpr auto result = E{std::unexpected, 42}
+    | bms::transform_error([](int e) { return e * 2; }); // expected{unexpected, 84}
+</code></pre>
+<h2 id="pipe-composition">Pipe Composition<a class="headerlink" href="#pipe-composition" title="Permanent link">&para;</a></h2>
+<p>All operations compose with <code>|</code>:</p>
+<pre><code class="language-cpp">#include &lt;optional&gt;
+
+constexpr auto result =
+    std::optional{10}
+    | bms::and_then([](int v)    { return std::optional{v * 2.0}; })
+    | bms::transform([](double v){ return static_cast&lt;int&gt;(v); })
+    | bms::and_then([](int)      { return std::optional&lt;char&gt;{}; }) // fails here
+    | bms::or_else([]()          { return std::optional{0}; });     // recovers
+</code></pre>
+<h2 id="compile-time-evaluation">Compile-time Evaluation<a class="headerlink" href="#compile-time-evaluation" title="Permanent link">&para;</a></h2>
+<p>All operations are <code>constexpr</code>. Any chain where the box type's <code>box_traits</code> methods and
+all provided callables are also <code>constexpr</code> evaluates entirely at compile time. This works
+out of the box for <code>std::optional</code> and <code>std::expected</code>:</p>
+<pre><code class="language-cpp">#include &lt;beman/monadics/monadics.hpp&gt;
+#include &lt;optional&gt;
+namespace bms = beman::monadics;
+
+constexpr auto result =
+    std::optional{6}
+    | bms::and_then([](int v) { return std::optional{v * 7}; })
+    | bms::transform([](int v) { return v - 0; });
+
+static_assert(result == std::optional{42});
+</code></pre>
+<p>Types that require runtime allocation (e.g. <code>std::shared_ptr</code>) remain runtime-only — the
+library imposes no restriction either way.</p>
+<h2 id="writing-your-own-operations">Writing Your Own Operations<a class="headerlink" href="#writing-your-own-operations" title="Permanent link">&para;</a></h2>
+<p>Because <code>box_traits</code> and <code>get_box_traits</code> are public, you can write new operations that work
+across all adapted types without touching the library or the box types. See
+<a href="../design_rationale/#extensibility">Design Rationale — Extensibility</a> for details and examples.</p>
+          
+        </article>
+        
+          <aside class="toc-panel">
+            <strong>On this page</strong>
+            <ul>
+              
+                <li><a href="#tutorial">Tutorial</a></li>
+              
+            </ul>
+          </aside>
+        
+      </main>
+    
+
+    <footer class="site-footer">
+      <div>
+        <h2>Community</h2>
+        <a href="https://discord.com/invite/BKpNyJgSbm">Discord</a>
+        <a href="https://discourse.bemanproject.org/">Discourse</a>
+      </div>
+      <div>
+        <h2>More</h2>
+        <a href="https://github.com/bemanproject">GitHub</a>
+      </div>
+      <p>Copyright © 2026 The Beman Project. Built with MkDocs.</p>
+    </footer>
+
+    <script src="../../../../assets/beman.js"></script>
+    
+    
+    <script src="../../../../search/main.js"></script>
+    
+  </body>
+</html>

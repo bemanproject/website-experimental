@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkbemanproject=globalThis.webpackChunkbemanproject||[]).push([[6317],{8129(e){e.exports=JSON.parse('{"metadata":{"permalink":"/beman-website/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":5,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
