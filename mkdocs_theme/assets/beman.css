@@ -407,6 +407,29 @@ th {
   margin-top: 0.45rem;
 }
 
+.api-library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.api-library-card {
+  min-height: 11rem;
+  padding: 1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 6px;
+}
+
+.api-library-card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.api-library-card p {
+  color: var(--ifm-color-content-secondary);
+}
+
 .talk-post {
   margin-bottom: 3rem;
 }

@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "antora:api": "python3 scripts/build-antora-api.py",
+    "antora:poc": "python3 scripts/run-antora-poc.py build",
+    "antora:poc:serve": "python3 scripts/run-antora-poc.py serve",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
@@ -26,6 +29,9 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@antora/cli": "3.1.15",
+    "@antora/collector-extension": "1.0.0",
+    "@antora/site-generator": "3.1.15",
     "@docusaurus/module-type-aliases": "3.7.0",
     "@docusaurus/tsconfig": "3.7.0",
     "@docusaurus/types": "3.7.0",

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import posixpath
 import re
 import shutil
 import subprocess  # nosec B404
@@ -300,6 +301,7 @@ def copy_markdown_with_frontmatter(
         repo_branch,
         source_link_map=source_link_map,
         source_repo_path=source_repo_path,
+        source_rel=source.relative_to(source_repo_path) if source and source_repo_path else None,
         rewrite_relative_links=rewrite_repo_relative_links,
     )
     if intro_block:
@@ -331,6 +333,7 @@ def rewrite_repo_links(
     repo_branch: str,
     source_link_map: dict[str, str] | None = None,
     source_repo_path: Path | None = None,
+    source_rel: Path | None = None,
     rewrite_relative_links: bool = False,
 ) -> str:
     if not repo_url:
@@ -348,7 +351,12 @@ def rewrite_repo_links(
 
     if rewrite_relative_links:
         content = rewrite_relative_markdown_links(
-            content, repo_url, repo_branch, source_link_map or {}, source_repo_path
+            content,
+            repo_url,
+            repo_branch,
+            source_link_map or {},
+            source_repo_path,
+            source_rel,
         )
     return content
 
@@ -446,7 +454,17 @@ def rewrite_relative_markdown_links(
     repo_branch: str,
     source_link_map: dict[str, str],
     source_repo_path: Path | None,
+    source_rel: Path | None,
 ) -> str:
+    source_dir = source_rel.parent.as_posix() if source_rel else ""
+
+    def candidate_repo_paths(path: str) -> list[str]:
+        normalized = normalize_repo_relative_path(path)
+        candidates = [normalized]
+        if source_dir and source_dir != ".":
+            candidates.append(posixpath.normpath(posixpath.join(source_dir, path)))
+        return list(dict.fromkeys(candidates))
+
     def replace(match: re.Match) -> str:
         href = match.group("href")
         if href.startswith("`") and href.endswith("`"):
@@ -455,14 +473,26 @@ def rewrite_relative_markdown_links(
             return match.group(0)
 
         path, suffix = split_link_target(href)
-        normalized_path = normalize_repo_relative_path(path)
-        if normalized_path in source_link_map:
-            href = source_link_map[normalized_path] + suffix
+        candidates = candidate_repo_paths(path)
+        synced_path = next(
+            (candidate for candidate in candidates if candidate in source_link_map),
+            "",
+        )
+        if synced_path:
+            href = source_link_map[synced_path] + suffix
         else:
+            repo_path = next(
+                (
+                    candidate
+                    for candidate in candidates
+                    if source_repo_path and (source_repo_path / candidate).exists()
+                ),
+                candidates[-1],
+            )
             href = github_relative_url(
                 repo_url,
                 repo_branch,
-                path,
+                repo_path,
                 is_image=match.group("prefix").startswith("!"),
                 repo_path=source_repo_path,
             )
@@ -551,7 +581,7 @@ def main():
                 intro_block=intro_block,
                 source_link_map=repo.get("source_link_map", {}),
                 source_repo_path=repo_path,
-                rewrite_repo_relative_links=doc.get("repo_root_doc", False),
+                rewrite_repo_relative_links="source_rel" in doc,
             ):
                 failures += 1
 

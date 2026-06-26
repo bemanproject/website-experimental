@@ -49,6 +49,11 @@ def parse_args():
         type=str,
         default="",
     )
+    parser.add_argument(
+        "--skip-api-reference",
+        help="skip the Antora/MrDocs API reference build",
+        action="store_true",
+    )
     return parser.parse_args()
 
 
@@ -284,6 +289,48 @@ def sync_external_docs(repo_root: Path, stage_root: Path, args):
     run_command(cmd, cwd=repo_root, check=True)
 
 
+def build_api_reference(repo_root: Path, stage_root: Path, args):
+    if args.skip_api_reference:
+        api_root = stage_root / "site_content" / "api"
+        api_root.mkdir(parents=True, exist_ok=True)
+        (api_root / "index.md").write_text(
+            "\n".join(
+                [
+                    "---",
+                    "title: API Reference",
+                    "---",
+                    "",
+                    "# API Reference",
+                    "",
+                    "API reference generation was skipped for this build.",
+                    "",
+                ]
+            )
+        )
+        return
+
+    cmd = [
+        sys.executable,
+        str(repo_root / "scripts" / "build-antora-api.py"),
+        "--output-dir",
+        str(stage_root / "site_content" / "api" / "reference"),
+        "--work-root",
+        str(stage_root / "_antora-api-work"),
+        "--cache-dir",
+        str(repo_root / "build" / "antora-cache"),
+        "--site-url",
+        os.environ.get("BEMAN_SITE_URL", "http://localhost:8000").rstrip("/")
+        + "/api/reference",
+    ]
+    if args.repos_root:
+        cmd.extend(["--repos-root", args.repos_root])
+    if args.clone_missing:
+        cmd.append("--clone-missing")
+    if args.update_repos:
+        cmd.append("--update-repos")
+    run_command(cmd, cwd=repo_root, check=True)
+
+
 def git_worktree_list(repo_root: Path) -> list[dict[str, str]]:
     output = run_command(
         ["git", "-C", str(repo_root), "worktree", "list", "--porcelain"],
@@ -353,6 +400,17 @@ def is_git_worktree(path: Path) -> bool:
     )
 
 
+def current_worktree_branch(path: Path) -> str:
+    return (
+        run_command(
+            ["git", "-C", str(path), "rev-parse", "--abbrev-ref", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+    )
+
+
 def is_dirty_worktree(path: Path) -> bool:
     return bool(
         run_command(
@@ -403,10 +461,42 @@ def confirm_moving_branch_worktree(branch: str, source: Path, target: Path):
         )
 
 
+def confirm_replacing_wrong_branch_worktree(path: Path, current_branch: str, branch: str):
+    dirty_note = ""
+    if is_dirty_worktree(path):
+        dirty_note = "\nThe existing worktree has uncommitted changes that will be discarded."
+    message = (
+        f"Worktree {path} is on branch '{current_branch}', expected '{branch}'.\n"
+        f"Replace it with a '{branch}' worktree?{dirty_note} [y/N]: "
+    )
+    if not os.isatty(0):
+        raise SystemExit(
+            f"Worktree {path} is on branch '{current_branch}', expected '{branch}'. "
+            "Rerun interactively to approve replacing it, remove it manually, "
+            "or use --pages-root to target a different path."
+        )
+    response = input(message).strip().lower()
+    if response not in {"y", "yes"}:
+        raise SystemExit(
+            f"Aborted before replacing '{current_branch}' worktree at {path}."
+        )
+
+
 def ensure_pages_worktree(repo_root: Path, pages_root: Path, branch: str):
     if pages_root.exists() and not is_git_worktree(pages_root):
         confirm_replacing_legacy_pages_root(pages_root)
         shutil.rmtree(pages_root, ignore_errors=True)
+
+    existing_worktree = pages_root.exists() and is_git_worktree(pages_root)
+    if existing_worktree:
+        current_branch = current_worktree_branch(pages_root)
+        if current_branch != branch:
+            if os.environ.get("PAGES_DEPLOY") != "true":
+                confirm_replacing_wrong_branch_worktree(
+                    pages_root, current_branch, branch
+                )
+            remove_worktree_if_present(repo_root, pages_root)
+            existing_worktree = False
 
     existing_branch_worktree = find_branch_worktree(repo_root, branch, pages_root)
     if existing_branch_worktree:
@@ -415,7 +505,6 @@ def ensure_pages_worktree(repo_root: Path, pages_root: Path, branch: str):
 
     remote_ref = f"refs/remotes/origin/{branch}"
     local_ref = f"refs/heads/{branch}"
-    existing_worktree = pages_root.exists() and is_git_worktree(pages_root)
     local_exists_before_fetch = (
         run_command(
             ["git", "-C", str(repo_root), "show-ref", "--verify", "--quiet", local_ref]
@@ -602,6 +691,7 @@ def main():
     stage_repo_content(repo_root, stage_root)
     prepare_mkdocs_content(stage_root)
     sync_external_docs(repo_root, stage_root, args)
+    build_api_reference(repo_root, stage_root, args)
 
     using_default_pages_root = not args.pages_root
     if using_default_pages_root:
