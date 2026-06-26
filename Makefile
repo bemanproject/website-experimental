@@ -6,6 +6,7 @@ all: start
 
 install: # Install dependencies
 	$(PYTHON) -m pip install -r requirements.txt
+	npm ci
 
 start: install # Install dependencies and start local development server
 	$(PYTHON) scripts/run-staged-website.py start

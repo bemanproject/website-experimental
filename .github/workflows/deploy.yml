@@ -33,10 +33,28 @@ jobs:
           python-version: "3.x"
           cache: pip
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
       - name: Install docs toolchain
         run: |
           sudo apt-get update
           sudo apt-get install -y doxygen graphviz
+
+      - name: Install MrDocs
+        run: |
+          gh release download v0.8.0 \
+            --repo cppalliance/mrdocs \
+            --pattern "MrDocs-0.8.0-Linux.tar.gz" \
+            --dir "${RUNNER_TEMP}"
+          tar -xzf "${RUNNER_TEMP}/MrDocs-0.8.0-Linux.tar.gz" -C "${RUNNER_TEMP}"
+          echo "${RUNNER_TEMP}/MrDocs-0.8.0-Linux/bin" >> "${GITHUB_PATH}"
+          "${RUNNER_TEMP}/MrDocs-0.8.0-Linux/bin/mrdocs" --version
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Install website dependencies
         run: make install

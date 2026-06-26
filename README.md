@@ -4,7 +4,8 @@ This is the repository hosting the code for the future Beman Website: https://be
 
 This website is built using [MkDocs](https://www.mkdocs.org/), a static website generator.
 Documentation is written in Markdown.
-Building and deploying it requires Python and the dependencies listed in `requirements.txt`.
+Building and deploying it requires Python, Node.js/npm, and the dependencies listed
+in `requirements.txt` and `package-lock.json`.
 
 ## Add a blog post
 
@@ -122,6 +123,46 @@ The CI preview deployment logs should be public. Please ping a codeowner otherwi
 Local setup, dependencies, and running the site: see **[CONTRIBUTING.md](CONTRIBUTING.md#development)**.
 
 `make` and `make start` are equivalent: both install dependencies, prepare the staged external docs inputs, ensure the local `build/` worktree exists, and then start the MkDocs development server.
+
+### Antora API reference
+
+The staged MkDocs website includes an Antora-generated API reference under
+`/api/reference/`. MkDocs owns the website shell, blog, talks, and Markdown docs.
+Antora owns the generated API reference pages. MrDocs emits AsciiDoc, and Antora
+Collector imports those pages into Antora components.
+
+The current hybrid build generates API reference pages for:
+
+- `beman.optional`
+- `beman.cstring_view`
+
+Required tools:
+
+- Node.js/npm dependencies from `package-lock.json`
+- `mrdocs` on `PATH`
+
+With the `beman` micromamba environment active:
+
+```shell
+$ make start
+$ make build
+```
+
+To build only the Antora API reference while iterating:
+
+```shell
+$ npm run antora:api
+```
+
+The first Antora build downloads the default UI bundle; later builds reuse the
+local Antora cache under `build/antora-cache`.
+
+The old structural proof of concept is still available:
+
+```shell
+$ npm run antora:poc
+$ npm run antora:poc:serve
+```
 
 ## Automated `gh-pages` publishing
 

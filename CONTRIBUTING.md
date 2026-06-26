@@ -2,9 +2,9 @@
 
 ## Install dependencies
 
-In order to set up the project, use Python and install the dependencies from
-`requirements.txt`. If you use micromamba, activate the project environment
-first:
+In order to set up the project, use Python and Node.js/npm and install the
+dependencies from `requirements.txt` and `package-lock.json`. If you use
+micromamba, activate the project environment first:
 
 ```shell
 $ micromamba activate beman
@@ -13,6 +13,10 @@ $ micromamba activate beman
 ```shell
 $ make install
 ```
+
+The staged site also builds generated API reference pages with Antora and
+MrDocs. Make sure `mrdocs` is available on `PATH` before running `make start` or
+`make build`.
 
 You can verify MkDocs is properly installed using
 

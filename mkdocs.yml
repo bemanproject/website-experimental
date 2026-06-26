@@ -60,6 +60,7 @@ nav:
               - Overview: docs/Libraries/transform_view/index.md
               - README: docs/Libraries/transform_view/readme.md
               - Intro: docs/Libraries/transform_view/intro.md
+  - API Reference: api/index.md
   - Libraries: libraries.md
   - Talks: talks.md
   - Blog:
