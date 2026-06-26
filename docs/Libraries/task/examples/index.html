@@ -35,6 +35,11 @@
               
                 
               
+              <a class="" href="../../../../api/">API Reference</a>
+            
+              
+                
+              
               <a class="" href="../../../../libraries/">Libraries</a>
             
               
@@ -138,6 +143,12 @@
               
                 <li class="">
                   
+                    <a href="../../optional/readme.md">README</a>
+                  
+                </li>
+              
+                <li class="">
+                  
                     <a href="../../optional/overview/">Guide</a>
                   
                 </li>
@@ -158,6 +169,12 @@
                 <li class="">
                   
                     <a href="../../cstring_view/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../cstring_view/readme.md">README</a>
                   
                 </li>
               
@@ -188,6 +205,12 @@
               
                 <li class="">
                   
+                    <a href="../../copyable_function/readme.md">README</a>
+                  
+                </li>
+              
+                <li class="">
+                  
                     <a href="../../copyable_function/overview/">Guide</a>
                   
                 </li>
@@ -213,6 +236,12 @@
               
                 <li class="">
                   
+                    <a href="../../cache_latest/readme.md">README</a>
+                  
+                </li>
+              
+                <li class="">
+                  
                     <a href="../../cache_latest/overview/">Guide</a>
                   
                 </li>
@@ -233,6 +262,12 @@
                 <li class="">
                   
                     <a href="../../execution/">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../../execution/readme.md">README</a>
                   
                 </li>
               
@@ -269,6 +304,12 @@
               
                 <li class="">
                   
+                    <a href="../../monadics/readme.md">README</a>
+                  
+                </li>
+              
+                <li class="">
+                  
                     <a href="../../monadics/tutorial/">Tutorial</a>
                   
                 </li>
@@ -300,6 +341,12 @@
               
                 <li class="">
                   
+                    <a href="../../scope/readme.md">README</a>
+                  
+                </li>
+              
+                <li class="">
+                  
                     <a href="../../scope/resources/">Resources</a>
                   
                 </li>
@@ -320,6 +367,12 @@
                 <li class="">
                   
                     <a href="../">Overview</a>
+                  
+                </li>
+              
+                <li class="">
+                  
+                    <a href="../readme.md">README</a>
                   
                 </li>
               
@@ -356,6 +409,12 @@
               
                 <li class="">
                   
+                    <a href="../../transform_view/readme.md">README</a>
+                  
+                </li>
+              
+                <li class="">
+                  
                     <a href="../../transform_view/intro/">Intro</a>
                   
                 </li>
@@ -383,6 +442,8 @@
           
             
           
+            
+          
         </aside>
         
         <article class="content-panel">
@@ -397,7 +458,7 @@ demo scheduler affinity
 </summary>
 <p>The example program
 <a href="https://github.com/bemanproject/task/blob/main/examples/c%2B%2Bnow-affinity.cpp"><code>c++now-affinity.cpp</code></a>
-uses <a href="../examples/demo-thread_loop.hpp"><code>demo::thread_loop</code></a> to demonstrate
+uses <a href="https://github.com/bemanproject/task/blob/main/examples/demo-thread_loop.hpp"><code>demo::thread_loop</code></a> to demonstrate
 the behavior of <em>scheduler affinity</em>: the idea is that scheduler
 affinity causes the coroutine to resume on the same scheduler as
 the one the coroutine was started on. The program implements three
@@ -597,16 +658,16 @@ other errors, an environment declaring a suitable <code>set_error_t(E)</code> co
 <summary>
 <a href='https://github.com/bemanproject/task/blob/remove-net-and-improve-docs/examples/demo-thread_loop.hpp'><code>demo::thread_loop</code> is a <code>run_loop</code> whose <code>run()</code> is called from a <code>std::thread</code>.
 </summary>
-<p>Technically <a href="../examples/demo-thread_loop.hpp"><code>demo::thread_loop</code></a>
+<p>Technically <a href="https://github.com/bemanproject/task/blob/main/examples/demo-thread_loop.hpp"><code>demo::thread_loop</code></a>
 is a class <code>public</code>ly derived from <code>execution::run_loop</code> which is
 also owning a <code>std::thread</code>. The <code>std::thread</code> is constructed with
 a function object calling <code>run()</code> on the
-<a href="../examples/demo-thread_loop.hpp"><code>demo::thread_loop</code></a> object.
+<a href="https://github.com/bemanproject/task/blob/main/examples/demo-thread_loop.hpp"><code>demo::thread_loop</code></a> object.
 Destroying the object calls <code>finish()</code> and then <code>join()</code>s the
 <code>std::thread</code>: the destructor will block until the <code>execution::run_loop</code>'s
 <code>run()</code> returns.</p>
 <p>The important bit is that work executed on the
-<a href="../examples/demo-thread_loop.hpp"><code>demo::thread_loop</code></a>'s <code>scheduler</code>
+<a href="https://github.com/bemanproject/task/blob/main/examples/demo-thread_loop.hpp"><code>demo::thread_loop</code></a>'s <code>scheduler</code>
 will be executed on a corresponding <code>std::thread</code>.</p>
 </details>
           

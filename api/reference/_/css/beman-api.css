@@ -1,0 +1,54 @@
+:root {
+  --navbar-background: #fff;
+  --navbar-font-color: #1c1e21;
+  --navbar_hover-background: #f5f6f7;
+  --navbar-button-background: #2e8555;
+  --navbar-button-font-color: #fff;
+  --link-font-color: #2e8555;
+  --link_hover-font-color: #29784c;
+}
+
+.beman-api-header {
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid #ebedf0;
+  box-shadow: none;
+  color: #1c1e21;
+}
+
+.beman-api-header .navbar {
+  background: rgba(255, 255, 255, 0.97);
+  color: #1c1e21;
+}
+
+.beman-api-header .navbar-brand .navbar-item,
+.beman-api-header .navbar-end .navbar-item {
+  color: #1c1e21;
+}
+
+.beman-api-header .navbar-end > a.navbar-item:hover {
+  background: #f5f6f7;
+  color: #2e8555;
+}
+
+.beman-api-header .navbar-burger span {
+  background-color: #1c1e21;
+}
+
+.beman-api-brand {
+  gap: 0.55rem;
+  font-weight: 700;
+}
+
+.beman-api-brand img {
+  width: 30px;
+  height: 30px;
+}
+
+.beman-api-footer {
+  background: #303846;
+  color: #fff;
+}
+
+.beman-api-footer p {
+  color: rgba(255, 255, 255, 0.85);
+}
