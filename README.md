@@ -2,9 +2,10 @@
 
 This is the repository hosting the code for the future Beman Website: https://bemanproject.org/.
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
-Documentation is written in MDX format.
-Building and deploying it requires Node and NPM.
+This website is built using [MkDocs](https://www.mkdocs.org/), a static website generator.
+Documentation is written in Markdown.
+Building and deploying it requires Python, Node.js/npm, and the dependencies listed
+in `requirements.txt` and `package-lock.json`.
 
 ## Add a blog post
 
@@ -101,24 +102,7 @@ The CI preview deployment logs should be public. Please ping a codeowner otherwi
 <details>
 <summary> [DEBUG] Inspect local deployment error logs. </summary>
 
-- On local setup, run `make` (see [CONTRIBUTING.md](CONTRIBUTING.md#development)) and check if there is any error in the console - example:
-
-```shell
-$ make
-...
-[INFO] Starting the development server...
-...
-[ERROR] Error: Processing of blog source file path=2000-10-30-my-blog-example/index.md failed.
-    at doProcessBlogSourceFile (/Users/dariusn/dev/dn/git/Beman/website/node_modules/@docusaurus/plugin-content-blog/lib/blogUtils.js:268:19)
-    at async Promise.all (index 0)
-    ... 10 lines matching cause stack trace ...
-    at async file:///Users/dariusn/dev/dn/git/Beman/website/node_modules/@docusaurus/core/bin/docusaurus.mjs:44:3 {
-  [cause]: Error: Blog author with key "neatudarius" not found in the authors map file.
-  Valid author keys are:
-  - JeffGarland
-  - dabrahams
-  - DavidSankel
-```
+- On local setup, run `make` (see [CONTRIBUTING.md](CONTRIBUTING.md#development)) and check if there is any error in the console.
 
 - Fix the error, re-deploy the local website.
 
@@ -137,3 +121,68 @@ $ make
 ## Development
 
 Local setup, dependencies, and running the site: see **[CONTRIBUTING.md](CONTRIBUTING.md#development)**.
+
+`make` and `make start` are equivalent: both install dependencies, prepare the staged external docs inputs, ensure the local `build/` worktree exists, and then start the MkDocs development server.
+
+### Antora API reference
+
+The staged MkDocs website includes an Antora-generated API reference under
+`/api/reference/`. MkDocs owns the website shell, blog, talks, and Markdown docs.
+Antora owns the generated API reference pages. MrDocs emits AsciiDoc, and Antora
+Collector imports those pages into Antora components.
+
+The current hybrid build generates API reference pages for:
+
+- `beman.optional`
+- `beman.cstring_view`
+
+Required tools:
+
+- Node.js/npm dependencies from `package-lock.json`
+- `mrdocs` on `PATH`
+
+With the `beman` micromamba environment active:
+
+```shell
+$ make start
+$ make build
+```
+
+To build only the Antora API reference while iterating:
+
+```shell
+$ npm run antora:api
+```
+
+The first Antora build downloads the default UI bundle; later builds reuse the
+local Antora cache under `build/antora-cache`.
+
+The old structural proof of concept is still available:
+
+```shell
+$ npm run antora:poc
+$ npm run antora:poc:serve
+```
+
+## Automated `gh-pages` publishing
+
+GitHub Actions publishes this site to the `gh-pages` branch on:
+
+- pushes to `main`
+- a 6-hour schedule (`0 */6 * * *`)
+- manual dispatch
+
+```shell
+$ python3 scripts/run-staged-website.py build --repos-root /tmp/beman-external --clone-missing --update-repos
+```
+
+For builds published from a fork or any GitHub Pages project site, set the site
+URL and base URL to match the repository path. Example:
+
+```shell
+$ BEMAN_SITE_URL="https://<your_username>.github.io" \
+  BEMAN_BASE_URL="/beman-website/" \
+  BEMAN_GITHUB_ORG="<your_username>" \
+  BEMAN_GITHUB_REPO="beman-website" \
+  python3 scripts/run-staged-website.py build --repos-root ..
+```

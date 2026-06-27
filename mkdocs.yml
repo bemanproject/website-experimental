@@ -1,0 +1,94 @@
+site_name: The Beman Project
+site_description: Tomorrow's C++ Standard Libraries Today
+site_url: !ENV [BEMAN_SITE_URL, "https://bemanproject.org"]
+docs_dir: site_content
+site_dir: build
+use_directory_urls: true
+
+theme:
+  name: null
+  custom_dir: mkdocs_theme
+  locale: en
+
+nav:
+  - Home: index.md
+  - Docs:
+      - Docs: docs/README.md
+      - Beman Library Maturity Model: docs/beman_library_maturity_model.md
+      - Beman Standard: docs/beman_standard.md
+      - Mission: docs/mission.md
+      - FAQ: docs/faq.md
+      - Governance: docs/governance.md
+      - Code of Conduct: docs/code_of_conduct.md
+      - Library Docs:
+          - beman.optional:
+              - Overview: docs/Libraries/optional/index.md
+              - README: docs/Libraries/optional/readme.md
+              - Guide: docs/Libraries/optional/overview.md
+          - beman.cstring_view:
+              - Overview: docs/Libraries/cstring_view/index.md
+              - README: docs/Libraries/cstring_view/readme.md
+              - Guide: docs/Libraries/cstring_view/using_cstring_view.md
+          - beman.copyable_function:
+              - Overview: docs/Libraries/copyable_function/index.md
+              - README: docs/Libraries/copyable_function/readme.md
+              - Guide: docs/Libraries/copyable_function/overview.md
+          - beman.cache_latest:
+              - Overview: docs/Libraries/cache_latest/index.md
+              - README: docs/Libraries/cache_latest/readme.md
+              - Guide: docs/Libraries/cache_latest/overview.md
+          - beman.execution:
+              - Overview: docs/Libraries/execution/index.md
+              - README: docs/Libraries/execution/readme.md
+              - Guide: docs/Libraries/execution/overview.md
+              - Resources: docs/Libraries/execution/resources.md
+          - beman.monadics:
+              - Overview: docs/Libraries/monadics/index.md
+              - README: docs/Libraries/monadics/readme.md
+              - Tutorial: docs/Libraries/monadics/tutorial.md
+              - Design Rationale: docs/Libraries/monadics/design_rationale.md
+          - beman.scope:
+              - Overview: docs/Libraries/scope/index.md
+              - README: docs/Libraries/scope/readme.md
+              - Resources: docs/Libraries/scope/resources.md
+          - beman.task:
+              - Overview: docs/Libraries/task/index.md
+              - README: docs/Libraries/task/readme.md
+              - Resources: docs/Libraries/task/resources.md
+              - Examples: docs/Libraries/task/examples.md
+          - beman.transform_view:
+              - Overview: docs/Libraries/transform_view/index.md
+              - README: docs/Libraries/transform_view/readme.md
+              - Intro: docs/Libraries/transform_view/intro.md
+  - API Reference: api/index.md
+  - Libraries: libraries.md
+  - Talks: talks.md
+  - Blog:
+      - Blog: blog/index.md
+      - Reliable CI within a shared container infrastructure: blog/beman-infra-containers/index.md
+      - Beman Sofia Hackathon: blog/sofia-hackathon/index.md
+      - NYC Hackathon: blog/nyc-hackathon/index.md
+      - Beman Project Introduction Online: blog/beman-tutorial/index.md
+      - About The Beman Project: blog/about-beman/index.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - fenced_code
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+
+extra:
+  tagline: Tomorrow's C++ Standard Libraries Today
+  discourse_url: https://discourse.bemanproject.org/
+  social:
+    discourse: https://discourse.bemanproject.org/
+    discord: https://discord.com/invite/BKpNyJgSbm
+    github: https://github.com/bemanproject
