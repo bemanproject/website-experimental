@@ -122,23 +122,27 @@ The CI preview deployment logs should be public. Please ping a codeowner otherwi
 
 Local setup, dependencies, and running the site: see **[CONTRIBUTING.md](CONTRIBUTING.md#development)**.
 
-`make` and `make start` are equivalent: both install dependencies, prepare the staged external docs inputs, ensure the local `build/` worktree exists, and then start the MkDocs development server.
+`make` and `make start` are equivalent: both install dependencies, build the
+composed MkDocs + Antora site into a staging directory, and serve that static
+output locally. MkDocs owns the homepage, library index, talks, and blog.
+Antora owns `/docs`, including converted library READMEs, extra Markdown pages,
+and MrDocs API reference pages.
 
-### Antora API reference
+### Antora documentation
 
-The staged MkDocs website includes an Antora-generated API reference under
-`/api/reference/`. MkDocs owns the website shell, blog, talks, and Markdown docs.
-Antora owns the generated API reference pages. MrDocs emits AsciiDoc, and Antora
-Collector imports those pages into Antora components.
+The staged website includes Antora-generated documentation under `/docs`.
+Pandoc converts configured Markdown pages to AsciiDoc. MrDocs emits API
+reference AsciiDoc, and Antora Collector imports those pages into each library
+component.
 
-The current hybrid build generates API reference pages for:
-
-- `beman.optional`
-- `beman.cstring_view`
+The library list and extra Markdown pages come from
+`scripts/sync-external-docs.yaml`. Top-level library `README.md` files are
+included automatically on each library overview page.
 
 Required tools:
 
 - Node.js/npm dependencies from `package-lock.json`
+- `pandoc` on `PATH`
 - `mrdocs` on `PATH`
 
 With the `beman` micromamba environment active:
