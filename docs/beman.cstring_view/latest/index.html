@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>beman.cstring_view :: Beman Docs</title>
+    <link rel="canonical" href="https://bemanproject.github.io/docs/beman.cstring_view/latest/index.html">
+    <meta name="generator" content="Antora 3.1.15">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/beman-docs.css?v=6">
+  </head>
+  <body class="article">
+<header class="header site-header">
+  <nav class="navbar site-nav" aria-label="Main navigation">
+    <a class="brand" href="../../../">
+      <img src="../../../img/beman_logo.png" alt="The Beman Project Logo">
+      <span>The Beman Project</span>
+    </a>
+    <button class="navbar-burger site-nav-toggle" aria-controls="topbar-nav" aria-expanded="false" aria-label="Toggle main menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-menu navbar-menu" id="topbar-nav">
+      <div class="nav-links navbar-end">
+        <a class="navbar-item" href="../../../">Home</a>
+        <a class="navbar-item active" href="../../">Docs</a>
+        <a class="navbar-item" href="../../../libraries/">Libraries</a>
+        <a class="navbar-item" href="../../../talks/">Talks</a>
+        <a class="navbar-item" href="../../../blog/">Blog</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="beman.cstring_view" data-version="latest">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
+    <h3 class="title"><a href="index.html">beman.cstring_view</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Project</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../beman/latest/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../beman/latest/beman_library_maturity_model.html">Beman Library Maturity Model</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../beman/latest/beman_standard.html">Beman Standard</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../beman/latest/mission.html">Mission</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../beman/latest/faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../beman/latest/governance.html">Governance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../beman/latest/code_of_conduct.html">Code of Conduct</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Libraries</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">beman.optional</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.optional/latest/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.optional/latest/overview.html">Guide</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.optional/latest/reference/index.html">API Reference</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">beman.execution</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.execution/latest/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.execution/latest/overview.html">Guide</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.execution/latest/resources.html">Resources</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.execution/latest/reference/index.html">API Reference</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">beman.task</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.task/latest/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.task/latest/resources.html">Resources</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.task/latest/examples.html">Examples</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.task/latest/reference/index.html">API Reference</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">beman.cache_latest</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.cache_latest/latest/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.cache_latest/latest/overview.html">Guide</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.cache_latest/latest/reference/index.html">API Reference</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">beman.copyable_function</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.copyable_function/latest/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.copyable_function/latest/overview.html">Guide</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.copyable_function/latest/reference/index.html">API Reference</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">beman.cstring_view</span>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="3">
+    <a class="nav-link" href="index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="using_cstring_view.html">Guide</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="reference/index.html">API Reference</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">beman.monadics</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.monadics/latest/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.monadics/latest/tutorial.html">Tutorial</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.monadics/latest/design_rationale.html">Design Rationale</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.monadics/latest/reference/index.html">API Reference</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">beman.scope</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.scope/latest/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.scope/latest/resources.html">Resources</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.scope/latest/reference/index.html">API Reference</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">beman.transform_view</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.transform_view/latest/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.transform_view/latest/intro.html">Intro</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../beman.transform_view/latest/reference/index.html">API Reference</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">beman.cstring_view</span>
+    <span class="version">latest</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <div class="title"><a href="../../beman/latest/index.html">Beman Project</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../beman/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <div class="title"><a href="../../beman.cache_latest/latest/index.html">beman.cache_latest</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../beman.cache_latest/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <div class="title"><a href="../../beman.copyable_function/latest/index.html">beman.copyable_function</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../beman.copyable_function/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <div class="title"><a href="index.html">beman.cstring_view</a></div>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <div class="title"><a href="../../beman.execution/latest/index.html">beman.execution</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../beman.execution/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <div class="title"><a href="../../beman.monadics/latest/index.html">beman.monadics</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../beman.monadics/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <div class="title"><a href="../../beman.optional/latest/index.html">beman.optional</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../beman.optional/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <div class="title"><a href="../../beman.scope/latest/index.html">beman.scope</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../beman.scope/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <div class="title"><a href="../../beman.task/latest/index.html">beman.task</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../beman.task/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <div class="title"><a href="../../beman.transform_view/latest/index.html">beman.transform_view</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../beman.transform_view/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../beman/latest/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">beman.cstring_view</a></li>
+    <li>Libraries</li>
+    <li>beman.cstring_view</li>
+    <li><a href="index.html">Overview</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">beman.cstring_view</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Repository: <a href="https://github.com/bemanproject/cstring_view" class="bare">https://github.com/bemanproject/cstring_view</a></p>
+</li>
+<li>
+<p><a href="using_cstring_view.html" class="xref page">Guide</a></p>
+</li>
+<li>
+<p><a href="reference/index.html" class="xref page">API Reference</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="bemancstring_view-cstring_view-a-null-terminated-string-view"><a class="anchor" href="#bemancstring_view-cstring_view-a-null-terminated-string-view"></a>beman.cstring_view: cstring_view, a null-terminated string view</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg" alt="Library Status"></span></a> <a href="https://github.com/bemanproject/cstring_view/actions/workflows/ci_tests.yml"><span class="image"><img src="https://github.com/bemanproject/cstring_view/actions/workflows/ci_tests.yml/badge.svg" alt="Continuous Integration Tests"></span></a> <a href="https://github.com/bemanproject/cstring_view/actions/workflows/pre-commit-check.yml"><span class="image"><img src="https://github.com/bemanproject/cstring_view/actions/workflows/pre-commit-check.yml/badge.svg" alt="Lint Check (pre-commit)"></span></a> <a href="https://coveralls.io/github/bemanproject/cstring_view?branch=main"><span class="image"><img src="https://coveralls.io/repos/github/bemanproject/cstring_view/badge.svg?branch=main" alt="Coverage"></span></a> <span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp29.svg" alt="Standard Target"></span> <a href="https://godbolt.org/z/s5KG3ozav"><span class="image"><img src="https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&amp;logoColor=67c52a" alt="Compiler Explorer Example"></span></a></p>
+</div>
+<div class="paragraph">
+<p><code>beman.cstring_view</code> is a header-only <code>cstring_view</code> library.</p>
+</div>
+<div class="paragraph">
+<p><strong>Implements</strong>: <code>std::cstring_view</code> proposed in <a href="https://wg21.link/P3655R2">cstring_view (P3655R2)</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Status</strong>: <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#under-development-and-not-yet-ready-for-production-use">Under development and not yet ready for production use.</a></p>
+</div>
+<div class="sect2">
+<h3 id="_license"><a class="anchor" href="#_license"></a>License</h3>
+<div class="paragraph">
+<p><code>beman.cstring_view</code> is licensed under the Apache License v2.0 with LLVM Exceptions.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_usage"><a class="anchor" href="#_usage"></a>Usage</h3>
+<div class="paragraph">
+<p><code>std::cstring_view</code> exposes a string_view like type that is intended for being able to propagate prior knowledge that a string is null-terminated throughout the type system, while fulfilling the same role as string_view.</p>
+</div>
+<div class="paragraph">
+<p>The following code snippet illustrates how we can use <code>cstring_view</code> to make a beginner-friendly <code>main</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;beman/cstring_view/cstring_view.hpp&gt;
+#include &lt;vector&gt;
+
+int main(int argc, const char** argv) {
+  std::vector&lt;cstring_view&gt; args(argv, argv+argc);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Full runnable examples can be found in <a href="https://github.com/bemanproject/cstring_view/tree/main/examples/"><code>examples/</code></a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dependencies"><a class="anchor" href="#_dependencies"></a>Dependencies</h3>
+<div class="sect3">
+<h4 id="_build_environment"><a class="anchor" href="#_build_environment"></a>Build Environment</h4>
+<div class="paragraph">
+<p>This project requires at least the following to build:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A C compiler that conforms to the C20 standard or greater</p>
+</li>
+<li>
+<p>CMake 3.30 or later</p>
+</li>
+<li>
+<p>(Test Only) GoogleTest</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can disable building tests by setting CMake option <code>BEMAN_CSTRING_VIEW_BUILD_TESTS</code> to <code>OFF</code> when configuring the project.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_supported_platforms"><a class="anchor" href="#_supported_platforms"></a>Supported Platforms</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Compiler</th>
+<th class="tableblock halign-left valign-top">Version</th>
+<th class="tableblock halign-left valign-top">C++ Standards</th>
+<th class="tableblock halign-left valign-top">Standard Library</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GCC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16-13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GCC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12-11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C23-C17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22-19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc, libc</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libc++</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C23-C17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libc++</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C20, C17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AppleClang</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">latest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libc++</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MSVC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">latest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C++23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MSVC STL</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_development"><a class="anchor" href="#_development"></a>Development</h3>
+<div class="paragraph">
+<p>See the <a href="https://github.com/bemanproject/cstring_view/blob/main/CONTRIBUTING.md">Contributing Guidelines</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="integrate-bemancstring_view-into-your-project"><a class="anchor" href="#integrate-bemancstring_view-into-your-project"></a>Integrate beman.cstring_view into your project</h3>
+<div class="sect3">
+<h4 id="_build"><a class="anchor" href="#_build"></a>Build</h4>
+<div class="paragraph">
+<p>You can build cstring_view using a CMake workflow preset:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cmake --workflow --preset gcc-release</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To list available workflow presets, you can invoke:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cmake --list-presets=workflow</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For details on building beman.cstring_view without using a CMake preset, refer to the <a href="https://github.com/bemanproject/cstring_view/blob/main/CONTRIBUTING.md">Contributing Guidelines</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_installation"><a class="anchor" href="#_installation"></a>Installation</h4>
+<div class="sect4">
+<h5 id="_vcpkg"><a class="anchor" href="#_vcpkg"></a>Vcpkg</h5>
+<div class="paragraph">
+<p>The preferred way to install cstring_view is via vcpkg. To do so, after installing vcpkg itself, you need to add support for the Beman project&#8217;s <a href="https://github.com/bemanproject/vcpkg-registry">vcpkg registry</a> by configuring a <code>vcpkg-configuration.json</code> file (which cstring_view <a href="https://github.com/bemanproject/cstring_view/blob/main/vcpkg-configuration.json">provides</a>).</p>
+</div>
+<div class="paragraph">
+<p>Then, simply run <code>vcpkg install beman-cstring-view</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_manual"><a class="anchor" href="#_manual"></a>Manual</h5>
+<div class="paragraph">
+<p>To install beman.cstring_view globally after building with the <code>gcc-release</code> preset, you can run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo cmake --install build/gcc-release</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, to install to a prefix, for example <code>/opt/beman</code>, you can run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo cmake --install build/gcc-release --prefix /opt/beman</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will generate the following directory structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-txt hljs" data-lang="txt">/opt/beman
+├── include
+│   └── beman
+│       └── cstring_view
+│           ├── cstring_view.hpp
+│           └── ...
+└── lib
+    └── cmake
+        └── beman.cstring_view
+            ├── beman.cstring_view-config-version.cmake
+            ├── beman.cstring_view-config.cmake
+            └── beman.cstring_view-targets.cmake</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cmake_configuration"><a class="anchor" href="#_cmake_configuration"></a>CMake Configuration</h4>
+<div class="paragraph">
+<p>If you installed beman.cstring_view to a prefix, you can specify that prefix to your CMake project using <code>CMAKE_PREFIX_PATH</code>; for example, <code>-DCMAKE_PREFIX_PATH=/opt/beman</code>.</p>
+</div>
+<div class="paragraph">
+<p>You need to bring in the <code>beman.cstring_view</code> package to define the <code>beman::cstring_view</code> CMake target:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">find_package(beman.cstring_view REQUIRED)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You will then need to add <code>beman::cstring_view</code> to the link libraries of any libraries or executables that include <code>beman.cstring_view</code> headers.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cmake hljs" data-lang="cmake">target_link_libraries(yourlib PUBLIC beman::cstring_view)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="using-bemancstring_view"><a class="anchor" href="#using-bemancstring_view"></a>Using beman.cstring_view</h4>
+<div class="paragraph">
+<p>To use <code>beman.cstring_view</code> in your C++ project, include an appropriate <code>beman.cstring_view</code> header from your source code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">#include &lt;beman/cstring_view/cstring_view.hpp&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="site-footer">
+  <div>
+    <h2>Community</h2>
+    <a href="https://discord.com/invite/BKpNyJgSbm">Discord</a>
+    <a href="https://discourse.bemanproject.org/">Discourse</a>
+  </div>
+  <div>
+    <h2>More</h2>
+    <a href="https://github.com/bemanproject">GitHub</a>
+  </div>
+  <p>Copyright (C) The Beman Project. Built with Antora.</p>
+</footer>
+<script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -1,9 +1,0 @@
-var searchData=
-[
-  ['value_0',['value',['../classbeman_1_1optional_1_1optional.html#a403cec6d7cc62ed49dc6c1a932da6de3',1,'beman::optional::optional::value() &amp;'],['../classbeman_1_1optional_1_1optional.html#a78ed5dfa0c06503c1a682e6790727498',1,'beman::optional::optional::value() const &amp;'],['../classbeman_1_1optional_1_1optional.html#ad03f9b933291169eeba5e53cdfd50867',1,'beman::optional::optional::value() &amp;&amp;'],['../classbeman_1_1optional_1_1optional_3_01T_01_6_01_4.html#ac5f889fe6a018361ee51ccbd2f6872b0',1,'beman::optional::optional&lt; T &amp; &gt;::value()'],['../md_docs_2overview.html#autotoc_md6',1,'Value Category Affects value()']]],
-  ['value_20category_20affects_20value_1',['Value Category Affects value()',['../md_docs_2overview.html#autotoc_md6',1,'']]],
-  ['value_5f_2',['value_',['../classbeman_1_1optional_1_1optional.html#a8f8d911d75653dfe72741dc3431fe740',1,'beman::optional::optional']]],
-  ['value_5for_3',['value_or',['../classbeman_1_1optional_1_1optional.html#a1a4d7b910633a73a4aecaac930684aef',1,'beman::optional::optional::value_or(U &amp;&amp;u) const &amp;'],['../classbeman_1_1optional_1_1optional.html#ac096c3c3ac924809a2a9d24aa88b30c1',1,'beman::optional::optional::value_or(U &amp;&amp;u) &amp;&amp;'],['../classbeman_1_1optional_1_1optional_3_01T_01_6_01_4.html#ad98653a33445dda82a70f510fad6d2ff',1,'beman::optional::optional&lt; T &amp; &gt;::value_or()'],['../md_docs_2overview.html#autotoc_md9',1,'value_or']]],
-  ['value_5ftype_4',['value_type',['../classbeman_1_1optional_1_1optional.html#aefbcf8b894d0bf8d5bbe22cd12f2765f',1,'beman::optional::optional::value_type'],['../classbeman_1_1optional_1_1optional_3_01T_01_6_01_4.html#a9b0db4eaba704e7243205b17c8b24887',1,'beman::optional::optional&lt; T &amp; &gt;::value_type']]],
-  ['vs_20deep_20const_5',['Shallow vs Deep const',['../md_docs_2overview.html#autotoc_md7',1,'']]]
-];
