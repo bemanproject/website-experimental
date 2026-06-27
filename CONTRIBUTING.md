@@ -14,9 +14,9 @@ $ micromamba activate beman
 $ make install
 ```
 
-The staged site also builds generated API reference pages with Antora and
-MrDocs. Make sure `mrdocs` is available on `PATH` before running `make start` or
-`make build`.
+The staged site also builds Antora documentation. Pandoc converts Markdown into
+AsciiDoc, and MrDocs generates API reference pages. Make sure `pandoc` and
+`mrdocs` are available on `PATH` before running `make start` or `make build`.
 
 You can verify MkDocs is properly installed using
 
@@ -77,9 +77,11 @@ To start a local development server, run:
 $ make start
 ```
 
-If everything is properly installed, the command starts a local server on http://127.0.0.1:8000/.
+If everything is properly installed, the command builds the composed MkDocs +
+Antora site and serves it on http://127.0.0.1:8000/.
 
-Most changes are reflected live without having to restart the server.
+Rerun `make start` after making documentation changes. The local server serves
+the static composed output; it is not a live-reloading MkDocs-only server.
 
 ## Generate static content for GitHub Pages deployment
 

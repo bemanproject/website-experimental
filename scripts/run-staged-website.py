@@ -124,18 +124,6 @@ def copy_static_assets(stage_root: Path, content_root: Path):
     copy_tree_if_exists(stage_root / "images", content_root / "images")
 
 
-def migrate_core_docs(stage_root: Path, content_root: Path):
-    copy_tree_if_exists(stage_root / "docs", content_root / "docs")
-    maturity_model = content_root / "docs" / "beman_library_maturity_model.md"
-    if maturity_model.exists():
-        maturity_model.write_text(
-            maturity_model.read_text().replace(
-                "](/images/beman_flow-beman_library_maturity_model.png)",
-                "](../images/beman_flow-beman_library_maturity_model.png)",
-            )
-        )
-
-
 def migrate_pages(stage_root: Path, content_root: Path):
     shutil.copy2(stage_root / "pages" / "index.md", content_root / "index.md")
     shutil.copy2(stage_root / "pages" / "talks.md", content_root / "talks.md")
@@ -145,12 +133,12 @@ def migrate_pages(stage_root: Path, content_root: Path):
     metadata["title"] = metadata.get("title", "Beman Libraries")
     body = re.sub(
         r'href="/docs/Libraries/([^"/]+)/"',
-        r'href="docs/Libraries/\1/index.md"',
+        r'href="docs/beman.\1/latest/index.html"',
         body,
     )
     body = re.sub(
         r"\]\(/docs/Libraries/([^/)]+)/\)",
-        r"](docs/Libraries/\1/index.md)",
+        r"](docs/beman.\1/latest/index.html)",
         body,
     )
     body = body.replace('src="/img/book.svg"', 'src="../img/book.svg"')
@@ -265,62 +253,43 @@ def prepare_mkdocs_content(stage_root: Path):
         shutil.rmtree(content_root)
     content_root.mkdir(parents=True)
     copy_static_assets(stage_root, content_root)
-    migrate_core_docs(stage_root, content_root)
     migrate_pages(stage_root, content_root)
     migrate_blog(stage_root, content_root)
-    (content_root / "docs" / "Libraries").mkdir(parents=True, exist_ok=True)
+    (content_root / "docs").mkdir(parents=True, exist_ok=True)
+    (content_root / "docs" / "index.md").write_text("# Docs\n")
+    stage_antora_doc_placeholders(stage_root, content_root)
 
 
-def sync_external_docs(repo_root: Path, stage_root: Path, args):
-    cmd = [
-        sys.executable,
-        str(repo_root / "scripts" / "sync-external-docs.py"),
-        "--output-root",
-        str(stage_root / "site_content"),
-    ]
-    if args.repos_root:
-        cmd.extend(["--repos-root", args.repos_root])
-    if args.clone_missing:
-        cmd.append("--clone-missing")
-    if args.update_repos:
-        cmd.append("--update-repos")
-    if args.skip_builds:
-        cmd.append("--skip-builds")
-    run_command(cmd, cwd=repo_root, check=True)
-
-
-def build_api_reference(repo_root: Path, stage_root: Path, args):
-    if args.skip_api_reference:
-        api_root = stage_root / "site_content" / "api"
-        api_root.mkdir(parents=True, exist_ok=True)
-        (api_root / "index.md").write_text(
-            "\n".join(
-                [
-                    "---",
-                    "title: API Reference",
-                    "---",
-                    "",
-                    "# API Reference",
-                    "",
-                    "API reference generation was skipped for this build.",
-                    "",
-                ]
-            )
-        )
+def stage_antora_doc_placeholders(stage_root: Path, content_root: Path):
+    manifest_path = stage_root / "scripts" / "sync-external-docs.yaml"
+    if not manifest_path.exists():
         return
+    manifest = yaml.safe_load(manifest_path.read_text()) or {}
+    for repo_name in manifest:
+        placeholder = (
+            content_root
+            / "docs"
+            / f"beman.{repo_name}"
+            / "latest"
+            / "index.html"
+        )
+        placeholder.parent.mkdir(parents=True, exist_ok=True)
+        placeholder.write_text("")
 
+
+def build_antora_docs(repo_root: Path, build_root: Path, stage_root: Path, args):
     cmd = [
         sys.executable,
-        str(repo_root / "scripts" / "build-antora-api.py"),
+        str(repo_root / "scripts" / "build-antora-docs.py"),
         "--output-dir",
-        str(stage_root / "site_content" / "api" / "reference"),
+        str(build_root / "docs"),
         "--work-root",
-        str(stage_root / "_antora-api-work"),
+        str(stage_root / "_antora-docs-work"),
         "--cache-dir",
         str(repo_root / "build" / "antora-cache"),
         "--site-url",
         os.environ.get("BEMAN_SITE_URL", "http://localhost:8000").rstrip("/")
-        + "/api/reference",
+        + "/docs",
     ]
     if args.repos_root:
         cmd.extend(["--repos-root", args.repos_root])
@@ -328,6 +297,8 @@ def build_api_reference(repo_root: Path, stage_root: Path, args):
         cmd.append("--clone-missing")
     if args.update_repos:
         cmd.append("--update-repos")
+    if args.skip_api_reference:
+        cmd.append("--skip-api-reference")
     run_command(cmd, cwd=repo_root, check=True)
 
 
@@ -678,6 +649,21 @@ def run_mkdocs(repo_root: Path, stage_root: Path, out_dir: Path, command: str):
     run_command(cmd, cwd=stage_root, check=True, env=env)
 
 
+def fix_mkdocs_output_links(build_root: Path):
+    libraries_page = build_root / "libraries" / "index.html"
+    if not libraries_page.exists():
+        return
+    content = libraries_page.read_text()
+    content = content.replace('href="docs/beman.', 'href="../docs/beman.')
+    libraries_page.write_text(content)
+
+
+def build_composed_site(repo_root: Path, build_root: Path, stage_root: Path, args):
+    run_mkdocs(repo_root, stage_root, build_root, "build")
+    fix_mkdocs_output_links(build_root)
+    build_antora_docs(repo_root, build_root, stage_root, args)
+
+
 def main():
     args = parse_args()
     repo_root = Path(__file__).resolve().parent.parent
@@ -690,8 +676,11 @@ def main():
     prepare_stage_workspace(stage_root, build_root)
     stage_repo_content(repo_root, stage_root)
     prepare_mkdocs_content(stage_root)
-    sync_external_docs(repo_root, stage_root, args)
-    build_api_reference(repo_root, stage_root, args)
+
+    if args.command == "start":
+        build_composed_site(repo_root, build_root, stage_root, args)
+        run_mkdocs(repo_root, stage_root, build_root, "serve")
+        return
 
     using_default_pages_root = not args.pages_root
     if using_default_pages_root:
@@ -699,11 +688,7 @@ def main():
     else:
         pages_root.mkdir(parents=True, exist_ok=True)
 
-    if args.command == "start":
-        run_mkdocs(repo_root, stage_root, build_root, "start")
-        return
-
-    run_mkdocs(repo_root, stage_root, build_root, "build")
+    build_composed_site(repo_root, build_root, stage_root, args)
     sync_build_output(build_root, pages_root)
 
     if args.command == "serve":
