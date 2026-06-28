@@ -156,21 +156,8 @@ $ make build
 To add a library, edit `beman_libraries_to_import.yaml`, put the repo next to
 `website`, then run `make start`.
 
-To build only the Antora API reference while iterating:
-
-```shell
-$ npm run antora:api
-```
-
 The first Antora build downloads the default UI bundle; later builds reuse the
 local Antora cache under `build/antora-cache`.
-
-The old structural proof of concept is still available:
-
-```shell
-$ npm run antora:poc
-$ npm run antora:poc:serve
-```
 
 ## Automated `gh-pages` publishing
 

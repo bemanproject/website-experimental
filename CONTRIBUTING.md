@@ -14,9 +14,15 @@ $ micromamba activate beman
 $ make install
 ```
 
+`make install` runs `python -m pip install -r requirements.txt` and `npm ci`.
+With the `beman` micromamba environment active, the Python packages are installed
+into that environment. The npm packages are installed into this repo's
+`node_modules`.
+
 The staged site also builds Antora documentation. Pandoc converts Markdown into
-AsciiDoc, and MrDocs generates API reference pages. Make sure `pandoc` and
-`mrdocs` are available on `PATH` before running `make start` or `make build`.
+AsciiDoc, and MrDocs generates API reference pages. `make install` does not
+install `pandoc` or `mrdocs`; make sure both are already available on `PATH`
+before running `make start` or `make build`.
 
 Library docs are configured in `beman_libraries_to_import.yaml`. Keep library
 repos adjacent to this repo (`../optional`, `../execution`, ...). Add or edit a
