@@ -19,7 +19,7 @@ DEFAULT_REPOS_ROOT = WEBSITE_ROOT.parent
 DEFAULT_WORK_ROOT = WEBSITE_ROOT / "build" / "antora-docs-work"
 DEFAULT_OUTPUT_DIR = WEBSITE_ROOT / "build" / "docs"
 DEFAULT_CACHE_DIR = WEBSITE_ROOT / "build" / "antora-cache"
-MANIFEST_PATH = WEBSITE_ROOT / "scripts" / "sync-external-docs.yaml"
+MANIFEST_PATH = WEBSITE_ROOT / "beman_libraries_to_import.yaml"
 
 PROJECT_DOCS = [
     ("README.md", "index.adoc", "Beman Docs"),
@@ -816,7 +816,7 @@ def write_supplemental_ui(work_root: Path) -> Path:
         "\n".join(
             [
                 '    <link rel="stylesheet" href="{{{uiRootPath}}}/css/site.css">',
-                '    <link rel="stylesheet" href="{{{uiRootPath}}}/css/beman-docs.css?v=9">',
+                '    <link rel="stylesheet" href="{{{uiRootPath}}}/css/beman-docs.css?v=11">',
                 "",
             ]
         ),
@@ -1013,7 +1013,7 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 ".nav-menu-toggle { display: none !important; }",
                 "",
                 "main.article { grid-column: 2 / 4; min-width: 0; min-height: 0; overflow: hidden; padding: 0; }",
-                "main.article .content {",
+                "main.article > .content {",
                 "  display: grid;",
                 "  grid-template-columns: minmax(0, var(--content-max)) minmax(180px, 220px);",
                 "  gap: 2rem;",
@@ -1036,7 +1036,21 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 "  overflow-wrap: anywhere;",
                 "}",
                 "article.doc img { max-width: 100%; height: auto; }",
-                "article.doc pre { max-width: 100%; overflow-x: auto; border-radius: 6px; background: #f6f8fa; }",
+                "article.doc .listingblock, article.doc .literalblock, article.doc .listingblock > .content {",
+                "  width: 100%;",
+                "  max-width: 100%;",
+                "  min-width: 0;",
+                "}",
+                "article.doc pre {",
+                "  display: block;",
+                "  width: 100%;",
+                "  max-width: 100%;",
+                "  min-width: 0;",
+                "  overflow-x: auto;",
+                "  border-radius: 6px;",
+                "  background: #f6f8fa;",
+                "}",
+                "article.doc pre > code { display: block; min-width: max-content; }",
                 "article.doc table.tableblock { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; }",
                 "article.doc th, article.doc td { border-color: var(--ifm-color-emphasis-300); }",
                 ".toolbar { display: none; }",
@@ -1074,7 +1088,7 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 "@media (max-width: 1100px) {",
                 "  .body { grid-template-columns: minmax(190px, 240px) minmax(0, 1fr); }",
                 "  main.article { grid-column: 2; }",
-                "  main.article .content { display: block; overflow: hidden; }",
+                "  main.article > .content { display: block; overflow: hidden; }",
                 "  aside.toc.sidebar { display: none; }",
                 "}",
                 "@media (max-width: 760px) {",
@@ -1100,7 +1114,7 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 "  .nav-panel-menu { overflow: visible; }",
                 "  .nav-menu { min-height: 0; padding: 0 1rem; }",
                 "  main.article { overflow: visible; }",
-                "  main.article .content { overflow: visible; }",
+                "  main.article > .content { overflow: visible; }",
                 "  article.doc { height: auto; overflow: visible; padding-right: 0; }",
                 "  .site-footer { grid-template-columns: 1fr; }",
                 "  .site-footer p { justify-self: start; }",

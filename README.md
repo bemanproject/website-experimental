@@ -136,8 +136,9 @@ reference AsciiDoc, and Antora Collector imports those pages into each library
 component.
 
 The library list and extra Markdown pages come from
-`scripts/sync-external-docs.yaml`. Top-level library `README.md` files are
-included automatically on each library overview page.
+`beman_libraries_to_import.yaml`. Keep library repos adjacent to this website
+repo, e.g. `../optional`, `../execution`, `../task`. Top-level library
+`README.md` files are included automatically on each library overview page.
 
 Required tools:
 
@@ -151,6 +152,9 @@ With the `beman` micromamba environment active:
 $ make start
 $ make build
 ```
+
+To add a library, edit `beman_libraries_to_import.yaml`, put the repo next to
+`website`, then run `make start`.
 
 To build only the Antora API reference while iterating:
 
