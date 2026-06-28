@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "antora:api": "python3 scripts/build-antora-api.py",
-    "antora:poc": "python3 scripts/run-antora-poc.py build",
-    "antora:poc:serve": "python3 scripts/run-antora-poc.py serve",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
