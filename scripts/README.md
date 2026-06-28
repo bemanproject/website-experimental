@@ -45,7 +45,7 @@ Inserting sidebar position 7 into /Users/dariusn/dev/dn/git/Beman/website/docs/c
 
 Sync generated documentation outputs from external repos into a destination root.
 
-Currently supported repos are listed in the script's `REPO_DOCS` whitelist.
+Configured repos are listed in `beman_libraries_to_import.yaml`.
 
 ```shell
 $ python3 scripts/sync-external-docs.py --output-root /tmp/website-stage

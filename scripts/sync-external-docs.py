@@ -13,7 +13,7 @@ from pathlib import Path
 import yaml
 
 
-CONFIG_PATH = Path(__file__).with_suffix(".yaml")
+CONFIG_PATH = Path(__file__).resolve().parent.parent / "beman_libraries_to_import.yaml"
 SPECIAL_LABELS = {
     "debug-ci": "Debugging CI",
     "using_exemplar": "Using Exemplar",

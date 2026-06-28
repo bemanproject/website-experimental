@@ -18,6 +18,10 @@ The staged site also builds Antora documentation. Pandoc converts Markdown into
 AsciiDoc, and MrDocs generates API reference pages. Make sure `pandoc` and
 `mrdocs` are available on `PATH` before running `make start` or `make build`.
 
+Library docs are configured in `beman_libraries_to_import.yaml`. Keep library
+repos adjacent to this repo (`../optional`, `../execution`, ...). Add or edit a
+library there, then run `make start`.
+
 You can verify MkDocs is properly installed using
 
 ```shell

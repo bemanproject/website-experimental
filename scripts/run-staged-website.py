@@ -24,7 +24,7 @@ def parse_args():
     )
     parser.add_argument(
         "--clone-missing",
-        help="clone missing repositories listed in REPO_DOCS",
+        help="clone missing repositories listed in beman_libraries_to_import.yaml",
         action="store_true",
     )
     parser.add_argument(
@@ -261,7 +261,7 @@ def prepare_mkdocs_content(stage_root: Path):
 
 
 def stage_antora_doc_placeholders(stage_root: Path, content_root: Path):
-    manifest_path = stage_root / "scripts" / "sync-external-docs.yaml"
+    manifest_path = stage_root / "beman_libraries_to_import.yaml"
     if not manifest_path.exists():
         return
     manifest = yaml.safe_load(manifest_path.read_text()) or {}
