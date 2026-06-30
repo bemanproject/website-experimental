@@ -466,6 +466,9 @@ requires std&colon;&colon;ranges&colon;&colon;random&lowbar;access&lowbar;range&
   var expandedKey = 'beman.antora.nav.expanded';
   var scrollKey = 'beman.antora.nav.scrollTop';
   function navPanel() { return document.querySelector('.nav-panel-menu[data-panel="menu"]'); }
+  function storage() {
+    try { return window.sessionStorage; } catch (err) { return null; }
+  }
   function itemLabel(item) {
     var label = item.querySelector(':scope > .nav-text, :scope > .nav-link');
     return label ? label.textContent.trim() : '';
@@ -482,23 +485,35 @@ requires std&colon;&colon;ranges&colon;&colon;random&lowbar;access&lowbar;range&
     return parts.join(' / ');
   }
   function readExpanded() {
-    try { return new Set(JSON.parse(window.localStorage.getItem(expandedKey) || '[]')); } catch (err) { return new Set(); }
+    var store = storage();
+    if (!store) return new Set();
+    try { return new Set(JSON.parse(store.getItem(expandedKey) || '[]')); } catch (err) { return new Set(); }
   }
   function writeExpanded() {
     var panel = navPanel();
-    if (!panel) return;
+    var store = storage();
+    if (!panel || !store) return;
     var keys = [];
     panel.querySelectorAll('.nav-item.is-active').forEach(function (item) {
       var key = itemKey(item);
       if (key) keys.push(key);
     });
-    try { window.localStorage.setItem(expandedKey, JSON.stringify(keys)); } catch (err) {}
+    try { store.setItem(expandedKey, JSON.stringify(keys)); } catch (err) {}
+  }
+  function expandAncestors(item) {
+    var current = item;
+    while (current) {
+      if (current.classList && current.classList.contains('nav-item')) current.classList.add('is-active', 'is-current-path');
+      var parentList = current.parentElement;
+      current = parentList ? parentList.closest('.nav-item') : null;
+    }
   }
   function expandRequiredSections(panel) {
     panel.querySelectorAll('.nav-item').forEach(function (item) {
       var label = itemLabel(item);
       if (label === 'Project' || label === 'Libraries') item.classList.add('is-active');
     });
+    panel.querySelectorAll('.nav-item.is-current-page, .nav-item.is-current-path').forEach(expandAncestors);
   }
   function restoreExpanded(panel) {
     var expanded = readExpanded();
@@ -508,15 +523,18 @@ requires std&colon;&colon;ranges&colon;&colon;random&lowbar;access&lowbar;range&
     expandRequiredSections(panel);
   }
   function restoreScroll(panel) {
+    var store = storage();
+    if (!store) return;
     try {
-      var saved = parseInt(window.localStorage.getItem(scrollKey) || '', 10);
+      var saved = parseInt(store.getItem(scrollKey) || '', 10);
       if (!Number.isNaN(saved)) panel.scrollTop = saved;
     } catch (err) {}
   }
   function saveScroll() {
     var panel = navPanel();
-    if (!panel) return;
-    try { window.localStorage.setItem(scrollKey, String(panel.scrollTop)); } catch (err) {}
+    var store = storage();
+    if (!panel || !store) return;
+    try { store.setItem(scrollKey, String(panel.scrollTop)); } catch (err) {}
   }
   function install() {
     var panel = navPanel();
