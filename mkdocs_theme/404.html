@@ -4,6 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Page not found | {{ config.site_name }}</title>
+    <script>
+      (function () {
+        function getStoredTheme() {
+          try {
+            return window.localStorage.getItem("theme");
+          } catch (err) {
+            return null;
+          }
+        }
+
+        var storedTheme = getStoredTheme();
+        var theme = storedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
     <link rel="stylesheet" href="{{ 'assets/beman.css'|url }}">
   </head>
   <body>
