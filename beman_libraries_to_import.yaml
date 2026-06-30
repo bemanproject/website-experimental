@@ -14,11 +14,11 @@ task:
 
 cache_latest:
   files:
-    - docs/README.md: overview.md
+    - docs/README.md: development.md
 
 copyable_function:
   files:
-    - docs/README.md: overview.md
+    - docs/README.md: development.md
 
 cstring_view:
   files:
