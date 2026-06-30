@@ -76,6 +76,7 @@ implementation-defined:
 multipage: true
 generator: adoc
 output: adoc
+embedded: true
 """
 
 MARKDOWN_LINK_RE = re.compile(
@@ -214,7 +215,18 @@ def prepare_staged_mrdocs_inputs(staged_repo: Path, repo_name: str) -> Path:
     mrdocs_config = staged_repo / MRDOCS_CONFIG_PATH
     if not mrdocs_config.exists():
         write_text(mrdocs_config, render_mrdocs_config(repo_name, staged_repo))
+    ensure_mrdocs_embedded_output(mrdocs_config)
     return mrdocs_config
+
+
+def ensure_mrdocs_embedded_output(mrdocs_config: Path) -> None:
+    content = mrdocs_config.read_text()
+    embedded_re = re.compile(r"(?m)^embedded:\s*(?:true|false)\s*$")
+    if embedded_re.search(content):
+        content = embedded_re.sub("embedded: true", content)
+    else:
+        content = content.rstrip() + "\nembedded: true\n"
+    write_text(mrdocs_config, content)
 
 
 def write_text(path: Path, content: str) -> None:
