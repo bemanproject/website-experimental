@@ -606,6 +606,7 @@ html[data-theme="dark"] .theme-toggle-icon-light {
   }
 
   .site-nav {
+    position: relative;
     flex-wrap: wrap;
     gap: 0.75rem;
     min-height: var(--nav-height);
@@ -621,10 +622,20 @@ html[data-theme="dark"] .theme-toggle-icon-light {
 
   .nav-menu {
     display: none;
-    flex-basis: 100%;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 1rem;
+    right: 1rem;
+    z-index: 40;
     flex-direction: column;
     align-items: stretch;
-    padding-bottom: 0.75rem;
+    max-height: calc(100vh - var(--nav-height) - 1rem);
+    padding: 0.75rem 1rem 1rem;
+    border: 1px solid var(--ifm-color-emphasis-200);
+    border-radius: 6px;
+    background: var(--beman-header-background);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    overflow: auto;
   }
 
   .nav-menu.open {
