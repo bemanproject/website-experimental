@@ -540,6 +540,9 @@ apt-get install                           \
   clang-18 clang++-18 clang-17 clang++-17</code></pre>
 </div>
 </div>
+<details>
+<summary class="title">Build GoogleTest dependency from github.com</summary>
+<div class="content">
 <div class="paragraph">
 <p>If you do not have GoogleTest installed on your development system, you may optionally configure this project to download a known-compatible release of GoogleTest from source and build it as well.</p>
 </div>
@@ -552,8 +555,14 @@ apt-get install                           \
 <p>The precise version of GoogleTest that will be used is maintained in <code>./lockfile.json</code>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_supported_platforms"><a class="anchor" href="#_supported_platforms"></a>Supported Platforms</h4>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_supported_platforms"><a class="anchor" href="#_supported_platforms"></a>Supported Platforms</h2>
+<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -609,10 +618,12 @@ apt-get install                           \
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_instructions"><a class="anchor" href="#_instructions"></a>Instructions</h4>
-<div class="sect4">
-<h5 id="_develop_using_github_codespace"><a class="anchor" href="#_develop_using_github_codespace"></a>Develop using GitHub Codespace</h5>
+</div>
+<div class="sect1">
+<h2 id="_instructions"><a class="anchor" href="#_instructions"></a>Instructions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_develop_using_github_codespace"><a class="anchor" href="#_develop_using_github_codespace"></a>Develop using GitHub Codespace</h3>
 <div class="paragraph">
 <p>This project supports <a href="https://github.com/features/codespaces">GitHub Codespace</a> via <a href="https://containers.dev/">Development Containers</a>, which allows rapid development and instant hacking in your browser. We recommend using GitHub codespace to explore this project as it requires minimal setup.</p>
 </div>
@@ -636,8 +647,8 @@ apt-get install                           \
 </blockquote>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_preset_cmake_flows"><a class="anchor" href="#_preset_cmake_flows"></a>Preset CMake Flows</h5>
+<div class="sect2">
+<h3 id="_preset_cmake_flows"><a class="anchor" href="#_preset_cmake_flows"></a>Preset CMake Flows</h3>
 <div class="paragraph">
 <p>This project recommends using <a href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html">CMake Presets</a> to configure, build and test the project. Appropriate presets for major compilers have been included by default. You can use <code>cmake --list-presets</code> to see all available presets.</p>
 </div>
@@ -669,10 +680,10 @@ apt-get install                           \
 <p>The <code>release</code> presets are designed for production use, and consequently have the highest optimization turned on (e.g. <code>O3</code>).</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_custom_cmake_flows"><a class="anchor" href="#_custom_cmake_flows"></a>Custom CMake Flows</h5>
-<div class="sect5">
-<h6 id="_build_and_run_tests"><a class="anchor" href="#_build_and_run_tests"></a>Build and Run Tests</h6>
+<div class="sect2">
+<h3 id="_custom_cmake_flows"><a class="anchor" href="#_custom_cmake_flows"></a>Custom CMake Flows</h3>
+<div class="sect3">
+<h4 id="_build_and_run_tests"><a class="anchor" href="#_build_and_run_tests"></a>Build and Run Tests</h4>
 <div class="paragraph">
 <p>CI current build and test flows:</p>
 </div>
@@ -703,8 +714,8 @@ Total Test time (real) =   0.67 sec</code></pre>
 </div>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_build_production_but_skip_tests"><a class="anchor" href="#_build_production_but_skip_tests"></a>Build Production, but Skip Tests</h6>
+<div class="sect3">
+<h4 id="_build_production_but_skip_tests"><a class="anchor" href="#_build_production_but_skip_tests"></a>Build Production, but Skip Tests</h4>
 <div class="paragraph">
 <p>By default, we build and run tests. You can provide <code>-DOPTIONAL_ENABLE_TESTING=OFF</code> and completely disable building tests:</p>
 </div>
@@ -734,16 +745,16 @@ No tests were found!!!</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_pre_commit_for_linting"><a class="anchor" href="#_pre_commit_for_linting"></a>Pre-Commit for Linting</h5>
+<div class="sect2">
+<h3 id="_pre_commit_for_linting"><a class="anchor" href="#_pre_commit_for_linting"></a>Pre-Commit for Linting</h3>
 <div class="paragraph">
 <p>Various linting tools are configured and installed via the <a href="https://pre-commit.com/">pre-commit</a> framework. This requires a working python environment, but also allows the tools, such as clang-format and cmake-lint, to be versioned on a per project basis rather than being installed globally. Version changes in lint checks often means differences in success or failure between the versions in CI and the versions used by a developer. By using the same configurations, this problem is avoided.</p>
 </div>
 <div class="paragraph">
 <p>In order to set up a python environment, using a python virtual environment can simplify maintaining different configurations between projects. There is no particular dependency on a particular python3 version.</p>
 </div>
-<div class="sect5">
-<h6 id="_creating_and_configuring_a_venv"><a class="anchor" href="#_creating_and_configuring_a_venv"></a>Creating and configuring a venv</h6>
+<div class="sect3">
+<h4 id="_creating_and_configuring_a_venv"><a class="anchor" href="#_creating_and_configuring_a_venv"></a>Creating and configuring a venv</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">python3 -m venv .venv
@@ -758,8 +769,8 @@ No tests were found!!!</code></pre>
 <p>This will create the venv, install the python and python development tools, and run bash with the PATH and other environment variables set to use the venv preferentially.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_running_the_linting_tools"><a class="anchor" href="#_running_the_linting_tools"></a>Running the linting tools</h6>
+<div class="sect3">
+<h4 id="_running_the_linting_tools"><a class="anchor" href="#_running_the_linting_tools"></a>Running the linting tools</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">pre-commit run -a</code></pre>
@@ -778,8 +789,8 @@ No tests were found!!!</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="install-bemanoptional"><a class="anchor" href="#install-bemanoptional"></a>Install beman.optional</h5>
+<div class="sect2">
+<h3 id="install-bemanoptional"><a class="anchor" href="#install-bemanoptional"></a>Install beman.optional</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cmake --workflow --preset gcc-release
@@ -813,8 +824,9 @@ cmake --install build/gcc-release --prefix /opt/beman</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_papers"><a class="anchor" href="#_papers"></a>Papers</h3>
+<div class="sect1">
+<h2 id="_papers"><a class="anchor" href="#_papers"></a>Papers</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Latest revision(s) of the papers can be built / found at:</p>
 </div>
@@ -887,7 +899,6 @@ cmake --install build/gcc-release --prefix /opt/beman</code></pre>
 </div>
 </li>
 </ul>
-</div>
 </div>
 </div>
 </div>

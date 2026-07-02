@@ -663,8 +663,12 @@ int main() {
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cmake -LH -S . -B build | grep "BEMAN_TRANSFORM_VIEW" -C 2</code></pre>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_beman_transform_view_build_tests"><a class="anchor" href="#_beman_transform_view_build_tests"></a><code>BEMAN_TRANSFORM_VIEW_BUILD_TESTS</code></h5>
+<details>
+<summary class="title">Details of CMake arguments.</summary>
+<div class="content">
+<div class="paragraph">
+<p>== <code>BEMAN_TRANSFORM_VIEW_BUILD_TESTS</code></p>
+</div>
 <div class="paragraph">
 <p>Enable building tests and test infrastructure. Default: ON. Values: <code>{ ON, OFF }</code>.</p>
 </div>
@@ -676,15 +680,15 @@ int main() {
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cmake -B build -S . -DCMAKE_CXX_STANDARD=23 -DBEMAN_TRANSFORM_VIEW_BUILD_TESTS=OFF</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>== <code>BEMAN_TRANSFORM_VIEW_BUILD_EXAMPLES</code></p>
 </div>
-<div class="sect4">
-<h5 id="_beman_transform_view_build_examples"><a class="anchor" href="#_beman_transform_view_build_examples"></a><code>BEMAN_TRANSFORM_VIEW_BUILD_EXAMPLES</code></h5>
 <div class="paragraph">
 <p>Enable building examples. Default: ON. Values: \{ ON, OFF }.</p>
 </div>
+<div class="paragraph">
+<p>== <code>BEMAN_TRANSFORM_VIEW_INSTALL_CONFIG_FILE_PACKAGE</code></p>
 </div>
-<div class="sect4">
-<h5 id="_beman_transform_view_install_config_file_package"><a class="anchor" href="#_beman_transform_view_install_config_file_package"></a><code>BEMAN_TRANSFORM_VIEW_INSTALL_CONFIG_FILE_PACKAGE</code></h5>
 <div class="paragraph">
 <p>Enable installing the CMake config file package. Default: ON. Values: \{ ON, OFF }.</p>
 </div>
@@ -692,6 +696,7 @@ int main() {
 <p>This is required so that users of <code>beman.transform_view</code> can use <code>find_package(beman.transform_view)</code> to locate the library.</p>
 </div>
 </div>
+</details>
 </div>
 </div>
 </div>
