@@ -256,6 +256,7 @@ html[data-theme="dark"] .theme-toggle-icon-light {
 
 .nav-toggle {
   display: none;
+  flex: 0 0 auto;
   margin-left: auto;
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 4px;
@@ -263,6 +264,10 @@ html[data-theme="dark"] .theme-toggle-icon-light {
   color: var(--ifm-color-content);
   padding: 0.35rem 0.6rem;
   font: inherit;
+  line-height: 1.4;
+  min-width: 4.5rem;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .home-hero {
@@ -602,6 +607,7 @@ html[data-theme="dark"] .theme-toggle-icon-light {
 
   .site-nav {
     flex-wrap: wrap;
+    gap: 0.75rem;
     min-height: var(--nav-height);
   }
 
