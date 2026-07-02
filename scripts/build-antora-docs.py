@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass
+import html
 import posixpath
 import re
 import shutil
@@ -85,6 +87,22 @@ MARKDOWN_LINK_RE = re.compile(
 GITHUB_BLOB_URL_RE = re.compile(
     r"^https://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/]+)/blob/(?P<branch>[^/]+)/(?P<path>.+)$"
 )
+DETAIL_TAG_RE = re.compile(r"<\s*(/?)\s*(details|summary)\b[^>]*>", re.IGNORECASE)
+FENCE_START_RE = re.compile(r"^\s*(```|~~~)")
+
+
+@dataclass(frozen=True)
+class HtmlTag:
+    name: str
+    start: int
+    end: int
+    closing: bool
+
+
+@dataclass(frozen=True)
+class DetailsBlock:
+    summary: str
+    body: str
 
 
 def parse_args() -> argparse.Namespace:
@@ -395,15 +413,19 @@ def rewrite_project_markdown_links(
 def normalize_adoc_heading_sequence(content: str) -> str:
     lines = []
     previous_level = 1
-    in_delimited_block = False
+    delimiter_stack = []
     for line in content.splitlines():
-        if line.strip() in {"----", "....", "===="}:
-            in_delimited_block = not in_delimited_block
+        stripped = line.strip()
+        if stripped in {"----", "...."} or re.fullmatch(r"={4,}", stripped):
+            if delimiter_stack and delimiter_stack[-1] == stripped:
+                delimiter_stack.pop()
+            else:
+                delimiter_stack.append(stripped)
             lines.append(line)
             continue
 
         match = re.match(r"^(={2,6})\s+(.+)$", line)
-        if match and not in_delimited_block:
+        if match and not delimiter_stack:
             level = len(match.group(1))
             if level > previous_level + 1:
                 level = previous_level + 1
@@ -420,11 +442,193 @@ def postprocess_pandoc_adoc(content: str) -> str:
     return content
 
 
-def convert_markdown_to_adoc_content(markdown: str, title: str, scratch: Path) -> str:
+def markdown_html_tags(content: str) -> list[HtmlTag]:
+    tags = []
+    offset = 0
+    in_fence = False
+    for line in content.splitlines(keepends=True):
+        if FENCE_START_RE.match(line):
+            in_fence = not in_fence
+            offset += len(line)
+            continue
+        if not in_fence:
+            for match in DETAIL_TAG_RE.finditer(line):
+                tags.append(
+                    HtmlTag(
+                        name=match.group(2).lower(),
+                        start=offset + match.start(),
+                        end=offset + match.end(),
+                        closing=bool(match.group(1)),
+                    )
+                )
+        offset += len(line)
+    return tags
+
+
+def split_markdown_details(content: str) -> list[str | DetailsBlock]:
+    tags = markdown_html_tags(content)
+    if not any(tag.name == "details" and not tag.closing for tag in tags):
+        return [content]
+
+    def matching_details_close(open_index: int) -> int | None:
+        depth = 1
+        for index in range(open_index + 1, len(tags)):
+            tag = tags[index]
+            if tag.name != "details":
+                continue
+            depth += -1 if tag.closing else 1
+            if depth == 0:
+                return index
+        return None
+
+    parts: list[str | DetailsBlock] = []
+    cursor = 0
+    index = 0
+    while index < len(tags):
+        tag = tags[index]
+        if tag.start < cursor or tag.name != "details" or tag.closing:
+            index += 1
+            continue
+
+        close_index = matching_details_close(index)
+        if close_index is None:
+            break
+
+        close_tag = tags[close_index]
+        parts.append(content[cursor : tag.start])
+        inner = content[tag.end : close_tag.start]
+        summary, body = extract_details_summary(inner)
+        parts.append(DetailsBlock(summary=summary, body=body))
+        cursor = close_tag.end
+        index = close_index + 1
+
+    parts.append(content[cursor:])
+    return parts
+
+
+def extract_details_summary(content: str) -> tuple[str, str]:
+    tags = markdown_html_tags(content)
+    for index, tag in enumerate(tags):
+        if tag.name == "details":
+            break
+        if tag.name != "summary" or tag.closing:
+            continue
+        close_tag = next(
+            (
+                candidate
+                for candidate in tags[index + 1 :]
+                if candidate.name == "summary" and candidate.closing
+            ),
+            None,
+        )
+        if close_tag is None:
+            break
+        summary = content[tag.end : close_tag.start].strip()
+        body = content[: tag.start] + content[close_tag.end :]
+        return summary or "Details", body.lstrip("\n")
+    return "Details", content
+
+
+def markdown_inline_from_html(content: str) -> str:
+    content = re.sub(
+        r"<code>(.*?)</code>",
+        lambda match: f"`{html.unescape(re.sub(r'<[^>]+>', '', match.group(1))).replace('`', '')}`",
+        content,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    content = re.sub(
+        r"<(?:i|em)>(.*?)</(?:i|em)>",
+        lambda match: f"_{markdown_inline_from_html(match.group(1))}_",
+        content,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    content = re.sub(
+        r"<(?:b|strong)>(.*?)</(?:b|strong)>",
+        lambda match: f"**{markdown_inline_from_html(match.group(1))}**",
+        content,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    def replace_link(match: re.Match) -> str:
+        href = match.group("href")
+        label = html.unescape(re.sub(r"<[^>]+>", "", match.group("label"))).replace("`", "")
+        return f"[{label}]({href})"
+
+    content = re.sub(
+        r"<a\b[^>]*href=[\"'](?P<href>[^\"']+)[\"'][^>]*>(?P<label>.*?)</a>",
+        replace_link,
+        content,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    content = re.sub(r"<br\s*/?>", "\n", content, flags=re.IGNORECASE)
+    content = re.sub(r"</?(?:span|div)\b[^>]*>", "", content, flags=re.IGNORECASE)
+    return html.unescape(content)
+
+
+def normalize_markdown_html_blocks(content: str) -> str:
+    output = []
+    list_stack = []
+    in_fence = False
+    for line in content.splitlines(keepends=True):
+        if FENCE_START_RE.match(line):
+            in_fence = not in_fence
+            output.append(line)
+            continue
+        if in_fence:
+            output.append(line)
+            continue
+
+        newline = "\n" if line.endswith("\n") else ""
+        stripped = line.strip()
+        lower = stripped.lower()
+        if lower in {"<div>", "</div>", "<br>", "<br/>", "<br />"}:
+            output.append(newline)
+            continue
+
+        if re.fullmatch(r"<ul\b[^>]*>", stripped, flags=re.IGNORECASE):
+            list_stack.append({"kind": "ul", "index": 0})
+            continue
+        if re.fullmatch(r"</ul>", stripped, flags=re.IGNORECASE):
+            if list_stack:
+                list_stack.pop()
+            output.append(newline)
+            continue
+        if re.fullmatch(r"<ol\b[^>]*>", stripped, flags=re.IGNORECASE):
+            list_stack.append({"kind": "ol", "index": 0})
+            continue
+        if re.fullmatch(r"</ol>", stripped, flags=re.IGNORECASE):
+            if list_stack:
+                list_stack.pop()
+            output.append(newline)
+            continue
+
+        item = re.fullmatch(r"<li\b[^>]*>(.*?)</li>", stripped, flags=re.IGNORECASE | re.DOTALL)
+        if item:
+            if list_stack:
+                list_stack[-1]["index"] += 1
+                marker = (
+                    f"{list_stack[-1]['index']}."
+                    if list_stack[-1]["kind"] == "ol"
+                    else "-"
+                )
+                indent = "  " * (len(list_stack) - 1)
+            else:
+                marker = "-"
+                indent = ""
+            output.append(f"{indent}{marker} {markdown_inline_from_html(item.group(1))}{newline}")
+            continue
+
+        output.append(markdown_inline_from_html(line))
+    return "".join(output)
+
+
+def pandoc_markdown_to_adoc(markdown: str, scratch: Path) -> str:
+    if not markdown.strip():
+        return ""
     scratch.parent.mkdir(parents=True, exist_ok=True)
     temp_md = scratch.with_suffix(".tmp.md")
     temp_adoc = scratch.with_suffix(".tmp.adoc")
-    temp_md.write_text(markdown)
+    temp_md.write_text(normalize_markdown_html_blocks(markdown))
     try:
         run_command(
             [
@@ -445,6 +649,50 @@ def convert_markdown_to_adoc_content(markdown: str, title: str, scratch: Path) -
         temp_md.unlink(missing_ok=True)
         temp_adoc.unlink(missing_ok=True)
 
+    return content
+
+
+def details_summary_title(summary: str) -> str:
+    summary = " ".join(summary.strip().split())
+    if not summary:
+        return "Details"
+    if "<" in summary and ">" in summary:
+        return f"+++{summary.replace('+++', '')}+++"
+    return re.sub(r"`([^`]+)`", r"+\1+", markdown_inline_from_html(summary))
+
+
+def convert_markdown_fragment_to_adoc(markdown: str, scratch: Path, depth: int = 0) -> str:
+    parts = split_markdown_details(markdown)
+    if not any(isinstance(part, DetailsBlock) for part in parts):
+        return pandoc_markdown_to_adoc(markdown, scratch)
+
+    output = []
+    for index, part in enumerate(parts):
+        part_scratch = scratch.with_name(f"{scratch.stem}-{depth}-{index}{scratch.suffix}")
+        if isinstance(part, str):
+            output.append(pandoc_markdown_to_adoc(part, part_scratch))
+            continue
+
+        delimiter = "=" * (4 + depth * 2)
+        body = convert_markdown_fragment_to_adoc(part.body, part_scratch, depth + 1).strip()
+        output.append(
+            "\n".join(
+                [
+                    f".{details_summary_title(part.summary)}",
+                    "[%collapsible]",
+                    delimiter,
+                    body,
+                    delimiter,
+                    "",
+                ]
+            )
+        )
+    return "\n\n".join(block.strip() for block in output if block.strip()) + "\n"
+
+
+def convert_markdown_to_adoc_content(markdown: str, title: str, scratch: Path) -> str:
+    scratch.parent.mkdir(parents=True, exist_ok=True)
+    content = convert_markdown_fragment_to_adoc(markdown, scratch)
     content = normalize_adoc_heading_sequence(content)
     if not content.lstrip().startswith("= "):
         content = f"= {title}\n\n{content}"
@@ -1207,6 +1455,7 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 "html[data-theme='light'] .theme-toggle-icon-dark, html[data-theme='dark'] .theme-toggle-icon-light { display: none; }",
                 ".site-nav-toggle {",
                 "  display: none;",
+                "  flex: 0 0 auto;",
                 "  margin-left: auto;",
                 "  border: 1px solid var(--ifm-color-emphasis-300);",
                 "  border-radius: 4px;",
@@ -1214,6 +1463,10 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 "  padding: 5.6px 9.6px;",
                 "  color: var(--ifm-color-content);",
                 "  font: inherit;",
+                "  line-height: 1.4;",
+                "  min-width: 72px;",
+                "  text-align: center;",
+                "  white-space: nowrap;",
                 "}",
                 "",
                 ".body {",
@@ -1399,7 +1652,7 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 "@media (max-width: 760px) {",
                 "  body.article { height: auto; min-height: 100vh; overflow: auto; }",
                 "  .site-header.header { flex: none; height: auto; }",
-                "  .site-nav.navbar { flex-wrap: wrap; min-height: var(--nav-height); }",
+                "  .site-nav.navbar { flex-wrap: wrap; gap: 0.75rem; min-height: var(--nav-height); }",
                 "  .site-nav-toggle { display: inline-block; }",
                 "  .theme-toggle-mobile { display: inline-flex; }",
                 "  .nav-menu.navbar-menu { display: none; flex-basis: 100%; flex-direction: column; align-items: stretch; padding-bottom: 0.75rem; }",
