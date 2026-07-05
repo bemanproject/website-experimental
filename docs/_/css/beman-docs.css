@@ -266,6 +266,13 @@ main.article > .content {
   padding: 0;
 }
 article.doc { grid-column: 1; grid-row: 1; min-width: 0; max-width: none; height: 100%; overflow-x: hidden; overflow-y: auto; padding-right: 0.5rem; color: var(--ifm-color-content); scrollbar-gutter: stable; }
+article.doc .api-context { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.75rem; margin: 0 0 1rem; padding: 0; color: var(--ifm-color-content-secondary); font-size: 0.9rem; font-weight: 600; }
+article.doc .api-breadcrumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.45rem; list-style: none; margin: 0; padding: 0; min-width: 0; }
+article.doc .api-breadcrumbs li { display: inline-flex; align-items: center; min-width: 0; margin: 0; padding: 0; }
+article.doc .api-breadcrumbs li + li::before { content: '/'; margin-right: 0.45rem; color: var(--ifm-color-content-secondary); opacity: 0.7; }
+article.doc .api-breadcrumbs a { color: var(--ifm-color-primary); text-decoration: none; }
+article.doc .api-breadcrumbs a:hover { color: var(--ifm-color-primary-dark); text-decoration: underline; }
+article.doc .api-breadcrumbs [aria-current='page'] { color: var(--ifm-color-content-secondary); overflow-wrap: anywhere; }
 article.doc h1.page:first-child { margin-top: 0; }
 article.doc h1, article.doc h2, article.doc h3, article.doc h4, article.doc h5, article.doc h6 { color: var(--ifm-color-content); }
 article.doc h1.sect0 { background: var(--ifm-color-emphasis-100); }

@@ -502,12 +502,65 @@
       current = parentList ? parentList.closest('.nav-item') : null;
     }
   }
+  function apiReferenceInfo() {
+    var segments = window.location.pathname.split('/').filter(Boolean);
+    for (var index = 0; index < segments.length - 2; index += 1) {
+      if (!segments[index].startsWith('beman.')) continue;
+      if (segments[index + 2] !== 'reference') continue;
+      var baseSegments = segments.slice(0, index + 3);
+      var tail = segments.slice(index + 3);
+      return {
+        component: segments[index],
+        componentLabel: segments[index].replace(/^beman\./, ''),
+        version: segments[index + 1],
+        tail: tail,
+        componentPath: '/' + segments.slice(0, index + 2).join('/') + '/index.html',
+        indexPath: '/' + baseSegments.join('/') + '/index.html',
+        isIndex: tail.length === 0 || (tail.length === 1 && tail[0] === 'index.html')
+      };
+    }
+    return null;
+  }
+  function normalizePath(path) {
+    return path.replace(/\/$/, '/index.html');
+  }
+  function markApiReferenceNav(panel) {
+    var info = apiReferenceInfo();
+    if (!info || !panel) return null;
+    var targetPath = normalizePath(info.indexPath);
+    var match = null;
+    panel.querySelectorAll('.nav-link').forEach(function (link) {
+      if (link.textContent.trim() !== 'API Reference') return;
+      var linkPath = normalizePath(new URL(link.getAttribute('href'), window.location.href).pathname);
+      if (linkPath !== targetPath) return;
+      match = link.closest('.nav-item');
+      link.classList.add('is-current-page');
+    });
+    if (match) {
+      match.classList.add('is-current-page', 'is-current-path');
+      expandAncestors(match);
+    }
+    return match;
+  }
+  function ensureNavItemVisible(panel, item) {
+    if (!panel || !item) return;
+    window.setTimeout(function () {
+      var itemTop = item.offsetTop;
+      var itemBottom = itemTop + item.offsetHeight;
+      var panelBottom = panel.scrollTop + panel.clientHeight;
+      if (itemTop < panel.scrollTop || itemBottom > panelBottom) {
+        panel.scrollTop = Math.max(0, itemTop - panel.clientHeight / 3);
+        saveScroll();
+      }
+    }, 0);
+  }
   function expandRequiredSections(panel) {
     panel.querySelectorAll('.nav-item').forEach(function (item) {
       var label = itemLabel(item);
       if (label === 'Project' || label === 'Libraries') item.classList.add('is-active');
     });
     panel.querySelectorAll('.nav-item.is-current-page, .nav-item.is-current-path').forEach(expandAncestors);
+    markApiReferenceNav(panel);
   }
   function restoreExpanded(panel) {
     var expanded = readExpanded();
@@ -569,14 +622,55 @@
     if (window.location.hash) window.setTimeout(function () { scrollArticleToHash(window.location.hash, 'auto'); }, 0);
     window.addEventListener('hashchange', function () { scrollArticleToHash(window.location.hash, 'auto'); });
   }
+  function installApiReferenceContext() {
+    var info = apiReferenceInfo();
+    if (!info) return;
+    var article = document.querySelector('article.doc');
+    if (!article || article.querySelector('.api-context')) return;
+    var anchor = article.querySelector('h1.page, h1, h2, .sect1, .paragraph, .listingblock, table') || article.firstElementChild;
+    var nav = document.createElement('nav');
+    nav.className = 'api-context';
+    nav.setAttribute('aria-label', 'API reference context');
+    var crumbs = document.createElement('ol');
+    crumbs.className = 'api-breadcrumbs';
+    function addCrumb(label, href) {
+      var item = document.createElement('li');
+      if (href) {
+        var link = document.createElement('a');
+        link.href = href;
+        link.textContent = label;
+        item.appendChild(link);
+      } else {
+        item.textContent = label;
+        item.setAttribute('aria-current', 'page');
+      }
+      crumbs.appendChild(item);
+    }
+    function pathLabel() {
+      var parts = info.tail.map(function (segment) {
+        var label = segment.replace(/\.html$/, '');
+        try { label = decodeURIComponent(label); } catch (err) {}
+        return label;
+      }).filter(Boolean);
+      return parts.length ? parts.join('::') : 'API Reference';
+    }
+    addCrumb(info.componentLabel, info.componentPath);
+    addCrumb('API Reference', info.isIndex ? null : info.indexPath);
+    if (!info.isIndex) addCrumb(pathLabel(), null);
+    nav.appendChild(crumbs);
+    if (anchor) article.insertBefore(nav, anchor);
+    else article.appendChild(nav);
+  }
   function install() {
     var panel = navPanel();
     if (panel) {
       restoreExpanded(panel);
       restoreScroll(panel);
+      ensureNavItemVisible(panel, markApiReferenceNav(panel));
       panel.addEventListener('click', function () { window.setTimeout(writeExpanded, 0); });
       panel.addEventListener('scroll', saveScroll, { passive: true });
     }
+    installApiReferenceContext();
     installAnchorScrolling();
     window.addEventListener('beforeunload', function () { writeExpanded(); saveScroll(); });
   }
