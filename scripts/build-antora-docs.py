@@ -8,6 +8,7 @@ from dataclasses import dataclass
 import html
 import posixpath
 import re
+import shlex
 import shutil
 import subprocess  # nosec B404
 import sys
@@ -849,7 +850,7 @@ def write_project_component(work_root: Path, global_nav: str) -> Path:
     return component_root
 
 
-def write_mrdocs_helpers(repo_root: Path) -> None:
+def write_mrdocs_helpers(repo_root: Path, component_title: str) -> None:
     scripts_dir = repo_root / "scripts"
     scripts_dir.mkdir(parents=True, exist_ok=True)
     wrapper = scripts_dir / "generate-antora-reference.sh"
@@ -862,62 +863,13 @@ def write_mrdocs_helpers(repo_root: Path) -> None:
                 "if ! mrdocs docs/mrdocs.yml --generator=adoc --output=build/mrdocs-reference --ignore-failures --ignore-map-errors; then",
                 "  test -f docs/build/mrdocs-reference/index.adoc",
                 "fi",
-                "python3 scripts/fix-mrdocs-antora.py docs/build/mrdocs-reference",
+                f"python3 scripts/fix-mrdocs-antora.py docs/build/mrdocs-reference --component-title {shlex.quote(component_title)}",
                 "",
             ]
         ),
     )
     wrapper.chmod(0o755)
-    write_text(
-        scripts_dir / "fix-mrdocs-antora.py",
-        "\n".join(
-            [
-                "#!/usr/bin/env python3",
-                "from pathlib import Path",
-                "import posixpath",
-                "import re",
-                "import sys",
-                "",
-                "root = Path(sys.argv[1])",
-                "",
-                "def safe_component(name):",
-                "    stem = Path(name).stem",
-                "    suffix = ''.join(Path(name).suffixes)",
-                "    if not stem.startswith('_'):",
-                "        return name",
-                "    leading = len(stem) - len(stem.lstrip('_'))",
-                "    safe_stem = '_'.join(['underscore'] * leading + [stem.lstrip('_') or 'symbol'])",
-                "    return safe_stem + suffix",
-                "",
-                "def safe_target_path(target):",
-                "    return '/'.join(safe_component(part) for part in target.split('/'))",
-                "",
-                "for path in sorted(root.rglob('*'), key=lambda p: len(p.relative_to(root).parts), reverse=True):",
-                "    safe_name = safe_component(path.name)",
-                "    if safe_name != path.name:",
-                "        path.rename(path.with_name(safe_name))",
-                "",
-                "def rewrite_xref(match):",
-                "    target = match.group(1)",
-                "    anchor = match.group(2) or ''",
-                "    if ':' in target:",
-                "        return match.group(0)",
-                "    normalized = posixpath.normpath(target).lstrip('./')",
-                "    while normalized.startswith('../'):",
-                "        normalized = normalized[3:]",
-                "    if normalized.startswith('reference/'):",
-                "        normalized = normalized.removeprefix('reference/')",
-                "    normalized = safe_target_path(normalized)",
-                "    return f'xref:reference/{normalized}{anchor}['",
-                "",
-                "for path in root.rglob('*.adoc'):",
-                "    content = path.read_text()",
-                "    content = re.sub(r'xref:([A-Za-z0-9_./-]+\\.adoc)(#[^\\[]*)?\\[', rewrite_xref, content)",
-                "    path.write_text(content)",
-                "",
-            ]
-        ),
-    )
+    shutil.copy2(WEBSITE_ROOT / "scripts" / "fix-mrdocs-antora.py", scripts_dir / "fix-mrdocs-antora.py")
 
 
 def write_library_component(
@@ -996,7 +948,7 @@ def write_library_component(
     if library["has_api"] and not skip_api_reference:
         mrdocs_config = prepare_staged_mrdocs_inputs(staged_repo, library["repo"])
         if mrdocs_config.exists():
-            write_mrdocs_helpers(staged_repo)
+            write_mrdocs_helpers(staged_repo, library["title"])
             antora_lines.extend(
                 [
                     "ext:",
