@@ -460,33 +460,38 @@ int main() {
 </div>
 </div>
 <div class="sect2">
-<h3 id="building-bemantask"><a class="anchor" href="#building-bemantask"></a>Building beman.task</h3>
+<h3 id="_dependencies"><a class="anchor" href="#_dependencies"></a>Dependencies</h3>
 <div class="sect3">
-<h4 id="_dependencies"><a class="anchor" href="#_dependencies"></a>Dependencies</h4>
+<h4 id="_build_environment"><a class="anchor" href="#_build_environment"></a>Build Environment</h4>
 <div class="paragraph">
-<p>This project depends on <a href="https://github.com/bemanproject/execution"><code>beman::execution</code></a> (which will be automatically obtained using <code>cmake&#8217;s `FetchContent*</code>).</p>
-</div>
-<div class="paragraph">
-<p>Build-time dependencies:</p>
+<p>This project requires at least the following to build:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>cmake</code></p>
+<p>A C compiler that conforms to the C23 standard or greater</p>
 </li>
 <li>
-<p><code>ninja</code>, <code>make</code>, or another CMake-supported build system</p>
-<div class="ulist">
-<ul>
+<p>CMake 3.30 or later</p>
+</li>
 <li>
-<p>CMake defaults to "Unix Makefiles" on POSIX systems</p>
+<p>(Test Only) GoogleTest</p>
+</li>
+<li>
+<p><a href="https://github.com/bemanproject/execution"><code>beman::execution</code></a> (auto-fetched via CMake FetchContent)</p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
+<div class="paragraph">
+<p>You can disable building tests by setting CMake option <code>BEMAN_TASK_BUILD_TESTS</code> to <code>OFF</code> when configuring the project.</p>
+</div>
+<div class="paragraph">
+<p>You can disable building examples by setting CMake option <code>BEMAN_TASK_BUILD_EXAMPLES</code> to <code>OFF</code> when configuring the project.</p>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="building-bemantask"><a class="anchor" href="#building-bemantask"></a>Building beman.task</h3>
 <div class="sect3">
 <h4 id="_supported_platforms"><a class="anchor" href="#_supported_platforms"></a>Supported Platforms</h4>
 <table class="tableblock frame-all grid-all stretch">

@@ -410,10 +410,16 @@
 <h2 id="bemanexecution-building-block-for-asynchronous-programs"><a class="anchor" href="#bemanexecution-building-block-for-asynchronous-programs"></a>beman.execution: Building Block For Asynchronous Programs</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg" alt="Library Status"></span></a> <span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp26.svg" alt="Standard Target"></span> <a href="https://coveralls.io/github/bemanproject/execution?branch=main"><span class="image"><img src="https://coveralls.io/repos/github/bemanproject/execution/badge.svg?branch=main" alt="Coverage"></span></a></p>
+<p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg" alt="Library Status"></span></a><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp26.svg" alt="Standard Target"></span><a href="https://coveralls.io/github/bemanproject/execution?branch=main"><span class="image"><img src="https://coveralls.io/repos/github/bemanproject/execution/badge.svg?branch=main" alt="Coverage"></span></a>https://godbolt.org/z/9nfa3rTTK[<span class="image"><img src="https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&amp;logoColor=67c52a" alt="Compiler Explorer Example"></span>]</p>
 </div>
 <div class="paragraph">
-<p><code>beman.execution</code> provides the basic vocabulary for asynchronous programming as well as important algorithms implemented in terms of this vocabulary. The key entities of the vocabulary are:</p>
+<p><code>beman.execution</code> provides the basic vocabulary for asynchronous programming as well as important algorithms implemented in terms of this vocabulary.</p>
+</div>
+<div class="paragraph">
+<p><strong>Implements</strong>: <a href="http://wg21.link/P2300R10"><code>std::execution</code> (P2300R10)</a>.</p>
+</div>
+<div class="paragraph">
+<p>The key entities of the vocabulary are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -498,9 +504,6 @@
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Implements:</strong> <a href="http://wg21.link/P2300R10"><code>std::execution</code> (P2300R10)</a>.</p>
-</div>
-<div class="paragraph">
 <p><strong>Status</strong>: <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#under-development-and-not-yet-ready-for-production-use">Under development and not yet ready for production use.</a></p>
 </div>
 <div class="sect2">
@@ -510,23 +513,30 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build"><a class="anchor" href="#_build"></a>Build</h3>
-
+<h3 id="_dependencies"><a class="anchor" href="#_dependencies"></a>Dependencies</h3>
+<div class="sect3">
+<h4 id="_build_environment"><a class="anchor" href="#_build_environment"></a>Build Environment</h4>
+<div class="paragraph">
+<p>This project requires at least the following to build:</p>
 </div>
-<div class="sect2">
-<h3 id="_preconditions"><a class="anchor" href="#_preconditions"></a>Preconditions</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>cmake v3.30 or newer</p>
+<p>A C compiler that conforms to the C23 standard or greater</p>
 </li>
 <li>
-<p>ninja v1.13.0 or newer</p>
+<p>CMake 3.30 or later</p>
 </li>
 <li>
-<p>A compiler that supports at least C++23</p>
+<p>(Test Only) GoogleTest</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>You can disable building tests by setting CMake option <code>BEMAN_EXECUTION_BUILD_TESTS</code> to <code>OFF</code> when configuring the project.</p>
+</div>
+<div class="paragraph">
+<p>You can disable building examples by setting CMake option <code>BEMAN_EXECUTION_BUILD_EXAMPLES</code> to <code>OFF</code> when configuring the project.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -576,6 +586,7 @@ CXX=g++-15 cmake --workflow --preset release</pre>
 </div>
 <div class="paragraph">
 <p>The implementation compiles and passes tests using <a href="https://clang.llvm.org/">clang</a>, <a href="http://gcc.gnu.org">gcc</a>, and <a href="https://visualstudio.microsoft.com/vs/features/cplusplus/">MSVC++</a>.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_supported_platforms"><a class="anchor" href="#_supported_platforms"></a>Supported Platforms</h4>
