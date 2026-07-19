@@ -410,7 +410,7 @@
 <h2 id="bemantask-beman-library-implementation-of-task-p3552"><a class="anchor" href="#bemantask-beman-library-implementation-of-task-p3552"></a>beman.task: Beman Library Implementation of <code>task</code> (P3552)</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg" alt="Library Status"></span></a><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp26.svg" alt="Standard Target"></span><a href="https://coveralls.io/github/bemanproject/task?branch=main"><span class="image"><img src="https://coveralls.io/repos/github/bemanproject/task/badge.svg?branch=main" alt="Coverage"></span></a>https://godbolt.org/z/e1sjsT46r[<span class="image"><img src="https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&amp;logoColor=67c52a" alt="Compiler Explorer Example"></span>]</p>
+<p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg" alt="Library Status"></span></a><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp26.svg" alt="Standard Target"></span><a href="https://coveralls.io/github/bemanproject/task?branch=main"><span class="image"><img src="https://coveralls.io/repos/github/bemanproject/task/badge.svg?branch=main" alt="Coverage"></span></a>https://godbolt.org/z/anYY59nYd[<span class="image"><img src="https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&amp;logoColor=67c52a" alt="Compiler Explorer Example"></span>]</p>
 </div>
 <div class="paragraph">
 <p><code>beman::execution::task&lt;T, Context&gt;</code> is a class template which is used as the the type of coroutine tasks. The corresponding objects are senders. The first template argument (<code>T</code>) defines the result type which becomes a <code>set_value_t(T)</code> completion signatures. The second template argument (<code>Context</code>) provides a way to configure the behavior of the coroutine. By default it can be left alone.</p>
@@ -434,8 +434,8 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;beman/task/task.hpp&gt;
-#include &lt;beman/execution/execution.hpp&gt;
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">#include &lt;beman/task.hpp&gt;
+#include &lt;beman/execution.hpp&gt;
 #include &lt;iostream&gt;
 
 namespace ex = beman::execution;
