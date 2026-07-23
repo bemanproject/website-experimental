@@ -494,6 +494,34 @@ beman::optional::optional&lt;Cat&amp;&gt; cat = api();</code></pre>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_dependencies"><a class="anchor" href="#_dependencies"></a>Dependencies</h3>
+<div class="sect3">
+<h4 id="_build_environment"><a class="anchor" href="#_build_environment"></a>Build Environment</h4>
+<div class="paragraph">
+<p>This project requires at least the following to build:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A C compiler that conforms to the C20 standard or greater</p>
+</li>
+<li>
+<p>CMake 3.27 or later</p>
+</li>
+<li>
+<p>(Test Only) GoogleTest</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can disable building tests by setting CMake option <code>BEMAN_OPTIONAL_BUILD_TESTS</code> to <code>OFF</code> when configuring the project.</p>
+</div>
+<div class="paragraph">
+<p>You can disable building examples by setting CMake option <code>BEMAN_OPTIONAL_BUILD_EXAMPLES</code> to <code>OFF</code> when configuring the project.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_how_to_build"><a class="anchor" href="#_how_to_build"></a>How to Build</h3>
 <div class="sect3">
 <h4 id="_compiler_support"><a class="anchor" href="#_compiler_support"></a>Compiler Support</h4>
@@ -505,7 +533,7 @@ beman::optional::optional&lt;Cat&amp;&gt; cat = api();</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_dependencies"><a class="anchor" href="#_dependencies"></a>Dependencies</h4>
+<h4 id="_dependencies_2"><a class="anchor" href="#_dependencies_2"></a>Dependencies</h4>
 <div class="paragraph">
 <p>Build-time dependencies:</p>
 </div>
@@ -689,7 +717,7 @@ apt-get install                           \
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell"># Configure build: default build production code + tests (OPTIONAL_ENABLE_TESTING=ON by default).
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell"># Configure build: default build production code + tests (BEMAN_OPTIONAL_BUILD_TESTS=ON by default).
 $ cmake -G "Ninja Multi-Config" \
       -DCMAKE_CONFIGURATION_TYPES="RelWithDebInfo;Asan" \
       -DCMAKE_TOOLCHAIN_FILE=etc/clang-19-toolchain.cmake \
@@ -717,15 +745,15 @@ Total Test time (real) =   0.67 sec</code></pre>
 <div class="sect3">
 <h4 id="_build_production_but_skip_tests"><a class="anchor" href="#_build_production_but_skip_tests"></a>Build Production, but Skip Tests</h4>
 <div class="paragraph">
-<p>By default, we build and run tests. You can provide <code>-DOPTIONAL_ENABLE_TESTING=OFF</code> and completely disable building tests:</p>
+<p>By default, we build and run tests. You can disable building tests by setting CMake option <code>BEMAN_OPTIONAL_BUILD_TESTS</code> to <code>OFF</code> when configuring the project:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell"># Configure build: build production code, skip tests (OPTIONAL_ENABLE_TESTING=OFF).
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell"># Configure build: build production code, skip tests (BEMAN_OPTIONAL_BUILD_TESTS=OFF).
 $ cmake -G "Ninja Multi-Config" \
       -DCMAKE_CONFIGURATION_TYPES="RelWithDebInfo;Asan" \
       -DCMAKE_TOOLCHAIN_FILE=etc/clang-19-toolchain.cmake \
-      -DOPTIONAL_ENABLE_TESTING=OFF \
+      -DBEMAN_OPTIONAL_BUILD_TESTS=OFF \
       -B .build -S .
 -- The CXX compiler identification is Clang 19.0.0
 ...
