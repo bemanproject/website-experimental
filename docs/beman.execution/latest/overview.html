@@ -650,7 +650,7 @@ static_assert(not std::execution::receiver_of&lt;example_receiver,
 <summary class="title"><code>sender&lt;<i>Sender</i>&gt;</code></summary>
 <div class="content">
 <div class="paragraph">
-<p>Senders represent asynchronous work. They may get composed from multiple senders to model a workflow. Senders can’t be run directly. Instead, they are passed to a &lt;a href=‘#sender-consumer’ which <code>connect`s the sender to a `receiver</code> to produce an <code>operation_state</code> which may get started. When using senders to represent work the inner workings shouldn’t matter. They do become relevant when creating sender algorithms.</p>
+<p>Senders represent asynchronous work. They may get composed from multiple senders to model a workflow. Senders can’t be run directly. Instead, they are passed to a sender consumer which <code>connect`s the sender to a `receiver</code> to produce an <code>operation_state</code> which may get started. When using senders to represent work the inner workings shouldn’t matter. They do become relevant when creating sender algorithms.</p>
 </div>
 <div class="paragraph">
 <p>Requirements for <code><em>Sender</em></code>:</p>
@@ -741,10 +741,10 @@ static_assert(std::execution::sender&lt;example_sender&gt;);</code></pre>
 </div>
 </details>
 <details>
-<summary class="title"><code>sender_to&lt;<i>Sender, Receiver</i>&gt;</code></summary>
+<summary class="title"><code><i>sender-to</i>&lt;<i>Sender, Receiver</i>&gt;</code></summary>
 <div class="content">
 <div class="paragraph">
-<p>The concept <code>sender_to&lt;Sender, Receiver&gt;</code> tests if <code>std::execution::sender_in&lt;_Sender_, std::execution::env_of_t&lt;_Receiver_&gt;&gt;</code> is true, and if <code><em>Receiver</em></code> can receive all completion signals which can be sent by <code><em>Sender</em></code>, and if <code><em>Sender</em></code> can be <code>connect`ed to `<em>Receiver</em></code>.</p>
+<p>The concept <code>sender-to&lt;Sender, Receiver&gt;</code> tests if <code>std::execution::sender_in&lt;_Sender_, std::execution::env_of_t&lt;_Receiver_&gt;&gt;</code> is true, and if <code><em>Receiver</em></code> can receive all completion signals which can be sent by <code><em>Sender</em></code>, and if <code><em>Sender</em></code> can be <code>connect`ed to `<em>Receiver</em></code>.</p>
 </div>
 <div class="paragraph">
 <p>To determine if <code><em>Receiver</em></code> can receive all completion signals from <code><em>Sender</em></code> it checks that for each <code><em>Signature</em></code> in <code>std::execution::get_completion_signals(<em>sender</em>, std::declval&lt;std::execution::env_of_t&lt;_Receiver_&gt;&gt;())</code> the test <code>std::execution::receiver_of&lt;_Receiver_, <em>Signature</em>&gt;</code> yields true. To determine if <code><em>Sender</em></code> can be <code>connect`ed to `<em>Receiver</em></code> the concept checks if <code>connect(std::declval&lt;_Sender_&gt;(), std::declval&lt;_Receiver_&gt;)</code> is a valid expression.</p>
@@ -941,6 +941,12 @@ static_assert(not std::execution::unstoppable_token&lt;std::execution::inline_st
 </li>
 <li>
 <p>The result is <code>true</code> if the type of <code>query</code> is <code>public`ly derived from `forwarding_query</code>.</p>
+</li>
+<li>
+<p>Otherwise the result is <code>false</code>.</p>
+</li>
+</ol>
+</div>
 <details>
 <summary class="title">Example</summary>
 <div class="content">
@@ -970,9 +976,6 @@ inline constexpr custom_t custom{};</pre>
 </div>
 </div>
 </details>
-</li>
-</ol>
-</div>
 </div>
 </details>
 <details>
@@ -1064,13 +1067,43 @@ struct queryable {
 </div>
 </details>
 <details>
+<summary class="title"><code>get_completion_domain&lt;<i>Tag</i>&gt;(<i>attrs</i>) -> <i>domain</i></code></summary>
+<div class="content">
+<div class="paragraph">
+<p><strong>Default</strong>: <em>none</em></p>
+</div>
+<div class="paragraph">
+<p>The expression <code>get_completion_domain&lt;Tag&gt;(attrs)</code> yields the completion domain for the completion signal <code>Tag</code> associated with the sender <code>attrs</code>. This query can be used to determine the domain a sender <code>sender</code> completes on for a given completion signal <code>Tag</code> by using <code>get_completion_domain&lt;Tag&gt;(get_env(sender), ev&#8230;&#8203;)</code>. The value of the expression is</p>
+</div>
+<div class="paragraph">
+<p>Otherwise the expression is invalid.</p>
+</div>
+</div>
+</details>
+<details>
 <summary class="title"><code>get_completion_scheduler&lt;<i>Tag</i>&gt;(<i>env</i>) -> <i>scheduler</i></code></summary>
 <div class="content">
 <div class="paragraph">
 <p><strong>Default</strong>: <em>none</em></p>
 </div>
 <div class="paragraph">
-<p>The expression <code>get_complet_scheduler&lt;Tag&gt;(env)</code> yields the completion scheduler for the completion signal <code>Tag</code> associated with <code>env</code>. This query can be used to determine the scheduler a sender <code>sender</code> completes on for a given completion signal <code>Tag</code> by using <code>get_completion_scheduler&lt;Tag&gt;(get_env(sender))</code>. The value of the expression is equivalent to <code>as_const(env).query(get_completion_scheduler&lt;Tag&gt;)</code> if</p>
+<p>The expression <code>get_completion_scheduler&lt;Tag&gt;(env)</code> yields the completion scheduler for the completion signal <code>Tag</code> associated with <code>env</code>. This query can be used to determine the scheduler a sender <code>sender</code> completes on for a given completion signal <code>Tag</code> by using <code>get_completion_scheduler&lt;Tag&gt;(get_env(sender))</code>. The value of the expression is equivalent to <code>as_const(env).query(get_completion_scheduler&lt;Tag&gt;)</code> if</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>Tag</code> is one of the types <code>set_value_t</code>, <code>set_error_t</code>, or <code>set_stopped_t</code>;</p>
+</li>
+<li>
+<p>this expression is valid;</p>
+</li>
+<li>
+<p>this expression is <code>noexcept</code>;</p>
+</li>
+<li>
+<p>the expression’s type satisfies <code>scheduler</code>.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p>Otherwise the expression is invalid.</p>
@@ -1138,11 +1171,14 @@ struct queryable {
 </li>
 <li>
 <p>this expression is <code>noexcept</code>;</p>
-<div class="paragraph">
-<p>Otherwise the expression is invalid.</p>
-</div>
+</li>
+<li>
+<p>the expression’s type satisfies <code>scheduler</code>.</p>
 </li>
 </ol>
+</div>
+<div class="paragraph">
+<p>Otherwise the expression is invalid.</p>
 </div>
 </div>
 </details>
@@ -1150,15 +1186,18 @@ struct queryable {
 <summary class="title"><code>get_domain(<i>env</i>) -> <i>domain</i></code></summary>
 <div class="content">
 <div class="paragraph">
-<p>The expression <code>get_domain(env)</code> yields the domain associated with <code>env</code>. The value of the expression is equivalent to <code>as_const(env).query(get_domain)</code> if</p>
+<p>The expression <code>get_domain(env)</code> yields the domain associated with <code>env</code>. The value of the expression is equivalent to</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>this expression is valid;</p>
+<p><code>auto(as_const(env).query(get_domain))</code> if this expression is valid;</p>
 </li>
 <li>
-<p>this expression is <code>noexcept</code>.</p>
+<p>otherwise, <code>get_completion_domain&lt;set_value_t&gt;(get_scheduler(env), HIDE-SCHED(env))</code> if this expression is valid;</p>
+</li>
+<li>
+<p><code>default_domain()</code> (except <code>env</code> is evaluated).</p>
 </li>
 </ol>
 </div>
@@ -1171,7 +1210,7 @@ struct queryable {
 <summary class="title"><code>get_forward_progress_guarantee(<i>scheduler</i>) -> forward_progress_guarantee</code></summary>
 <div class="content">
 <div class="paragraph">
-<p>The expression <code>get_forward_progress_guarantee(scheduler)</code> yields the forward progress guarantee of the <em>scheduler</em>’s execution agent. The value of the expression is equivalent to <code>as_const(env).query(get_scheduler)</code> if</p>
+<p>The expression <code>get_forward_progress_guarantee(scheduler)</code> yields the forward progress guarantee of the <em>scheduler</em>’s execution agent. The value of the expression is equivalent to <code>as_const(env).query(get_forward_progress_guarantee)</code> if</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1206,6 +1245,30 @@ struct queryable {
 </div>
 </li>
 </ol>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>get_start_scheduler(<i>env</i>) -> <i>scheduler</i></code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>get_start_scheduler(env)</code> yields the scheduler associated with <code>env</code>. The value of the expression is equivalent to <code>as_const(env).query(get_scheduler)</code> if</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>this expression is valid;</p>
+</li>
+<li>
+<p>this expression is <code>noexcept</code>;</p>
+<div class="paragraph">
+<p>Otherwise the expression is invalid.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>If the expression <code>get_start_scheduler(get_env(rcvr))</code> is well-formed it should yield the scheduler the operation state resulting from <code>connect(sndr&gt;, rcvr)</code> gets `start`ed on.</p>
 </div>
 </div>
 </details>
@@ -1350,11 +1413,18 @@ struct queryable {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++"></code></pre>
+<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">auto token = co_await read_env(get_stop_token);</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><strong>Completions</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>set_value_t(decltype(query(get_env(receiver))))</code></p>
+</li>
+</ul>
 </div>
 </div>
 </details>
@@ -1374,6 +1444,9 @@ struct queryable {
 </li>
 <li>
 <p><code>set_error_t(Error)</code> upon failure if <code>scheduler</code> may fail</p>
+</li>
+<li>
+<p><code>set_stopped_t()</code> upon cancellation if <code>scheduler</code> supports cancellation</p>
 </li>
 </ul>
 </div>
@@ -1400,7 +1473,25 @@ struct queryable {
 </div>
 </details>
 <details>
-<summary class="title">bulk</summary>
+<summary class="title"><code>associate(<i>sndr</i>, <i>token</i>) -> <i>sender</i></code></summary>
+<div class="content">
+
+</div>
+</details>
+<details>
+<summary class="title"><code>bulk(<i>sndr</i>, <i>policy</i>, <i>shape</i>, <i>fun</i>) -> <i>sender</i></code></summary>
+<div class="content">
+
+</div>
+</details>
+<details>
+<summary class="title"><code>bulk_chunked(<i>sndr</i>, <i>policy</i>, <i>shape</i>, <i>fun</i>) -> <i>sender</i></code></summary>
+<div class="content">
+
+</div>
+</details>
+<details>
+<summary class="title"><code>bulk_unchunked(<i>sndr</i>, <i>policy</i>, <i>shape</i>, <i>fun</i>) -> <i>sender</i></code></summary>
 <div class="content">
 
 </div>
@@ -1437,29 +1528,58 @@ struct queryable {
 <details>
 <summary class="title"><code>let_error(<i>upstream</i>, <i>fun</i>) -> <i>sender</i></code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The expression <code>let_error(upstream, fun)</code> yields a sender <code>sndr</code> which uses an error completion (<code>set_error</code>) of <code>upstream</code> as an argument to invoke <code>fun</code> which has to return another sender <code>inner-sndr</code> and the completion of <code>inner-sndr</code> becomes the completion of <code>sndr</code>. If this invocation results in an exception <code>sndr</code> completes with an error completion the result of <code>std::current_exception</code>. If <code>upstream</code> completes successfully (<code>set_value</code>) or with a cancellation (<code>set_stopped</code>) this completion becomes the completion of <code>sndr</code>.</p>
+</div>
 </div>
 </details>
 <details>
 <summary class="title"><code>let_stopped(<i>upstream</i>, <i>fun</i>) -> <i>sender</i></code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The expression <code>let_stopped(upstream, fun)</code> yields a sender <code>sndr</code> which uses a cancellation completion (<code>set_stopped</code>) of <code>upstream</code> to invoke <code>fun</code> which has to return another sender <code>inner-sndr</code> and the completion of <code>inner-sndr</code> becomes the completion of <code>sndr</code>. If this invocation results in an exception <code>sndr</code> completes with an error completion the result of <code>std::current_exception</code>. If <code>upstream</code> completes successfully (<code>set_value</code>) or with an error (<code>set_error</code>) this completion becomes the completion of <code>sndr</code>.</p>
+</div>
 </div>
 </details>
 <details>
 <summary class="title"><code>let_value(<i>upstream</i>, <i>fun</i>) -> <i>sender</i></code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The expression <code>let_value(upstream, fun)</code> yields a sender <code>sndr</code> which uses a successful completion (<code>set_value</code>) of <code>upstream</code> as arguments to invoke <code>fun</code> which has to return another sender <code>inner-sndr</code> and the completion of <code>inner-sndr</code> becomes the completion of <code>sndr</code>. If this invocation results in an exception <code>sndr</code> completes with an error completion the result of <code>std::current_exception</code>. If <code>upstream</code> completes with a cancellation (<code>set_stopped</code>) or with an error (<code>set_error</code>) this completion becomes the completion of <code>sndr</code>.</p>
+</div>
 </div>
 </details>
 <details>
-<summary class="title"><code>on(_sched_, _sndr_)</code></summary>
+<summary class="title"><code>on(_sched_, _sndr_)</code>, <code>on(_sndr, _sched_, _closure_)</code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The <code>on</code> algorithm is a pipeable sender adaptor. Let <code>on-sender</code> be</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code><em>sndr</em></code> when the form <code>on(<em>sched</em>, <em>sndr</em>)</code> is used;</p>
+</li>
+<li>
+<p><code><em>closure</em>(<em>sndr</em>)</code> when the form <code>on(<em>sndr</em>, <em>sched</em>, <em>closure</em>)</code> is used.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The sender <code>on-sndr</code> is started on <code><em>sched</em>&#8217;s execution context. The `on</code> algorithm completes on the original scheduler (obtained using <code>get_start_scheduler</code>) with the result of the <code>on-sndr</code>.</p>
+</div>
 </div>
 </details>
 <details>
-<summary class="title"><code>schedule_from(<i>scheduler</i>, <i>sender</i>) -> <i>sender</i></code></summary>
+<summary class="title"><code>schedule_from(<i>sender</i>) -> <i>sender</i></code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>schedule_from(sender)</code> yields a sender which behaves likes <code>sender</code>. The purpose of the <code>schedule_from</code> is to allow schedulers to customize the way how to transition off the execution context.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>spawn_future(<i>sndr</i>, <i>token</i>) -> <i>sender</i></code></summary>
 <div class="content">
 
 </div>
@@ -1473,17 +1593,19 @@ struct queryable {
 <details>
 <summary class="title"><code>starts_on(<i>scheduler</i>, <i>sender</i>) -> <i>sender</i></code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The expression <code>starts_on(scheduler, sender)</code> yields a sender which starts <code>sender</code> on the <code>scheduler&#8217;s context, i.e., it starts `schedule(scheduler)</code> and then starts <code>sender</code> where the scheduler&#8217;s sender completes.</p>
+</div>
 </div>
 </details>
 <details>
-<summary class="title">stopped_as_error</summary>
+<summary class="title"><code>stopped_as_error(<i>sndr</i>)</code></summary>
 <div class="content">
 
 </div>
 </details>
 <details>
-<summary class="title">stopped_as_optional</summary>
+<summary class="title"><code>stopped_as_optional(<i>sndr</i>)</code></summary>
 <div class="content">
 
 </div>
@@ -1491,25 +1613,41 @@ struct queryable {
 <details>
 <summary class="title"><code>then(<i>upstream</i>, <i>fun</i>) -> <i>sender</i></code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The expression <code>then(upstream, fun)</code> yields a sender <code>sndr</code> which on successful completion of <code>upstream</code> (<code>set_value</code>) calls <code>fun</code> with the arguments passed to <code>set_value</code> and yields the function return as its own result. If the function throws or <code>upstream</code> completes with an error (<code>set_error</code>) the exception or the error becomes <code>sndr&#8217;s result. If `upstream</code> completes with a cancellation (<code>set_stopped</code>).</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>unstoppable(<i>sender</i>) -> <i>sender</i></code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>unstoppable(sender)</code> yields a sender which passes its receiver&#8217;s environment to <code>sender</code> except that the <code>get_stop_token</code> query return <code>never_stop_token</code>: the resulting sender behaves like <code>sender</code> except that it is unstoppable.</p>
+</div>
 </div>
 </details>
 <details>
 <summary class="title"><code>upon_error(<i>upstream</i>, <i>fun</i>) -> <i>sender</i></code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The expression <code>upon_error(upstream, fun)</code> yields a sender <code>sndr</code> which passes an error completion (<code>set_error</code>) of <code>upstream</code> to <code>fun</code> and uses this result of this function invocation for its own successful (<code>set_value</code>) completion. If the function invocation throws <code>std::current_exception()</code> becomes <code>sndr&#8217;s error (`set_error</code>) completion. The success (<code>set_value</code>) and cancellation (<code>set_stopped</code>) completions of <code>upstream</code> are forwarded.</p>
+</div>
 </div>
 </details>
 <details>
 <summary class="title"><code>upon_stopped(<i>upstream</i>, <i>fun</i>) -> <i>sender</i></code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The expression <code>upon_stopped(upstream, fun)</code> yields a sender <code>sndr</code> which turns a cancellation completion (<code>set_stopped</code>) result of <code>upstream</code> to <code>fun</code> and uses this result of this function invocation for its own successful (<code>set_value</code>) completion. If the function invocation throws <code>std::current_exception()</code> becomes <code>sndr&#8217;s error (`set_error</code>) completion. The success (<code>set_value</code>) and error (<code>set_error</code>) completions of <code>upstream</code> are forwarded.</p>
+</div>
 </div>
 </details>
 <details>
 <summary class="title"><code>when_all(<i>sender</i>...) -> <i>sender</i></code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The expression <code>when_all(sender&#8230;&#8203;)</code> yields a sender <code>sndr</code> which completes successfully (<code>set_value</code>) when all nested senders <code>sender&#8230;&#8203;</code> completed successfully using the results of the nested senders in order. If any of the senders completes with an error (<code>set_error</code>) or a cancellation (<code>set_stopped</code>) the first such completion becomes the completion of <code>sndr</code> once all nested senders completed. A stop is requested for the stop source(s) whose token was passed to the nested senders.</p>
+</div>
 </div>
 </details>
 <details>
@@ -1521,7 +1659,9 @@ struct queryable {
 <details>
 <summary class="title"><code>write_env(<i>sender</i>, <i>env</i>) -> <i>sender</i></code></summary>
 <div class="content">
-
+<div class="paragraph">
+<p>The expression <code>write_env(sender, env)</code> creates a sender which passes a receiver to <code>sender</code> which combines the environment <code>env</code> with the environment from the receiver&#8217;s environment. The queries from <code>env</code> take precedence over those from the receiver&#8217;s environment.</p>
+</div>
 </div>
 </details>
 </div>
@@ -1529,32 +1669,97 @@ struct queryable {
 <div class="sect1">
 <h2 id="_sender_consumers"><a class="anchor" href="#_sender_consumers"></a>Sender Consumers</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><code>sync_wait(sender) &#8594; std::optional&lt;std::tuple&lt;T&#8230;&#8203;&gt;&gt;</code></p>
-</li>
-</ul>
+<details>
+<summary class="title"><code>sync_wait(<i>sender</i>) -> std::optional&lt;std::tuple&lt;T...&gt;&gt;</code></summary>
+<div class="content">
+
 </div>
+</details>
+<details>
+<summary class="title"><code>sync_wait_with_variant(<i>sender</i>) -> std::optional&lt;std::variant&lt;std::tuple&lt;T...&gt;...&gt;&gt;</code></summary>
+<div class="content">
+
+</div>
+</details>
+<details>
+<summary class="title"><code>spawn(<i>sndr</i>, <i>token</i>) -> void</code></summary>
+<div class="content">
+
+</div>
+</details>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_helpers"><a class="anchor" href="#_helpers"></a>Helpers</h2>
 <div class="sectionbody">
+<details>
+<summary class="title"><code><i>adapt-for-await-completion</i>(<i>s</i>)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression is equivalent to <code>get_await_completion_adaptor(get_env(s))(s)</code> except that <code>s</code> is evaluated only once.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>as_awaitable(<i>expr</i>, <i>promise</i>)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>as_awaitable(expr, promise)</code> tries to create an awaitable from <code>expr</code> and <code>promise</code>. It tries the following transformations:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>expr.as_awaitable(promise)</code> if this expression is well-formed; otherwise</p>
+</li>
+<li>
+<p><code>adapt-for-await-completion(transform_sender(expr, get_env(promise)))</code> if this expression is well-formed; otherwise</p>
+</li>
+<li>
+<p><code>expr</code> if <code>GET-AWAITER(expr)</code> is an awaiter for <code>promise</code>; otherwise.</p>
+</li>
+<li>
+<p><code>sender-awaitable{adapt-for-await-completion(transform_sender(expr, get_env(promise))), promise}</code> if this expression is well-formed; otherwise</p>
+</li>
+<li>
+<p><code>expr</code></p>
+</li>
+</ol>
+</div>
+</div>
+</details>
 <div class="ulist">
 <ul>
-<li>
-<p><code>as_awaitable</code></p>
-</li>
 <li>
 <p><code>with_awaitable_sender</code></p>
 </li>
 <li>
 <p><code>apply_sender</code></p>
 </li>
+</ul>
+</div>
+<details>
+<summary class="title"><code>completion_signatures&lt;<i>Sig</i>...&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The template specialization <code>completion_signatures&lt;Sig&#8230;&#8203;&gt;</code> is a list of completion signatures used to declare and compute the result types of senders.</p>
+</div>
+<div class="paragraph">
+<p>It has two exposition-only members template:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p><code>completion_signatures</code></p>
+<p><code>count-of(tag)</code> providing a constant expression with the count of <code>tag</code> completions.</p>
 </li>
+<li>
+<p><code>for-each(fun)</code> invoking <code>fun</code> with a pointer to each of the completion signatures <code>Sig&#8230;&#8203;</code>. The function is used to verify the completion signature types.</p>
+</li>
+</ol>
+</div>
+</div>
+</details>
+<div class="ulist">
+<ul>
 <li>
 <p><code>completion_signatures_t</code></p>
 </li>
@@ -1564,27 +1769,76 @@ struct queryable {
 <li>
 <p><code>default_domain</code></p>
 </li>
-<li>
-<p><code>env&lt;T&#8230;&#8203;&gt;</code></p>
-</li>
+</ul>
+</div>
+<details>
+<summary class="title"><code>env&lt;Ev...&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>env(ev&#8230;&#8203;)</code> creates an environment by combining the environments <code>ev&#8230;&#8203;</code>. If multiple of the environments support an identical query, the first one from the first environment is used.</p>
+</div>
+</div>
+</details>
+<div class="ulist">
+<ul>
 <li>
 <p><code>env_of_t</code></p>
 </li>
-<li>
-<p><code>error_types_of_t</code></p>
-</li>
+</ul>
+</div>
+<details>
+<summary class="title"><code>error_types_of_t&lt;<i>Sndr</i>, <i>Env</i> = env&lt;&gt;, <i>Variant</i> = <i>variant-or-empty</i>&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The template specialization <code>error_types_of_t&lt;sndr, Env, Variant&gt;</code> gets <code>Sndr</code> error completion signatures when using the environment <code>Env</code>. The results is represented as a <code>Variant&lt;E&#8230;&#8203;</code> where <code>E&#8230;&#8203;</code> is the list of argument types to the completion signatures.</p>
+</div>
+</div>
+</details>
+<div class="ulist">
+<ul>
 <li>
 <p><code>fwd_env</code></p>
 </li>
 <li>
 <p><code>operation_state_tag</code></p>
 </li>
+</ul>
+</div>
+<details>
+<summary class="title"><code>prop&lt;Query, Value&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>prop(query, value)</code> create an object which can be queried for query <code>query</code> which results in <code>value</code>.</p>
+</div>
+</div>
+</details>
+<div class="ulist">
+<ul>
 <li>
 <p><code>receiver_tag</code></p>
 </li>
+</ul>
+</div>
+<details>
+<summary class="title"><code>run_loop</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The class <code>run_loop</code> provides a scheduler to execute work on. It is used to implement <code>sync_wait(sndr)</code>. The <code>public</code> methods on an object <code>loop</code> of type <code>run_loop</code> are:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p><code>run_loop</code></p>
+<p><code>loop.get_scheduler()</code> to get a scheduler scheduling work on <code>loop</code>.</p>
 </li>
+<li>
+<p><code>loop.finish()</code> to request <code>loop</code> to exit processing work items. Note that <code>run_loop</code> doesn&#8217;t maintain a stop source, i.e., when this operation is invoked the work doesn&#8217;t get cancelled.</p>
+</li>
+</ul>
+</div>
+</div>
+</details>
+<div class="ulist">
+<ul>
 <li>
 <p><code>scheduler_tag</code></p>
 </li>
@@ -1597,12 +1851,40 @@ struct queryable {
 <li>
 <p><code>sender_tag</code></p>
 </li>
+</ul>
+</div>
+<details>
+<summary class="title"><code>bool sends_stopped&lt;<i>Sndr</i>, <i>Env</i> = env&lt;&gt;&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The Boolean variable <code>sends_stopped&lt;Sndr, Env&gt;</code> is <code>true</code> if the completion signatures of <code>Sndr</code> when using the environment <code>Env</code> contain a cancellation signature (<code>set_stopped_t()</code>).</p>
+</div>
+</div>
+</details>
+<div class="ulist">
+<ul>
 <li>
 <p><code>stop_token_of_t</code></p>
 </li>
+</ul>
+</div>
+<details>
+<summary class="title"><code>tag_of_t&lt;Sndr&gt;</code></summary>
+<div class="content">
+<div class="ulist">
+<ul>
 <li>
-<p><code>tag_of_t</code></p>
+<p>if <code>auto&amp;&amp;[tag, data, children&#8230;&#8203;] = sndr;</code> is well-formed the type <code>decltype(auto(tag))</code>;</p>
 </li>
+<li>
+<p>otherwise ill-formed.</p>
+</li>
+</ul>
+</div>
+</div>
+</details>
+<div class="ulist">
+<ul>
 <li>
 <p><code>transform_sender</code></p>
 </li>
@@ -1612,11 +1894,16 @@ struct queryable {
 <li>
 <p><code>transform_completion_signatures_of</code></p>
 </li>
-<li>
-<p><code>value_types_of_t</code></p>
-</li>
 </ul>
 </div>
+<details>
+<summary class="title"><code>value_types_of_t&lt;<i>Sndr</i>, <i>Env</i> = env&lt;&gt;, <i>Tuple</i> = <i>decayed-tuple</i>, <i>Variant</i> = <i>variant-or-empty</i>&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The template specialization <code>value_types_of_t&lt;Sndr, Env, Tuple, Variant&gt;</code> gets <code>Sndr</code> success completion signatures when using the environment <code>Env</code>. The resulting type is a <code>Variant</code> of <code>Tuple</code> elements where each <code>Tuple</code> represents the argument types of one of the value completion signatures.</p>
+</div>
+</div>
+</details>
 </div>
 </div>
 <div class="sect1">
@@ -1635,6 +1922,364 @@ struct queryable {
 </li>
 </ul>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_exposition_only"><a class="anchor" href="#_exposition_only"></a>Exposition Only</h2>
+<div class="sectionbody">
+<details>
+<summary class="title"><code><i>as-except-ptr</i>(err)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Turns <code>err</code> smartly into an <code>exception_ptr</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>if <code>same_as&lt;decay_t&lt;decltype(err)&gt;, exception_ptr&gt;</code> ⇒ <code>err</code></p>
+</li>
+<li>
+<p>else if <code>same_as&lt;decay_t&lt;decltype(err)&gt;, error_code&gt;</code> ⇒ <code>make_exception_ptr(system_error(err))</code></p>
+</li>
+<li>
+<p>else <code>make_exception_ptr(err)</code></p>
+</li>
+</ol>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>awaitable-sender</i>&lt;Sndr, Promise&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The concept check <code>awaitable-sender&lt;Sndr, Promise&gt;</code> determines if the <code>Sndr</code> could work with the environment provided by <code>Promise</code> and if <code>Promise</code> supports a suitable <code>unhandled_stopped()</code> method.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>class-type</i>&lt;T&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Determines if the type <code>T</code> is a decayed class type: <code>decays-to&lt;T, T&gt; &amp;&amp; is_class_v&lt;T&gt;</code></p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>COMMON-DOMAIN</i>(domains...)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>COMMON-DOMAIN(domains&#8230;&#8203;)</code> is</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>common_type_t&lt;decltype(auto(domains))&#8230;&#8203;&gt;()</code> if this expression is valid</p>
+</li>
+<li>
+<p><code>indeterminate_domain&lt;decltype(auto(domains))&#8230;&#8203;&gt;()</code> with duplicates removed from the template arguments</p>
+</li>
+</ul>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>COMPL-DOMAIN</i>&lt;Tag&gt;(sndr, ev...)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>COMPL-DOMAIN&lt;Tag&gt;(sndr, ev&#8230;&#8203;)</code> gets <code>sndr`s completion domain given the optional environment `ev&#8230;&#8203;</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>get_completion_domain(get_env(sndr), ev..)</code> if this expression is well-formed,</p>
+</li>
+<li>
+<p><code>indeterminate_domain()</code> otherwise.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: it seems this exposition-only name is actually unused!</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>completion-signature</i>&lt;Signature&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>This concept determines if the type <code>Signature</code> is a completion signature, i.e., if it has one of these three forms:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>set_value_t(T&#8230;&#8203;)</code></p>
+</li>
+<li>
+<p><code>set_error_t(T)</code></p>
+</li>
+<li>
+<p><code>set_stopped_t()</code></p>
+</li>
+</ol>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>decays-to</i>&lt;From, To&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Determines if <code>To</code> is the result of decaying the type <code>From</code>: <code>same_as&lt;decay_t&lt;From&gt;, To&gt;</code></p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>FWD-ENV</i>(env)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>FWD-ENV(env)</code> yields a queryable object <code>q</code> supporting only forwardable queries. Let <code>qry</code> be a query object and <code>a&#8230;&#8203;</code> be a possibly emnpty pack of arguments. Then <code>q.query(qry, a&#8230;&#8203;)</code> is</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>equivalent to <code>env.query(qry, a&#8230;&#8203;)</code> if <code>forwarding_query(qry)</code> is <code>true</code></p>
+</li>
+<li>
+<p>ill-formed if <code>forwarding_query(qry)</code> is <code>false</code></p>
+</li>
+</ul>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>FWD-ENV-T</i>(Env)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The type <code>FWD-ENV-T(Env)</code> is <code>decltype(FWD-ENV(decl_val&lt;Env&gt;()))</code>.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>gather-signatures</i>&lt;<i>Tag</i>, <i>Signatures</i>, <i>Tuple</i>, <i>Variant</i>&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The template specializaton <code>gather-signatures&lt;Tag, Signatures, Tuple, Variant&gt;</code> represents the completion signatures in the type list <em>Signatures</em> using <code>Tag</code> (one of <code>set_value_t</code>, <code>set_error_t</code>, or <code>set_stopped_t</code>) as a <code>Variant</code> of <code>Tuple`s. Each `Tuple</code> has the element types of of one of the matching completion signatures.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>has-completions</i>&lt;Rcvr, Completions&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>This concept determines if an object of type <code>Rcvr</code> supports ech of the completion signatures in <code>Completions</code>.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>HIDE-SCHED</i>(q)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>For a query object <code>tag</code> and arguments <code>a&#8230;&#8203;</code> the expressions <code>HIDE-SCHED(q).query(tag, a&#8230;&#8203;)</code> is</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>undefined if <code>decay_t&lt;decltype(tag)&gt;</code> is <code>get_scheduler_t</code> or <code>get_domain_t</code></p>
+</li>
+<li>
+<p>equivalent to <code>q.query(tag, a&#8230;&#8203;)</code> otherwise</p>
+</li>
+</ul>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>infallible-scheduler</i>&lt;Sched&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Determines if <code>Sched</code> is a scheduler (i.e., <code>scheduler&lt;Sched&gt;</code> is <code>true</code>) and if <code>Sched&#8217;s sender has only a `set_value_t()</code> completion signature when used with an environment with an <code>unstoppable_token&lt;Tok&gt;</code> stop token <code>Tok</code>. If the stop token <code>Tok</code> is not <code>unstoppable_token&lt;Tok&gt;</code> the completion signatures can include a <code>set_stopped_t()</code> completion signature in addition to the <code>set_value_t()</code> completion signature.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>JOIN-ENV</i>(ev1, ev2)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>JOIN-ENV(ev1, ev2)</code> yields a queryable object <code>env</code> such that for a query <code>qry</code> and a pack of arguments <code>a&#8230;&#8203;</code> the result of the expression <code>env.query(qry, a&#8230;&#8203;)</code> is</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>equivalent to ev1.query(qry, a&#8230;&#8203;)</code> if this expression is well-formed, otherwise</p>
+</li>
+<li>
+<p><code>equivalent to ev2.query(qry, a&#8230;&#8203;)</code> if this expression is well-formed, otherwise</p>
+</li>
+<li>
+<p>ill-formed</p>
+</li>
+</ol>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>make-sender</i>(tag, data = <i>empty</i>{}, child...)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Creates and object of type <code>basic-sender&lt;decltype(tag), decay_t&lt;decltype(data)&gt;, decay_t&lt;decltype(child)&gt;&#8230;&#8203;&gt;</code> that&#8217;s direct initialized with the forwarded arguments.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>MAKE-ENV</i>(qry, value)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>MAKE-ENV(qry, value)</code> creates a queryable object <code>env</code> such that for a pack of arguments <code>a &#8230;&#8203;</code> the expression <code>env.query(qry, a&#8230;&#8203;)</code> yields <code>value</code>.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>constexpr bool <i>MATCHING-SIG</i>&lt;F1, F2&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Determines if the two function signatures <code>F1</code> and <code>F2</code> match:</p>
+</div>
+<div class="paragraph">
+<p>If <code>same_as&lt;F1, R1(A1&#8230;&#8203;)&gt;</code> and <code>same_as&lt;F2, R2(A2&#8230;&#8203;)&gt;</code> then <code>MATCHING-SIG&lt;F1, F2&gt; == same_as&lt;R1(A1&amp;&amp;&#8230;&#8203;), R2(A2&amp;&amp;&#8230;&#8203;)&gt;</code>.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>movable-value</i>&lt;T&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Determines if objects of type <code>T</code> are movable, non-array values: <code>move_constructible&lt;decay_t&lt;T&gt;&gt; &amp;&amp; constructible_from&lt;decay_t&lt;T&gt;&gt; &amp;&amp; (!is_array_v&lt;remove_reference_t&lt;T&gt;&gt;)</code></p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>struct <i>product-type</i>&lt;T...&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The type <code>product-type&lt;T&#8230;&#8203;&gt;</code> is a <code>tuple</code>-like type. Instead of constructors it supports only direct initialization, allowing it to hold inplace constructed elements. It supports <code>p.get&lt;I&gt;()</code> and <code>p.apply(fun)</code> member functions.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>queryable</i>&lt;T&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Determines if objects of type <code>T</code> are queryable: <code>destructible&lt;T&gt;</code>. The semantic implication is that using the queryable object with query objects behave as required.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>query-with-default</i>(tag, env, value)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Returns</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tag(env)</code> if this expression is well-formed</p>
+</li>
+<li>
+<p><code>value</code> otherwise</p>
+</li>
+</ul>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>receiver-of</i>&lt;Rcvr, Signatures&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>This concept determines if an object of type <code>Rcvr</code> is a receiver (i.e., <code>receiver&lt;Rcvr&gt;</code> is <code>true</code>) and supports each of the completion signatures in <code>Signatures</code>.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>SCHED-ENV</i>(sch)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The expression <code>SCHED-ENV(sch)</code> yields a queryable <code>o</code> such that</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>get_start_scheduler(o)</code> is equivalent to <code>get_start_scheduler(get_env(o))</code></p>
+</li>
+<li>
+<p><code>get_domain(o)</code> is equivalent to <code>get_start_scheduler(get_env(o))</code></p>
+</li>
+</ul>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>sender-awaitable</i>&lt;Sndr, Promise&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The specialization <code>sender-awaitable&lt;Sndr, Promise&gt;</code> is an awaiter implemented by getting the result of the <code>Sndr</code> completion.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>single-sender</i>&lt;Sndr, Env...&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The test <code>single-sender&lt;Sndr, Env&#8230;&#8203;&gt;</code> is <code>true</code> if <code>Sndr</code> has exactly one successful completion signature when using an environment of type <code>Env&#8230;&#8203;</code>.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>single-sender-value-type</i>&lt;Sndr, Env...&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>The type <code>single-sender-value-type&lt;Sndr, Env&#8230;&#8203;&gt;</code> is defined if <code>Sndr</code> has exactly one successful completion signature <code>set_value_t(T&#8230;&#8203;)</code> when using an environment of type <code>Env&#8230;&#8203;</code>. The type is</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>T&#8230;&#8203;</code> if <code>1u == sizeof&#8230;&#8203;(T)</code> (i.e., there is one element);</p>
+</li>
+<li>
+<p><code>void</code> if <code>0u == sizeof&#8230;&#8203;(T)</code> (i.e., there is no element);</p>
+</li>
+</ul>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code><i>stop-when</i>(<i>sndr</i>, <i>token</i>)</code></summary>
+<div class="content">
+
+</div>
+</details>
+<details>
+<summary class="title"><code><i>TRY-QUERY</i>(q, tag, a...)</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>Tries to apply the query <code>tag</code> to the queryable object <code>q</code>: if passing the arguments <code>a&#8230;&#8203;</code> is valid passes these arguments (<code>AS-CONST(q).query(tag, a&#8230;&#8203;)</code>), otherwise queries <code>q</code> for <code>tag</code> without the arguments (<code>AS-CONST(q).query(tag)</code>), although the arguments are evaluated.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>valid-completion-for</i>&lt;Signature, Rcvr&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>This concept determines if an object of type <code>Rcvr</code> supports the completion signature <code>Signature</code>.</p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title"><code>concept <i>valid-specialization</i>&lt;T, Args...&gt;</code></summary>
+<div class="content">
+<div class="paragraph">
+<p>This concept determines the class template <code>T</code> can be specialized with arguments <code>Args&#8230;&#8203;</code>, i.e., if <code>T&lt;Args&#8230;&#8203;&gt;</code> is valid.</p>
+</div>
+</div>
+</details>
 </div>
 </div>
 </article>
