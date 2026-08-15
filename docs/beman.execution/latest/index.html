@@ -490,10 +490,10 @@
 <p><code>let_value(sender, fun)</code> to produce a sender based on `sender&#8217;s results.</p>
 </li>
 <li>
-<p><code>on(scheduler, sender)</code> to execute <code>sender</code> on <code>scheduler</code>.</p>
+<p><code>starts_on(scheduler, sender)</code> to start <code>sender</code> on <code>scheduler</code>.</p>
 </li>
 <li>
-<p><code>transfer(sender, scheduler)</code> to complete with with <code>sender&#8217;s results on `scheduler</code>.</p>
+<p><code>continues_on(sender, scheduler)</code> to complete with <code>sender&#8217;s results on `scheduler</code>.</p>
 </li>
 <li>
 <p><code>when_all(sender &#8230;&#8203;)</code> to complete when all `sender`s have completed.</p>
@@ -526,9 +526,6 @@
 </li>
 <li>
 <p>CMake 3.30 or later</p>
-</li>
-<li>
-<p>(Test Only) GoogleTest</p>
 </li>
 </ul>
 </div>
