@@ -410,7 +410,7 @@
 <h2 id="bemanexecution-building-block-for-asynchronous-programs"><a class="anchor" href="#bemanexecution-building-block-for-asynchronous-programs"></a>beman.execution: Building Block For Asynchronous Programs</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg" alt="Library Status"></span></a><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp26.svg" alt="Standard Target"></span><a href="https://coveralls.io/github/bemanproject/execution?branch=main"><span class="image"><img src="https://coveralls.io/repos/github/bemanproject/execution/badge.svg?branch=main" alt="Coverage"></span></a>https://godbolt.org/z/jeMEWGYbM[<span class="image"><img src="https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&amp;logoColor=67c52a" alt="Compiler Explorer Example"></span>]</p>
+<p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg" alt="Library Status"></span></a><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp26.svg" alt="Standard Target"></span><span class="image"><img src="https://github.com/bemanproject/execution/actions/workflows/ci_tests.yml/badge.svg" alt="Build Status"></span><a href="https://coveralls.io/github/bemanproject/execution?branch=main"><span class="image"><img src="https://coveralls.io/repos/github/bemanproject/execution/badge.svg?branch=main" alt="Coverage"></span></a>https://godbolt.org/z/jeMEWGYbM[<span class="image"><img src="https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&amp;logoColor=67c52a" alt="Compiler Explorer Example"></span>]</p>
 </div>
 <div class="paragraph">
 <p><code>beman.execution</code> provides the basic vocabulary for asynchronous programming as well as important algorithms implemented in terms of this vocabulary.</p>
@@ -535,30 +535,9 @@
 <div class="paragraph">
 <p>You can disable building examples by setting CMake option <code>BEMAN_EXECUTION_BUILD_EXAMPLES</code> to <code>OFF</code> when configuring the project.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Library</th>
-<th class="tableblock halign-left valign-top">Linux</th>
-<th class="tableblock halign-left valign-top">MacOS</th>
-<th class="tableblock halign-left valign-top">Windows</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">build</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://github.com/bemanproject/execution/actions/workflows/linux.yml/badge.svg" alt="Linux build status"></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://github.com/bemanproject/execution/actions/workflows/macos.yml/badge.svg" alt="MacOS build status"></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://github.com/bemanproject/execution/actions/workflows/windows.yml/badge.svg" alt="Window build status"></span></p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>By default, <code>beman.execution</code> provides <a href="https://eel.is/c++draft/exec.parschedrepl.query">query_parallel_scheduler_backend</a>. If you want to use a custom <code>parallel_scheduler_backend</code>, you can disable the default <code>query_parallel_scheduler_backend</code> implementation by setting CMake option <code>BEMAN_EXECUTION_WITH_DEFAULT_PARALLEL_SCHEDULER_BACKEND</code> to <code>OFF</code> when configuring the project.</p>
+</div>
 <div class="paragraph">
 <p>The following instructions build the library and the examples:</p>
 </div>
