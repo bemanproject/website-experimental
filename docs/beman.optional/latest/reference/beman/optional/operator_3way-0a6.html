@@ -649,9 +649,32 @@ operator&lt;&equals;&gt;(
       }).filter(Boolean);
       return parts.length ? parts.join('::') : 'API Reference';
     }
+    function operatorLabel() {
+      var operators = {
+        operator_3way: '<=>', operator_assign: '=', operator_bitor: '|', operator_call: '()',
+        operator_eq: '==', operator_ge: '>=', operator_gt: '>', operator_le: '<=',
+        operator_lt: '<', operator_minus: '-', operator_not_eq: '!=', operator_plus: '+',
+        operator_ptr: '->', operator_star: '*', operator_subs: '[]'
+      };
+      var parts = info.tail.map(function (segment) {
+        var label = segment.replace(/\.html$/, '').replace(/-[0-9a-f]+$/, '');
+        try { label = decodeURIComponent(label); } catch (err) {}
+        return label;
+      }).filter(Boolean);
+      var name = parts[parts.length - 1];
+      if (!Object.prototype.hasOwnProperty.call(operators, name)) return null;
+      parts[parts.length - 1] = 'operator' + operators[name];
+      return parts.join('::');
+    }
+    function pageLabel() {
+      var heading = article.querySelector('h1.page, h1');
+      if (!heading) return pathLabel();
+      var label = heading.textContent.replace(/\s+/g, ' ').trim();
+      return label || pathLabel();
+    }
     addCrumb(info.componentLabel, info.componentPath);
     addCrumb('API Reference', info.isIndex ? null : info.indexPath);
-    if (!info.isIndex) addCrumb(pathLabel(), null);
+    if (!info.isIndex) addCrumb(operatorLabel() || pageLabel(), null);
     nav.appendChild(crumbs);
     if (anchor) article.insertBefore(nav, anchor);
     else article.appendChild(nav);
