@@ -4,18 +4,16 @@
 from __future__ import annotations
 
 import argparse
-from dataclasses import dataclass
 import html
 import posixpath
 import re
 import shlex
 import shutil
 import subprocess  # nosec B404
-import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 import yaml
-
 
 WEBSITE_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_REPOS_ROOT = WEBSITE_ROOT.parent
@@ -26,7 +24,11 @@ MANIFEST_PATH = WEBSITE_ROOT / "beman_libraries_to_import.yaml"
 
 PROJECT_DOCS = [
     ("README.md", "index.adoc", "Beman Docs"),
-    ("beman_library_maturity_model.md", "beman_library_maturity_model.adoc", "Beman Library Maturity Model"),
+    (
+        "beman_library_maturity_model.md",
+        "beman_library_maturity_model.adoc",
+        "Beman Library Maturity Model",
+    ),
     ("beman_standard.md", "beman_standard.adoc", "Beman Standard"),
     ("mission.md", "mission.adoc", "Mission"),
     ("faq.md", "faq.adoc", "FAQ"),
@@ -82,6 +84,7 @@ output: adoc
 embedded: true
 """
 
+
 MARKDOWN_LINK_RE = re.compile(
     r"(?P<prefix>!?\[[^\]]*\]\()(?P<href>[^\s)]+)(?P<suffix>(?:\s+[^)]*)?\))"
 )
@@ -120,7 +123,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def run_command(*args, **kwargs) -> subprocess.CompletedProcess:
-    return subprocess.run(*args, **kwargs)  # nosec B603,B607
+    return subprocess.run(*args, **kwargs)  # nosec B603 B607
 
 
 def require_tool(name: str, install_hint: str) -> None:
@@ -178,7 +181,15 @@ def ensure_source_repo(
     if not repo_path.exists() and clone_missing:
         repo_path.parent.mkdir(parents=True, exist_ok=True)
         run_command(
-            ["git", "clone", "--branch", "main", "--single-branch", repo_url, str(repo_path)],
+            [
+                "git",
+                "clone",
+                "--branch",
+                "main",
+                "--single-branch",
+                repo_url,
+                str(repo_path),
+            ],
             check=True,
         )
 
@@ -188,7 +199,9 @@ def ensure_source_repo(
     if update_repos:
         run_command(["git", "fetch", "origin", "main"], cwd=repo_path, check=True)
         run_command(["git", "checkout", "main"], cwd=repo_path, check=True)
-        run_command(["git", "pull", "--ff-only", "origin", "main"], cwd=repo_path, check=True)
+        run_command(
+            ["git", "pull", "--ff-only", "origin", "main"], cwd=repo_path, check=True
+        )
 
 
 def copy_repo(source: Path, target: Path) -> None:
@@ -291,7 +304,9 @@ def rewrite_markdown_links_outside_fences(content: str, replacer) -> str:
             in_fence = not in_fence
             rewritten_blocks.append(line)
             continue
-        rewritten_blocks.append(line if in_fence else MARKDOWN_LINK_RE.sub(replacer, line))
+        rewritten_blocks.append(
+            line if in_fence else MARKDOWN_LINK_RE.sub(replacer, line)
+        )
     return "".join(rewritten_blocks)
 
 
@@ -319,7 +334,9 @@ def rewrite_github_blob_image_links(content: str) -> str:
     return rewrite_markdown_links_outside_fences(content, replace)
 
 
-def github_relative_url(repo_url: str, repo_branch: str, path: str, is_image: bool) -> str:
+def github_relative_url(
+    repo_url: str, repo_branch: str, path: str, is_image: bool
+) -> str:
     if is_image:
         return f"{repo_url}/raw/{repo_branch}/{path}"
     kind = "tree" if path.endswith("/") or "." not in Path(path).name else "blob"
@@ -351,7 +368,9 @@ def rewrite_library_markdown_links(
 
         path, suffix = split_link_target(href)
         candidates = candidate_repo_paths(path)
-        synced_path = next((candidate for candidate in candidates if candidate in source_link_map), "")
+        synced_path = next(
+            (candidate for candidate in candidates if candidate in source_link_map), ""
+        )
         if synced_path:
             href = source_link_map[synced_path] + suffix
         else:
@@ -385,7 +404,9 @@ def rewrite_project_markdown_links(
         normalized = normalize_repo_relative_path(path).removeprefix("docs/")
         candidates = [normalized]
         if source_dir and source_dir != ".":
-            candidates.append(posixpath.normpath(posixpath.join(source_dir, normalized)))
+            candidates.append(
+                posixpath.normpath(posixpath.join(source_dir, normalized))
+            )
         return list(dict.fromkeys(candidates))
 
     def replace(match: re.Match) -> str:
@@ -438,7 +459,9 @@ def normalize_adoc_heading_sequence(content: str) -> str:
 
 def postprocess_pandoc_adoc(content: str) -> str:
     content = content.replace("link:xref:", "xref:")
-    content = re.sub(r"link:([A-Za-z0-9_./-]+\.adoc)(#[^\[]*)?\[", r"xref:\1\2[", content)
+    content = re.sub(
+        r"link:([A-Za-z0-9_./-]+\.adoc)(#[^\[]*)?\[", r"xref:\1\2[", content
+    )
     content = content.replace("\\_", "_")
     return content
 
@@ -552,7 +575,9 @@ def markdown_inline_from_html(content: str) -> str:
 
     def replace_link(match: re.Match) -> str:
         href = match.group("href")
-        label = html.unescape(re.sub(r"<[^>]+>", "", match.group("label"))).replace("`", "")
+        label = html.unescape(re.sub(r"<[^>]+>", "", match.group("label"))).replace(
+            "`", ""
+        )
         return f"[{label}]({href})"
 
     content = re.sub(
@@ -603,7 +628,9 @@ def normalize_markdown_html_blocks(content: str) -> str:
             output.append(newline)
             continue
 
-        item = re.fullmatch(r"<li\b[^>]*>(.*?)</li>", stripped, flags=re.IGNORECASE | re.DOTALL)
+        item = re.fullmatch(
+            r"<li\b[^>]*>(.*?)</li>", stripped, flags=re.IGNORECASE | re.DOTALL
+        )
         if item:
             if list_stack:
                 list_stack[-1]["index"] += 1
@@ -616,7 +643,9 @@ def normalize_markdown_html_blocks(content: str) -> str:
             else:
                 marker = "-"
                 indent = ""
-            output.append(f"{indent}{marker} {markdown_inline_from_html(item.group(1))}{newline}")
+            output.append(
+                f"{indent}{marker} {markdown_inline_from_html(item.group(1))}{newline}"
+            )
             continue
 
         output.append(markdown_inline_from_html(line))
@@ -662,20 +691,26 @@ def details_summary_title(summary: str) -> str:
     return re.sub(r"`([^`]+)`", r"+\1+", markdown_inline_from_html(summary))
 
 
-def convert_markdown_fragment_to_adoc(markdown: str, scratch: Path, depth: int = 0) -> str:
+def convert_markdown_fragment_to_adoc(
+    markdown: str, scratch: Path, depth: int = 0
+) -> str:
     parts = split_markdown_details(markdown)
     if not any(isinstance(part, DetailsBlock) for part in parts):
         return pandoc_markdown_to_adoc(markdown, scratch)
 
     output = []
     for index, part in enumerate(parts):
-        part_scratch = scratch.with_name(f"{scratch.stem}-{depth}-{index}{scratch.suffix}")
+        part_scratch = scratch.with_name(
+            f"{scratch.stem}-{depth}-{index}{scratch.suffix}"
+        )
         if isinstance(part, str):
             output.append(pandoc_markdown_to_adoc(part, part_scratch))
             continue
 
         delimiter = "=" * (4 + depth * 2)
-        body = convert_markdown_fragment_to_adoc(part.body, part_scratch, depth + 1).strip()
+        body = convert_markdown_fragment_to_adoc(
+            part.body, part_scratch, depth + 1
+        ).strip()
         output.append(
             "\n".join(
                 [
@@ -736,13 +771,21 @@ def legacy_readme_targets() -> dict[str, str]:
 
 def init_git_repo(repo_root: Path, message: str) -> None:
     run_command(["git", "init", "--quiet"], cwd=repo_root, check=True)
-    run_command(["git", "config", "user.name", "Beman Antora Docs"], cwd=repo_root, check=True)
-    run_command(["git", "config", "user.email", "beman-antora-docs@example.invalid"], cwd=repo_root, check=True)
+    run_command(
+        ["git", "config", "user.name", "Beman Antora Docs"], cwd=repo_root, check=True
+    )
+    run_command(
+        ["git", "config", "user.email", "beman-antora-docs@example.invalid"],
+        cwd=repo_root,
+        check=True,
+    )
     run_command(["git", "add", "."], cwd=repo_root, check=True)
     run_command(["git", "commit", "--quiet", "-m", message], cwd=repo_root, check=True)
 
 
-def build_library_docs(manifest: dict, repos_root: Path, clone_missing: bool, update_repos: bool) -> list[dict]:
+def build_library_docs(
+    manifest: dict, repos_root: Path, clone_missing: bool, update_repos: bool
+) -> list[dict]:
     libraries = []
     for repo_name, raw_config in manifest.items():
         config = raw_config or {}
@@ -800,7 +843,9 @@ def write_global_nav(libraries: list[dict], skip_api_reference: bool) -> str:
                 f"*** xref:{library['component']}:ROOT:{doc['target_rel'].as_posix()}[{doc['label']}]"
             )
         if library["has_api"] and not skip_api_reference:
-            lines.append(f"*** xref:{library['component']}:ROOT:reference/index.adoc[API Reference]")
+            lines.append(
+                f"*** xref:{library['component']}:ROOT:reference/index.adoc[API Reference]"
+            )
     return "\n".join(lines) + "\n"
 
 
@@ -811,7 +856,9 @@ def write_project_component(work_root: Path, global_nav: str) -> Path:
     assets_root.mkdir(parents=True, exist_ok=True)
     for source in (WEBSITE_ROOT / "static" / "images").rglob("*"):
         if source.is_file():
-            target = assets_root / source.relative_to(WEBSITE_ROOT / "static" / "images")
+            target = assets_root / source.relative_to(
+                WEBSITE_ROOT / "static" / "images"
+            )
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
     for source in (WEBSITE_ROOT / "docs" / "images").rglob("*"):
@@ -869,7 +916,10 @@ def write_mrdocs_helpers(repo_root: Path, component_title: str) -> None:
         ),
     )
     wrapper.chmod(0o755)
-    shutil.copy2(WEBSITE_ROOT / "scripts" / "fix-mrdocs-antora.py", scripts_dir / "fix-mrdocs-antora.py")
+    shutil.copy2(
+        WEBSITE_ROOT / "scripts" / "fix-mrdocs-antora.py",
+        scripts_dir / "fix-mrdocs-antora.py",
+    )
 
 
 def write_library_component(
@@ -964,7 +1014,9 @@ def write_library_component(
                 ]
             )
         else:
-            print(f"Skipping API reference for {library['title']}: missing {mrdocs_config}")
+            print(
+                f"Skipping API reference for {library['title']}: missing {mrdocs_config}"
+            )
 
     write_text(staged_repo / "antora.yml", "\n".join(antora_lines) + "\n")
     init_git_repo(staged_repo, f"Create {library['title']} Antora docs")
@@ -1120,8 +1172,7 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 "        version: segments[index + 1],",
                 "        tail: tail,",
                 "        componentPath: '/' + segments.slice(0, index + 2).join('/') + '/index.html',",
-                "        indexPath: '/' + baseSegments.join('/') + '/index.html',",
-                "        isIndex: tail.length === 0 || (tail.length === 1 && tail[0] === 'index.html')",
+                "        indexPath: '/' + baseSegments.join('/') + '/index.html'",
                 "      };",
                 "    }",
                 "    return null;",
@@ -1129,18 +1180,23 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 "  function normalizePath(path) {",
                 "    return path.replace(/\\/$/, '/index.html');",
                 "  }",
+                "  function apiReferenceNavLink(info, panel) {",
+                "    if (!info || !panel) return null;",
+                "    var referencePrefix = info.indexPath.replace(/index\\.html$/, '');",
+                "    var match = null;",
+                "    panel.querySelectorAll('.nav-link').forEach(function (link) {",
+                "      if (match || link.textContent.trim() !== 'API Reference') return;",
+                "      var linkPath = normalizePath(new URL(link.getAttribute('href'), window.location.href).pathname);",
+                "      if (linkPath.startsWith(referencePrefix)) match = link;",
+                "    });",
+                "    return match;",
+                "  }",
                 "  function markApiReferenceNav(panel) {",
                 "    var info = apiReferenceInfo();",
                 "    if (!info || !panel) return null;",
-                "    var targetPath = normalizePath(info.indexPath);",
-                "    var match = null;",
-                "    panel.querySelectorAll('.nav-link').forEach(function (link) {",
-                "      if (link.textContent.trim() !== 'API Reference') return;",
-                "      var linkPath = normalizePath(new URL(link.getAttribute('href'), window.location.href).pathname);",
-                "      if (linkPath !== targetPath) return;",
-                "      match = link.closest('.nav-item');",
-                "      link.classList.add('is-current-page');",
-                "    });",
+                "    var link = apiReferenceNavLink(info, panel);",
+                "    var match = link ? link.closest('.nav-item') : null;",
+                "    if (link) link.classList.add('is-current-page');",
                 "    if (match) {",
                 "      match.classList.add('is-current-page', 'is-current-path');",
                 "      expandAncestors(match);",
@@ -1282,9 +1338,13 @@ def write_supplemental_ui(work_root: Path) -> Path:
                 "      var label = heading.textContent.replace(/\\s+/g, ' ').trim();",
                 "      return label || pathLabel();",
                 "    }",
+                "    var apiLink = apiReferenceNavLink(info, navPanel());",
+                "    var apiHref = apiLink ? apiLink.href : info.indexPath;",
+                "    var apiPath = normalizePath(new URL(apiHref, window.location.href).pathname);",
+                "    var isApiLandingPage = normalizePath(window.location.pathname) === apiPath;",
                 "    addCrumb(info.componentLabel, info.componentPath);",
-                "    addCrumb('API Reference', info.isIndex ? null : info.indexPath);",
-                "    if (!info.isIndex) addCrumb(operatorLabel() || pageLabel(), null);",
+                "    addCrumb('API Reference', isApiLandingPage ? null : apiHref);",
+                "    if (!isApiLandingPage) addCrumb(operatorLabel() || pageLabel(), null);",
                 "    nav.appendChild(crumbs);",
                 "    if (anchor) article.insertBefore(nav, anchor);",
                 "    else article.appendChild(nav);",

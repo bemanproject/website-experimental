@@ -12,7 +12,6 @@ from pathlib import Path
 
 import yaml
 
-
 CONFIG_PATH = Path(__file__).resolve().parent.parent / "beman_libraries_to_import.yaml"
 SPECIAL_LABELS = {
     "debug-ci": "Debugging CI",
@@ -29,7 +28,7 @@ GITHUB_BLOB_URL_RE = re.compile(
 
 
 def run_command(*args, **kwargs) -> subprocess.CompletedProcess:
-    return subprocess.run(*args, **kwargs)  # nosec B603,B607
+    return subprocess.run(*args, **kwargs)  # nosec B603 B607
 
 
 def parse_args():
@@ -201,7 +200,9 @@ def populate_discovered_repo_metadata(repo: dict, repo_path: Path):
         )
         next_position += 1
 
-    for position, entry in enumerate(repo.get("configured_files", []), start=next_position):
+    for position, entry in enumerate(
+        repo.get("configured_files", []), start=next_position
+    ):
         source_rel, target_spec = parse_file_entry(entry)
         target_rel = Path("docs") / "Libraries" / repo_name / target_spec
         markdown_docs.append(
@@ -301,7 +302,11 @@ def copy_markdown_with_frontmatter(
         repo_branch,
         source_link_map=source_link_map,
         source_repo_path=source_repo_path,
-        source_rel=source.relative_to(source_repo_path) if source and source_repo_path else None,
+        source_rel=(
+            source.relative_to(source_repo_path)
+            if source and source_repo_path
+            else None
+        ),
         rewrite_relative_links=rewrite_repo_relative_links,
     )
     if intro_block:
@@ -324,7 +329,9 @@ def copy_markdown_with_frontmatter(
 
 
 def enable_markdown_in_details(content: str) -> str:
-    return re.sub(r"<details(?![^>]*\bmarkdown=)([^>]*)>", r'<details markdown="1"\1>', content)
+    return re.sub(
+        r"<details(?![^>]*\bmarkdown=)([^>]*)>", r'<details markdown="1"\1>', content
+    )
 
 
 def rewrite_repo_links(
@@ -420,7 +427,9 @@ def rewrite_markdown_links_outside_fences(content: str, replacer) -> str:
             in_fence = not in_fence
             rewritten_blocks.append(line)
             continue
-        rewritten_blocks.append(line if in_fence else MARKDOWN_LINK_RE.sub(replacer, line))
+        rewritten_blocks.append(
+            line if in_fence else MARKDOWN_LINK_RE.sub(replacer, line)
+        )
     return "".join(rewritten_blocks)
 
 
@@ -508,7 +517,9 @@ def build_index_block(repo: dict) -> str:
     repo_name = repo.get("name", "")
     repo_url = repo.get("repo_url", "")
     static_target_rel = repo.get("static_target_rel")
-    api_path = f"/{static_target_rel.as_posix()}/index.html" if static_target_rel else ""
+    api_path = (
+        f"/{static_target_rel.as_posix()}/index.html" if static_target_rel else ""
+    )
     parts = [
         f"# {repo_name}",
         "",

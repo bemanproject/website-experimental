@@ -1,6 +1,6 @@
 site_name: The Beman Project
 site_description: Tomorrow's C++ Standard Libraries Today
-site_url: !ENV [BEMAN_SITE_URL, "https://bemanproject.org"]
+site_url: !ENV [BEMAN_SITE_URL, https://bemanproject.org]
 docs_dir: site_content
 site_dir: build
 use_directory_urls: true

@@ -58,7 +58,7 @@ def parse_args():
 
 
 def run_command(*args, **kwargs) -> subprocess.CompletedProcess:
-    return subprocess.run(*args, **kwargs)  # nosec B603,B607
+    return subprocess.run(*args, **kwargs)  # nosec B603 B607
 
 
 def list_tracked_files(repo_root: Path, *paths: str) -> list[Path]:
@@ -182,7 +182,11 @@ def normalize_blog_post(source: Path, target: Path, authors: dict) -> dict:
     ]
 
     body = "\n".join(
-        youtube_embed(line.strip()) if "youtu.be/" in line or "youtube.com/watch" in line else line
+        (
+            youtube_embed(line.strip())
+            if "youtu.be/" in line or "youtube.com/watch" in line
+            else line
+        )
         for line in body.splitlines()
     )
     body = body.replace("<!-- truncate -->", "")
@@ -235,16 +239,22 @@ def migrate_blog(stage_root: Path, content_root: Path):
             [
                 '<article class="blog-index-item">',
                 f'  <time>{post["date"]}</time>',
-                '  <div>',
+                "  <div>",
                 f'    <h2><a href="{post["url"]}">{post["title"]}</a></h2>',
-                f'    <p class="blog-card-meta">{post["authors"]}</p>' if post["authors"] else "",
+                (
+                    f'    <p class="blog-card-meta">{post["authors"]}</p>'
+                    if post["authors"]
+                    else ""
+                ),
                 f'    <div class="blog-tags">{tag_html}</div>' if tag_html else "",
                 "  </div>",
                 "</article>",
             ]
         )
     cards.append("</div>")
-    (blog_target / "index.md").write_text("\n".join(line for line in cards if line) + "\n")
+    (blog_target / "index.md").write_text(
+        "\n".join(line for line in cards if line) + "\n"
+    )
 
 
 def prepare_mkdocs_content(stage_root: Path):
@@ -267,11 +277,7 @@ def stage_antora_doc_placeholders(stage_root: Path, content_root: Path):
     manifest = yaml.safe_load(manifest_path.read_text()) or {}
     for repo_name in manifest:
         placeholder = (
-            content_root
-            / "docs"
-            / f"beman.{repo_name}"
-            / "latest"
-            / "index.html"
+            content_root / "docs" / f"beman.{repo_name}" / "latest" / "index.html"
         )
         placeholder.parent.mkdir(parents=True, exist_ok=True)
         placeholder.write_text("")
@@ -288,8 +294,7 @@ def build_antora_docs(repo_root: Path, build_root: Path, stage_root: Path, args)
         "--cache-dir",
         str(repo_root / "build" / "antora-cache"),
         "--site-url",
-        os.environ.get("BEMAN_SITE_URL", "http://localhost:8000").rstrip("/")
-        + "/docs",
+        os.environ.get("BEMAN_SITE_URL", "http://localhost:8000").rstrip("/") + "/docs",
     ]
     if args.repos_root:
         cmd.extend(["--repos-root", args.repos_root])
@@ -372,14 +377,12 @@ def is_git_worktree(path: Path) -> bool:
 
 
 def current_worktree_branch(path: Path) -> str:
-    return (
-        run_command(
-            ["git", "-C", str(path), "rev-parse", "--abbrev-ref", "HEAD"],
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
-    )
+    return run_command(
+        ["git", "-C", str(path), "rev-parse", "--abbrev-ref", "HEAD"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
 
 
 def is_dirty_worktree(path: Path) -> bool:
@@ -432,10 +435,14 @@ def confirm_moving_branch_worktree(branch: str, source: Path, target: Path):
         )
 
 
-def confirm_replacing_wrong_branch_worktree(path: Path, current_branch: str, branch: str):
+def confirm_replacing_wrong_branch_worktree(
+    path: Path, current_branch: str, branch: str
+):
     dirty_note = ""
     if is_dirty_worktree(path):
-        dirty_note = "\nThe existing worktree has uncommitted changes that will be discarded."
+        dirty_note = (
+            "\nThe existing worktree has uncommitted changes that will be discarded."
+        )
     message = (
         f"Worktree {path} is on branch '{current_branch}', expected '{branch}'.\n"
         f"Replace it with a '{branch}' worktree?{dirty_note} [y/N]: "
