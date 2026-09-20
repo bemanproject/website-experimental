@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: all install build start serve trunk-check
+.PHONY: all install build start serve lint
 
 all: start
 

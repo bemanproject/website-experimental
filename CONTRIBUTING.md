@@ -19,6 +19,14 @@ With the `beman` micromamba environment active, the Python packages are installe
 into that environment. The npm packages are installed into this repo's
 `node_modules`.
 
+After installation, Make and npm invoke the same composed website pipeline:
+
+| Operation                         | Make         | npm             |
+| --------------------------------- | ------------ | --------------- |
+| Build and start a local server    | `make start` | `npm start`     |
+| Build static output               | `make build` | `npm run build` |
+| Build and serve the static output | `make serve` | `npm run serve` |
+
 The staged site also builds Antora documentation. Pandoc converts Markdown into
 AsciiDoc, and MrDocs generates API reference pages. `make install` does not
 install `pandoc` or `mrdocs`; make sure both are already available on `PATH`
@@ -85,6 +93,8 @@ To start a local development server, run:
 
 ```shell
 $ make start
+# or, after dependencies are installed:
+$ npm start
 ```
 
 If everything is properly installed, the command builds the composed MkDocs +
@@ -99,4 +109,6 @@ To generate static content from the project that can be served using any static 
 
 ```shell
 $ make build
+# or:
+$ npm run build
 ```

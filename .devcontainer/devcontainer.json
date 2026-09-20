@@ -27,10 +27,10 @@
       ]
     }
   },
-  "forwardPorts": [3000],
+  "forwardPorts": [8000],
   "containerUser": "vscode",
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y doxygen graphviz pandoc && yarn install && curl -fsSL https://get.trunk.io -o install.sh && chmod +x install.sh && ./install.sh",
-  "waitFor": "postCreateCommand", // otherwise automated jest tests fail
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y doxygen graphviz pandoc && npm ci && curl -fsSL https://get.trunk.io -o install.sh && chmod +x install.sh && ./install.sh",
+  "waitFor": "postCreateCommand",
   "features": {
     "node": {
       "version": "22"
