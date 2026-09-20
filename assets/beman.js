@@ -3,7 +3,9 @@ const menu = document.querySelector("#nav-menu");
 const themeToggles = document.querySelectorAll(".theme-toggle");
 
 function currentTheme() {
-  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  return document.documentElement.getAttribute("data-theme") === "dark"
+    ? "dark"
+    : "light";
 }
 
 function setTheme(theme) {

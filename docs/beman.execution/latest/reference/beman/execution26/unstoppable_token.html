@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>beman::execution26::unstoppable_token :: Beman Docs</title>
     <link rel="canonical" href="https://bemanproject.github.io/docs/beman.execution/latest/reference/beman/execution26/unstoppable_token.html">
-    <meta name="generator" content="Antora 3.1.15">
+    <meta name="generator" content="Antora 3.2.0">
     <script>
       (function () {
         function getStoredTheme() {
@@ -136,7 +136,7 @@
     <a class="nav-link" href="../../../../../beman.optional/latest/overview.html">Guide</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../../../../../beman.optional/latest/reference/index.html">API Reference</a>
+    <a class="nav-link" href="../../../../../beman.optional/latest/reference/beman/optional.html">API Reference</a>
   </li>
 </ul>
   </li>
@@ -154,7 +154,7 @@
     <a class="nav-link" href="../../../resources.html">Resources</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../../index.html">API Reference</a>
+    <a class="nav-link" href="../execution26.html">API Reference</a>
   </li>
 </ul>
   </li>
@@ -172,7 +172,7 @@
     <a class="nav-link" href="../../../../../beman.task/latest/examples.html">Examples</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../../../../../beman.task/latest/reference/index.html">API Reference</a>
+    <a class="nav-link" href="../../../../../beman.task/latest/reference/beman.html">API Reference</a>
   </li>
 </ul>
   </li>
@@ -187,7 +187,7 @@
     <a class="nav-link" href="../../../../../beman.cache_latest/latest/development.html">Development</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../../../../../beman.cache_latest/latest/reference/index.html">API Reference</a>
+    <a class="nav-link" href="../../../../../beman.cache_latest/latest/reference/beman.html">API Reference</a>
   </li>
 </ul>
   </li>
@@ -202,7 +202,7 @@
     <a class="nav-link" href="../../../../../beman.copyable_function/latest/development.html">Development</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../../../../../beman.copyable_function/latest/reference/index.html">API Reference</a>
+    <a class="nav-link" href="../../../../../beman.copyable_function/latest/reference/beman.html">API Reference</a>
   </li>
 </ul>
   </li>
@@ -217,7 +217,7 @@
     <a class="nav-link" href="../../../../../beman.cstring_view/latest/using_cstring_view.html">Guide</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../../../../../beman.cstring_view/latest/reference/index.html">API Reference</a>
+    <a class="nav-link" href="../../../../../beman.cstring_view/latest/reference/beman/cstring_view.html">API Reference</a>
   </li>
 </ul>
   </li>
@@ -235,7 +235,7 @@
     <a class="nav-link" href="../../../../../beman.monadics/latest/design_rationale.html">Design Rationale</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../../../../../beman.monadics/latest/reference/index.html">API Reference</a>
+    <a class="nav-link" href="../../../../../beman.monadics/latest/reference/beman/monadics.html">API Reference</a>
   </li>
 </ul>
   </li>
@@ -250,7 +250,7 @@
     <a class="nav-link" href="../../../../../beman.scope/latest/resources.html">Resources</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../../../../../beman.scope/latest/reference/index.html">API Reference</a>
+    <a class="nav-link" href="../../../../../beman.scope/latest/reference/beman/scope.html">API Reference</a>
   </li>
 </ul>
   </li>
@@ -265,7 +265,7 @@
     <a class="nav-link" href="../../../../../beman.transform_view/latest/intro.html">Intro</a>
   </li>
   <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="../../../../../beman.transform_view/latest/reference/index.html">API Reference</a>
+    <a class="nav-link" href="../../../../../beman.transform_view/latest/reference/beman/transform_view.html">API Reference</a>
   </li>
 </ul>
   </li>
@@ -473,8 +473,7 @@
         version: segments[index + 1],
         tail: tail,
         componentPath: '/' + segments.slice(0, index + 2).join('/') + '/index.html',
-        indexPath: '/' + baseSegments.join('/') + '/index.html',
-        isIndex: tail.length === 0 || (tail.length === 1 && tail[0] === 'index.html')
+        indexPath: '/' + baseSegments.join('/') + '/index.html'
       };
     }
     return null;
@@ -482,18 +481,23 @@
   function normalizePath(path) {
     return path.replace(/\/$/, '/index.html');
   }
+  function apiReferenceNavLink(info, panel) {
+    if (!info || !panel) return null;
+    var referencePrefix = info.indexPath.replace(/index\.html$/, '');
+    var match = null;
+    panel.querySelectorAll('.nav-link').forEach(function (link) {
+      if (match || link.textContent.trim() !== 'API Reference') return;
+      var linkPath = normalizePath(new URL(link.getAttribute('href'), window.location.href).pathname);
+      if (linkPath.startsWith(referencePrefix)) match = link;
+    });
+    return match;
+  }
   function markApiReferenceNav(panel) {
     var info = apiReferenceInfo();
     if (!info || !panel) return null;
-    var targetPath = normalizePath(info.indexPath);
-    var match = null;
-    panel.querySelectorAll('.nav-link').forEach(function (link) {
-      if (link.textContent.trim() !== 'API Reference') return;
-      var linkPath = normalizePath(new URL(link.getAttribute('href'), window.location.href).pathname);
-      if (linkPath !== targetPath) return;
-      match = link.closest('.nav-item');
-      link.classList.add('is-current-page');
-    });
+    var link = apiReferenceNavLink(info, panel);
+    var match = link ? link.closest('.nav-item') : null;
+    if (link) link.classList.add('is-current-page');
     if (match) {
       match.classList.add('is-current-page', 'is-current-path');
       expandAncestors(match);
@@ -635,9 +639,13 @@
       var label = heading.textContent.replace(/\s+/g, ' ').trim();
       return label || pathLabel();
     }
+    var apiLink = apiReferenceNavLink(info, navPanel());
+    var apiHref = apiLink ? apiLink.href : info.indexPath;
+    var apiPath = normalizePath(new URL(apiHref, window.location.href).pathname);
+    var isApiLandingPage = normalizePath(window.location.pathname) === apiPath;
     addCrumb(info.componentLabel, info.componentPath);
-    addCrumb('API Reference', info.isIndex ? null : info.indexPath);
-    if (!info.isIndex) addCrumb(operatorLabel() || pageLabel(), null);
+    addCrumb('API Reference', isApiLandingPage ? null : apiHref);
+    if (!isApiLandingPage) addCrumb(operatorLabel() || pageLabel(), null);
     nav.appendChild(crumbs);
     if (anchor) article.insertBefore(nav, anchor);
     else article.appendChild(nav);

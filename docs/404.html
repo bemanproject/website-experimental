@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Page Not Found :: Beman Docs</title>
-    <meta name="generator" content="Antora 3.1.15">
+    <meta name="generator" content="Antora 3.2.0">
     <script>
       (function () {
         function getStoredTheme() {
@@ -266,8 +266,7 @@ If you typed the URL of this page manually, please double check that you entered
         version: segments[index + 1],
         tail: tail,
         componentPath: '/' + segments.slice(0, index + 2).join('/') + '/index.html',
-        indexPath: '/' + baseSegments.join('/') + '/index.html',
-        isIndex: tail.length === 0 || (tail.length === 1 && tail[0] === 'index.html')
+        indexPath: '/' + baseSegments.join('/') + '/index.html'
       };
     }
     return null;
@@ -275,18 +274,23 @@ If you typed the URL of this page manually, please double check that you entered
   function normalizePath(path) {
     return path.replace(/\/$/, '/index.html');
   }
+  function apiReferenceNavLink(info, panel) {
+    if (!info || !panel) return null;
+    var referencePrefix = info.indexPath.replace(/index\.html$/, '');
+    var match = null;
+    panel.querySelectorAll('.nav-link').forEach(function (link) {
+      if (match || link.textContent.trim() !== 'API Reference') return;
+      var linkPath = normalizePath(new URL(link.getAttribute('href'), window.location.href).pathname);
+      if (linkPath.startsWith(referencePrefix)) match = link;
+    });
+    return match;
+  }
   function markApiReferenceNav(panel) {
     var info = apiReferenceInfo();
     if (!info || !panel) return null;
-    var targetPath = normalizePath(info.indexPath);
-    var match = null;
-    panel.querySelectorAll('.nav-link').forEach(function (link) {
-      if (link.textContent.trim() !== 'API Reference') return;
-      var linkPath = normalizePath(new URL(link.getAttribute('href'), window.location.href).pathname);
-      if (linkPath !== targetPath) return;
-      match = link.closest('.nav-item');
-      link.classList.add('is-current-page');
-    });
+    var link = apiReferenceNavLink(info, panel);
+    var match = link ? link.closest('.nav-item') : null;
+    if (link) link.classList.add('is-current-page');
     if (match) {
       match.classList.add('is-current-page', 'is-current-path');
       expandAncestors(match);
@@ -428,9 +432,13 @@ If you typed the URL of this page manually, please double check that you entered
       var label = heading.textContent.replace(/\s+/g, ' ').trim();
       return label || pathLabel();
     }
+    var apiLink = apiReferenceNavLink(info, navPanel());
+    var apiHref = apiLink ? apiLink.href : info.indexPath;
+    var apiPath = normalizePath(new URL(apiHref, window.location.href).pathname);
+    var isApiLandingPage = normalizePath(window.location.pathname) === apiPath;
     addCrumb(info.componentLabel, info.componentPath);
-    addCrumb('API Reference', info.isIndex ? null : info.indexPath);
-    if (!info.isIndex) addCrumb(operatorLabel() || pageLabel(), null);
+    addCrumb('API Reference', isApiLandingPage ? null : apiHref);
+    if (!isApiLandingPage) addCrumb(operatorLabel() || pageLabel(), null);
     nav.appendChild(crumbs);
     if (anchor) article.insertBefore(nav, anchor);
     else article.appendChild(nav);

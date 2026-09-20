@@ -46,7 +46,12 @@ html[data-theme="dark"] {
 body {
   margin: 0;
   color: var(--ifm-color-content);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   font-size: 16px;
   line-height: 1.65;
   background: var(--ifm-background-color);
@@ -325,7 +330,9 @@ html[data-theme="dark"] .theme-toggle-icon-light {
 
 .page-shell {
   display: grid;
-  grid-template-columns: minmax(210px, 260px) minmax(0, var(--content-max)) minmax(160px, 220px);
+  grid-template-columns:
+    minmax(210px, 260px) minmax(0, var(--content-max))
+    minmax(160px, 220px);
   gap: 2rem;
   max-width: var(--page-max);
   margin: 0 auto;
