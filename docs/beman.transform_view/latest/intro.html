@@ -390,7 +390,7 @@
 <h2 id="_description"><a class="anchor" href="#_description"></a>Description</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The view <code>std::ranges::transform_view</code> () introduced with C++20 is unconditionally a non-borrowed range (see ). was written to address this, making <code>transform_view</code> conditionally borrowable.</p>
+<p>The view <code>std::ranges::transform_view</code> () introduced with C&#43;&#43;20 is unconditionally a non-borrowed range (see ). was written to address this, making <code>transform_view</code> conditionally borrowable.</p>
 </div>
 <div class="paragraph">
 <p>The condition for its borrowability is that the callable <code>F</code> given to <code>std::ranges::transform_view</code> must have properties that allow its trivial construction and destruction, on-demand. The paper calls this property being "tidy". This is the exposition-only concept that determines tidiness:</p>

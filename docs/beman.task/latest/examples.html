@@ -390,7 +390,7 @@
 <h2 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_code_used_to_prepare_dietmars_cnow_2025_presentation"><a class="anchor" href="#_code_used_to_prepare_dietmars_cnow_2025_presentation"></a>Code used to prepare Dietmar&#8217;s C++Now 2025 presentation</h3>
+<h3 id="_code_used_to_prepare_dietmars_cnow_2025_presentation"><a class="anchor" href="#_code_used_to_prepare_dietmars_cnow_2025_presentation"></a>Code used to prepare Dietmar&#8217;s C&#43;&#43;Now 2025 presentation</h3>
 <details>
 <summary class="title"><a href='https://github.com/bemanproject/task/blob/main/examples/cppnow_affinity.cpp'>cppnow_affinity.cpp</a> <a href='https://godbolt.org/z/8qEG5x7sz'><img src='https://raw.githubusercontent.com/bemanproject/task/refs/heads/main/docs/compiler-explorer.ico' width='15' height='15'/></a>: demo scheduler affinity</summary>
 <div class="content">
@@ -400,7 +400,7 @@
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Each coroutine is executed from <code>main</code> using <code>sync_wait(<em>fun</em>(loop.get_scheduler()))</code>.</p>
+<p>Each coroutine is executed from <code>main</code> using <code>sync_wait(_fun_(loop.get_scheduler()))</code>.</p>
 </li>
 <li>
 <p>Each coroutine prints the id of the thread it is executing on prior to any <code>co_await</code> and after all <code>co_await</code> expression.</p>
@@ -633,11 +633,8 @@ after id =0x16b64b000</pre>
 </div>
 </details>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tools_used_by_the_examples"><a class="anchor" href="#_tools_used_by_the_examples"></a>Tools Used By The Examples</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_tools_used_by_the_examples"><a class="anchor" href="#_tools_used_by_the_examples"></a>Tools Used By The Examples</h3>
 <details>
 <summary class="title"><a href='https://github.com/bemanproject/task/blob/remove-net-and-improve-docs/examples/demo_thread_loop.hpp'><code>demo::thread_loop</code> is a <code>run_loop</code> whose <code>run()</code> is called from a <code>std::thread</code>.</summary>
 <div class="content">
@@ -649,6 +646,7 @@ after id =0x16b64b000</pre>
 </div>
 </div>
 </details>
+</div>
 </div>
 </div>
 </article>

@@ -409,10 +409,10 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>std::execution::set_value(<em>receiver</em>, <em>args</em>&#8230;&#8203;)</code> is called when an operation completes successfully. A call to this completion function is referred to as <em>value completion signal</em>.</p>
+<p><code>std::execution::set_value(_receiver_, _args_&#8230;&#8203;)</code> is called when an operation completes successfully. A call to this completion function is referred to as <em>value completion signal</em>.</p>
 </li>
 <li>
-<p><code>std::execution::set_error(<em>receiver</em>, <em>error</em>)</code> is called when an operation fails to deliver its success results. A call to this completion function is referred to as <em>error completion signal</em>.</p>
+<p><code>std::execution::set_error(_receiver_, _error_)</code> is called when an operation fails to deliver its success results. A call to this completion function is referred to as <em>error completion signal</em>.</p>
 </li>
 <li>
 <p><code>std::execution::set_stopped()</code> is called when an operation was cancelled. A call to this completion function is referred to as <em>cancellation completion signal</em>.</p>
@@ -428,16 +428,13 @@
 <summary class="title">environment</summary>
 <div class="content">
 <div class="paragraph">
-<p>The term <em>enviroment</em> refers to the bag of properties associated with an <code><em>object</em></code> by the call <code>std::execution::get_env(<em>object</em>)</code>. By default the environment for objects is empty (<code>std::execution::env&lt;&gt;</code>). In particular, environments associated with <code>receiver`s are used to provide access to properties like the stop token, scheduler, or allocator associated with the `receiver</code>. The various properties associated with an object are accessed via queries.</p>
+<p>The term <em>enviroment</em> refers to the bag of properties associated with an <code>_object_</code> by the call <code>std::execution::get_env(_object_)</code>. By default the environment for objects is empty (<code>std::execution::env&lt;&gt;</code>). In particular, environments associated with <code>receiver`s are used to provide access to properties like the stop token, scheduler, or allocator associated with the `receiver</code>. The various properties associated with an object are accessed via queries.</p>
 </div>
 </div>
 </details>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_concepts"><a class="anchor" href="#_concepts"></a>Concepts</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_concepts"><a class="anchor" href="#_concepts"></a>Concepts</h3>
 <div class="paragraph">
 <p>This section lists the concepts from <code>std::execution</code>.</p>
 </div>
@@ -456,7 +453,7 @@
 <p>Operation states represent asynchronous operations ready to be `start`ed or executing. Operation state objects are normally neither movable nor copyable. Once `start`ed the object needs to be kept alive until a completion signal is received. Users don’t interact with operation states explicitly except when implementing new sender algorithms.</p>
 </div>
 <div class="paragraph">
-<p>Required members for <code><em>State</em></code>:</p>
+<p>Required members for <code>_State_</code>:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -501,7 +498,7 @@ static_assert(std::execution::operation_state&lt;example_state&lt;SomeReceiver&g
 <p>Receivers are used to receive completion signals: when an asynchronous operation completes the corresponding completion signal is called with the appropriate arguments. In addition receivers provide access to the environment for the operation via the <code>get_env</code> method. Users don’t interact with receivers explicitly except when implementing new sender algorithms.</p>
 </div>
 <div class="paragraph">
-<p>Required members for <code><em>Receiver</em></code>:</p>
+<p>Required members for <code>_Receiver_</code>:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -509,18 +506,18 @@ static_assert(std::execution::operation_state&lt;example_state&lt;SomeReceiver&g
 <p>The type <code>receiver_concept</code> is an alias for <code>receiver_tag</code> or a type derived thereof`.</p>
 </li>
 <li>
-<p>Rvalues of type <code><em>Receiver</em></code> are movable.</p>
+<p>Rvalues of type <code>_Receiver_</code> are movable.</p>
 </li>
 <li>
-<p>Lvalues of type <code><em>Receiver</em></code> are copyable.</p>
+<p>Lvalues of type <code>_Receiver_</code> are copyable.</p>
 </li>
 <li>
-<p><code>std::execution::get_env(<em>receiver</em>)</code> returns an object. By default this operation returns <code>std::execution::env&lt;&gt;</code>.</p>
+<p><code>std::execution::get_env(_receiver_)</code> returns an object. By default this operation returns <code>std::execution::env&lt;&gt;</code>.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Typical members for <code><em>Receiver</em></code>:</p>
+<p>Typical members for <code>_Receiver_</code>:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -528,13 +525,13 @@ static_assert(std::execution::operation_state&lt;example_state&lt;SomeReceiver&g
 <p><code>get_env() const noexcept</code></p>
 </li>
 <li>
-<p><code>set_value(args…) &amp;&amp; noexcept &#8594; void</code></p>
+<p><code>set_value(args…) &amp;&amp; noexcept -&gt; void</code></p>
 </li>
 <li>
-<p><code>set_error(error) &amp;&amp; noexcept &#8594; void</code></p>
+<p><code>set_error(error) &amp;&amp; noexcept -&gt; void</code></p>
 </li>
 <li>
-<p><code>set_stopped() &amp;&amp; noexcept &#8594; void</code></p>
+<p><code>set_stopped() &amp;&amp; noexcept -&gt; void</code></p>
 </li>
 </ul>
 </div>
@@ -582,13 +579,13 @@ static_assert(std::execution::receiver&lt;example_receiver&lt;SomeReceiver&gt;&g
 <summary class="title"><code>receiver_of&lt;<i>Receiver, Completions</i>&gt;</code></summary>
 <div class="content">
 <div class="paragraph">
-<p>The concept <code>receiver_of&lt;Receiver, Completions&gt;</code> tests whether <code>std::execution::receiver&lt;_Receiver_&gt;</code> is true and if an object of type <code><em>Receiver</em></code> can be invoked with each of the completion signals in <code><em>Completions</em></code>.</p>
+<p>The concept <code>receiver_of&lt;Receiver, Completions&gt;</code> tests whether <code>std::execution::receiver&lt;_Receiver_&gt;</code> is true and if an object of type <code>_Receiver_</code> can be invoked with each of the completion signals in <code>_Completions_</code>.</p>
 </div>
 <details>
 <summary class="title">Example</summary>
 <div class="content">
 <div class="paragraph">
-<p>The example defines a simple <code>receiver</code> and tests whether it models <code>receiver_of</code> with different completion signals in <code><em>Completions</em></code> (note that not all cases are true).</p>
+<p>The example defines a simple <code>receiver</code> and tests whether it models <code>receiver_of</code> with different completion signals in <code>_Completions_</code> (note that not all cases are true).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -631,18 +628,18 @@ static_assert(not std::execution::receiver_of&lt;example_receiver,
 <p>Schedulers are used to specify the execution context where the asynchronous work is to be executed. A scheduler is a lightweight handle providing a <code>schedule</code> operation yielding a <code>sender</code> with a value completion signal without parameters. The completion is on the respective execution context.</p>
 </div>
 <div class="paragraph">
-<p>Requirements for <code><em>Scheduler</em></code>:</p>
+<p>Requirements for <code>_Scheduler_</code>:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The type <code><em>Scheduler</em>::scheduler_concept</code> is an alias for <code>scheduler_tag</code> or a type derived thereof.</p>
+<p>The type <code>_Scheduler_::scheduler_concept</code> is an alias for <code>scheduler_tag</code> or a type derived thereof.</p>
 </li>
 <li>
-<p><code>schedule(<em>scheduler</em>) &#8594; sender</code></p>
+<p><code>schedule(_scheduler_) -&gt; sender</code></p>
 </li>
 <li>
-<p>The value completion scheduler of the <code>sender</code>’s environment is the <code><em>scheduler</em></code>:</p>
+<p>The value completion scheduler of the <code>sender</code>’s environment is the <code>_scheduler_</code>:</p>
 <div class="paragraph">
 <p><em>scheduler</em> == std::execution::get_completion_schedulerstd::execution::set_value_t( std::execution::get_env(std::execution::schedule(<em>scheduler</em>)) )</p>
 </div>
@@ -664,26 +661,26 @@ static_assert(not std::execution::receiver_of&lt;example_receiver,
 <p>Senders represent asynchronous work. They may get composed from multiple senders to model a workflow. Senders can’t be run directly. Instead, they are passed to a sender consumer which <code>connect`s the sender to a `receiver</code> to produce an <code>operation_state</code> which may get started. When using senders to represent work the inner workings shouldn’t matter. They do become relevant when creating sender algorithms.</p>
 </div>
 <div class="paragraph">
-<p>Requirements for <code><em>Sender</em></code>:</p>
+<p>Requirements for <code>_Sender_</code>:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The type <code><em>Sender</em>::sender_concept</code> is an alias for <code>sender_tag</code> or a type derived thereof or <code><em>Sender</em></code> is a suitable <em>awaitable</em>.</p>
+<p>The type <code>_Sender_::sender_concept</code> is an alias for <code>sender_tag</code> or a type derived thereof or <code>_Sender_</code> is a suitable <em>awaitable</em>.</p>
 </li>
 <li>
-<p><code>std::execution::get_env(<em>sender</em>)</code> is valid. By default this operation returns <code>std::execution::env&lt;&gt;</code>.</p>
+<p><code>std::execution::get_env(_sender_)</code> is valid. By default this operation returns <code>std::execution::env&lt;&gt;</code>.</p>
 </li>
 <li>
-<p>Rvalues of type <code><em>Sender</em></code> can be moved.</p>
+<p>Rvalues of type <code>_Sender_</code> can be moved.</p>
 </li>
 <li>
-<p>Lvalues of type <code><em>Sender</em></code> can be copied.</p>
+<p>Lvalues of type <code>_Sender_</code> can be copied.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Typical members for <code><em>Sender</em></code>:</p>
+<p>Typical members for <code>_Sender_</code>:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -691,13 +688,13 @@ static_assert(not std::execution::receiver_of&lt;example_receiver,
 <p><code>get_env() const noexcept</code></p>
 </li>
 <li>
-<p><code>get_completion_signatures(<em>env</em>) const noexcept &#8594; std::execution::completion_signatures&lt;&#8230;&#8203;&gt;</code></p>
+<p><code>get_completion_signatures(_env_) const noexcept -&gt; std::execution::completion_signatures&lt;&#8230;&#8203;&gt;</code></p>
 </li>
 <li>
-<p><code><em>Sender</em>::completion_signatures</code> is a type alias for <code>std::execution::completion_signatures&lt;&#8230;&#8203;&gt;</code> (if there is no <code>get_completion_signatures</code> member).</p>
+<p><code>_Sender_::completion_signatures</code> is a type alias for <code>std::execution::completion_signatures&lt;&#8230;&#8203;&gt;</code> (if there is no <code>get_completion_signatures</code> member).</p>
 </li>
 <li>
-<p><code>connect(<em>sender</em>, receiver) &#8594; operation_state</code></p>
+<p><code>connect(_sender_, receiver) -&gt; operation_state</code></p>
 </li>
 </ul>
 </div>
@@ -747,7 +744,7 @@ static_assert(std::execution::sender&lt;example_sender&gt;);</code></pre>
 <summary class="title"><code>sender_in&lt;<i>Sender, Env</i> = std::execution::env&lt;&gt;&gt;</code></summary>
 <div class="content">
 <div class="paragraph">
-<p>The concept <code>sender_in&lt;Sender, Env&gt;</code> tests whether <code><em>Sender</em></code> is a <code>sender</code>, <code><em>Env</em></code> is a destructible type, and <code>std::execution::get_completion_signatures&lt;_Sender_, <em>Env</em>&gt;()</code> yields a specialization of <code>std::execution::completion_signatures</code>.</p>
+<p>The concept <code>sender_in&lt;Sender, Env&gt;</code> tests whether <code>_Sender_</code> is a <code>sender</code>, <code>_Env_</code> is a destructible type, and <code>std::execution::get_completion_signatures&lt;_Sender_, _Env_&gt;()</code> yields a specialization of <code>std::execution::completion_signatures</code>.</p>
 </div>
 </div>
 </details>
@@ -755,10 +752,10 @@ static_assert(std::execution::sender&lt;example_sender&gt;);</code></pre>
 <summary class="title"><code><i>sender-to</i>&lt;<i>Sender, Receiver</i>&gt;</code></summary>
 <div class="content">
 <div class="paragraph">
-<p>The concept <code>sender-to&lt;Sender, Receiver&gt;</code> tests if <code>std::execution::sender_in&lt;_Sender_, std::execution::env_of_t&lt;_Receiver_&gt;&gt;</code> is true, and if <code><em>Receiver</em></code> can receive all completion signals which can be sent by <code><em>Sender</em></code>, and if <code><em>Sender</em></code> can be <code>connect`ed to `<em>Receiver</em></code>.</p>
+<p>The concept <code>sender-to&lt;Sender, Receiver&gt;</code> tests if <code>std::execution::sender_in&lt;_Sender_, std::execution::env_of_t&lt;_Receiver_&gt;&gt;</code> is true, and if <code>_Receiver_</code> can receive all completion signals which can be sent by <code>_Sender_</code>, and if <code>_Sender_</code> can be <code>connect`ed to `_Receiver_</code>.</p>
 </div>
 <div class="paragraph">
-<p>To determine if <code><em>Receiver</em></code> can receive all completion signals from <code><em>Sender</em></code> it checks that for each <code><em>Signature</em></code> in <code>std::execution::get_completion_signals(<em>sender</em>, std::declval&lt;std::execution::env_of_t&lt;_Receiver_&gt;&gt;())</code> the test <code>std::execution::receiver_of&lt;_Receiver_, <em>Signature</em>&gt;</code> yields true. To determine if <code><em>Sender</em></code> can be <code>connect`ed to `<em>Receiver</em></code> the concept checks if <code>connect(std::declval&lt;_Sender_&gt;(), std::declval&lt;_Receiver_&gt;)</code> is a valid expression.</p>
+<p>To determine if <code>_Receiver_</code> can receive all completion signals from <code>_Sender_</code> it checks that for each <code>_Signature_</code> in <code>std::execution::get_completion_signals(_sender_, std::declval&lt;std::execution::env_of_t&lt;_Receiver_&gt;&gt;())</code> the test <code>std::execution::receiver_of&lt;_Receiver_, _Signature_&gt;</code> yields true. To determine if <code>_Sender_</code> can be <code>connect`ed to `_Receiver_</code> the concept checks if <code>connect(std::declval&lt;_Sender_&gt;(), std::declval&lt;_Receiver_&gt;)</code> is a valid expression.</p>
 </div>
 </div>
 </details>
@@ -766,7 +763,7 @@ static_assert(std::execution::sender&lt;example_sender&gt;);</code></pre>
 <summary class="title"><code>sends_stopped&lt;<i>Sender, Env</i> = std::execution::env&lt;&gt;&gt;</code></summary>
 <div class="content">
 <div class="paragraph">
-<p>The concept <code>sends_stopped&lt;Sender, Env&gt;</code> determines if <code><em>Sender</em></code> may send a <code>stopped</code> completion signal. To do so, the concepts determines if <code>std::execution::get_completion_signals(<em>sender</em>, <em>env</em>)</code> contains the signatures <code>std::execution::set_stopped_t()</code>.</p>
+<p>The concept <code>sends_stopped&lt;Sender, Env&gt;</code> determines if <code>_Sender_</code> may send a <code>stopped</code> completion signal. To do so, the concepts determines if <code>std::execution::get_completion_signals(_sender_, _env_)</code> contains the signatures <code>std::execution::set_stopped_t()</code>.</p>
 </div>
 </div>
 </details>
@@ -777,7 +774,7 @@ static_assert(std::execution::sender&lt;example_sender&gt;);</code></pre>
 <p>A <code>stoppable_token&lt;Token&gt;</code>, e.g., obtained via <code>std::execution::get_stop_token(env)</code> is used to support cancellation of asynchronous operations. Using <code>token.stop_requested()</code> an active operation can poll whether it was requested to cancel. An inactive operation waiting for a notification can use an object of a specialization of the template <code>Token::callback_type</code> to get notified when cancellation is requested.</p>
 </div>
 <div class="paragraph">
-<p>Required members for <code><em>Token</em></code>:</p>
+<p>Required members for <code>_Token_</code>:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -785,10 +782,10 @@ static_assert(std::execution::sender&lt;example_sender&gt;);</code></pre>
 <p><code>Token::callback_type&lt;Callback&gt;</code> can be specialized with a <code>std::callable&lt;Callback&gt;</code> type.</p>
 </li>
 <li>
-<p><code>token.stop_requested() const noexcept &#8594; bool</code></p>
+<p><code>token.stop_requested() const noexcept -&gt; bool</code></p>
 </li>
 <li>
-<p><code>token.stop_possible() const noexcept &#8594; bool</code></p>
+<p><code>token.stop_possible() const noexcept -&gt; bool</code></p>
 </li>
 <li>
 <p><code>std::copyable&lt;Token&gt;</code></p>
@@ -913,10 +910,8 @@ static_assert(not std::execution::unstoppable_token&lt;std::execution::inline_st
 </div>
 </details>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_queries"><a class="anchor" href="#_queries"></a>Queries</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_queries"><a class="anchor" href="#_queries"></a>Queries</h3>
 <div class="paragraph">
 <p>The queries are used to obtain properties associated with an object.</p>
 </div>
@@ -1190,7 +1185,7 @@ struct queryable {
 <summary class="title"><code>get_delegation_scheduler(<i>env</i>) -> <i>scheduler</i></code></summary>
 <div class="content">
 <div class="paragraph">
-<p>The expression <code>get_delegation_scheduler(env)</code> yields the scheduler associated with <code>env</code> which is used for forward progress delegation. The value of the expression is equivalent to <code>as_const(env).query(get_delegation_scheduler) &#8594; scheduler</code> if</p>
+<p>The expression <code>get_delegation_scheduler(env)</code> yields the scheduler associated with <code>env</code> which is used for forward progress delegation. The value of the expression is equivalent to <code>as_const(env).query(get_delegation_scheduler) -&gt; scheduler</code> if</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1325,10 +1320,8 @@ struct queryable {
 </div>
 </details>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_customization_point_objects"><a class="anchor" href="#_customization_point_objects"></a>Customization Point Objects</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_customization_point_objects"><a class="anchor" href="#_customization_point_objects"></a>Customization Point Objects</h3>
 <details>
 <summary class="title"><code>connect(<i>sender</i>, <i>receiver</i>) -> <i>operation_state</i></code></summary>
 <div class="content">
@@ -1370,12 +1363,10 @@ struct queryable {
 </div>
 </details>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_senders"><a class="anchor" href="#_senders"></a>Senders</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_sender_factories"><a class="anchor" href="#_sender_factories"></a>Sender Factories</h3>
+<h3 id="_senders"><a class="anchor" href="#_senders"></a>Senders</h3>
+<div class="sect3">
+<h4 id="_sender_factories"><a class="anchor" href="#_sender_factories"></a>Sender Factories</h4>
 <div class="paragraph">
 <p>Sender factories create a sender which forms the start of a graph of lazy work items.</p>
 </div>
@@ -1481,13 +1472,10 @@ struct queryable {
 </div>
 </details>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_sender_adaptors"><a class="anchor" href="#_sender_adaptors"></a>Sender Adaptors</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_sender_adaptors"><a class="anchor" href="#_sender_adaptors"></a>Sender Adaptors</h4>
 <div class="paragraph">
-<p>The sender adaptors take one or more senders and adapt their respective behavior to complete with a corresponding result. The description uses the informal function <code>completions-of(sender)</code> to represent the completion signatures which <code>sender</code> produces. Also, completion signatures are combined using <code>+</code>: the result is the deduplicated set of the combined completion signatures.</p>
+<p>The sender adaptors take one or more senders and adapt their respective behavior to complete with a corresponding result. The description uses the informal function <code>completions-of(sender)</code> to represent the completion signatures which <code>sender</code> produces. Also, completion signatures are combined using <code>&#43;</code>: the result is the deduplicated set of the combined completion signatures.</p>
 </div>
 <details>
 <summary class="title"><code>affine(<i>sender</i>) -> <i>sender-of</i><<i>completions-of</i>(<i>sender</i>)></code></summary>
@@ -1586,15 +1574,15 @@ struct queryable {
 <div class="ulist">
 <ul>
 <li>
-<p><code><em>sndr</em></code> when the form <code>on(<em>sched</em>, <em>sndr</em>)</code> is used;</p>
+<p><code>_sndr_</code> when the form <code>on(_sched_, _sndr_)</code> is used;</p>
 </li>
 <li>
-<p><code><em>closure</em>(<em>sndr</em>)</code> when the form <code>on(<em>sndr</em>, <em>sched</em>, <em>closure</em>)</code> is used.</p>
+<p><code>_closure_(_sndr_)</code> when the form <code>on(_sndr_, _sched_, _closure_)</code> is used.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The sender <code>on-sndr</code> is started on <code><em>sched</em>&#8217;s execution context. The `on</code> algorithm completes on the original scheduler (obtained using <code>get_start_scheduler</code>) with the result of the <code>on-sndr</code>.</p>
+<p>The sender <code>on-sndr</code> is started on <code>_sched_&#8217;s execution context. The `on</code> algorithm completes on the original scheduler (obtained using <code>get_start_scheduler</code>) with the result of the <code>on-sndr</code>.</p>
 </div>
 </div>
 </details>
@@ -1693,10 +1681,8 @@ struct queryable {
 </div>
 </details>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_sender_consumers"><a class="anchor" href="#_sender_consumers"></a>Sender Consumers</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_sender_consumers"><a class="anchor" href="#_sender_consumers"></a>Sender Consumers</h4>
 <details>
 <summary class="title"><code>sync_wait(<i>sender</i>) -> std::optional&lt;std::tuple&lt;T...&gt;&gt;</code></summary>
 <div class="content">
@@ -1717,9 +1703,8 @@ struct queryable {
 </details>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_helpers"><a class="anchor" href="#_helpers"></a>Helpers</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_helpers"><a class="anchor" href="#_helpers"></a>Helpers</h3>
 <details>
 <summary class="title"><code><i>adapt-for-await-completion</i>(<i>s</i>)</code></summary>
 <div class="content">
@@ -1933,10 +1918,8 @@ struct queryable {
 </div>
 </details>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_stop_token"><a class="anchor" href="#_stop_token"></a>Stop Token</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_stop_token"><a class="anchor" href="#_stop_token"></a>Stop Token</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1951,10 +1934,8 @@ struct queryable {
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_exposition_only"><a class="anchor" href="#_exposition_only"></a>Exposition Only</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_exposition_only"><a class="anchor" href="#_exposition_only"></a>Exposition Only</h3>
 <details>
 <summary class="title"><code><i>as-except-ptr</i>(err)</code></summary>
 <div class="content">
@@ -2252,6 +2233,7 @@ struct queryable {
 </div>
 </div>
 </details>
+</div>
 </div>
 </div>
 </article>

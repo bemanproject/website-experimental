@@ -422,7 +422,7 @@
 <div class="sect2">
 <h3 id="_design"><a class="anchor" href="#_design"></a>Design</h3>
 <div class="paragraph">
-<p>The design is straightforward. The <code>optional&lt;T&amp;&gt;</code> holds a pointer to the underlying object of type <code>T</code>, or <code>nullptr</code> if the optional is disengaged. The implementation is simple, especially with C++20 and up techniques, using concept constraints. As the held pointer is a primitive regular type with reference semantics, many operations can be defaulted and are <code>noexcept</code> by nature. See Downey_smd_optional_optional_T and rawgithu58:online. The <code>optional&lt;T&amp;&gt;</code> implementation is less than 200 lines of code, much of it the monadic functions with identical textual implementations with different signatures and different overloads being called.</p>
+<p>The design is straightforward. The <code>optional&lt;T&amp;&gt;</code> holds a pointer to the underlying object of type <code>T</code>, or <code>nullptr</code> if the optional is disengaged. The implementation is simple, especially with C&#43;&#43;20 and up techniques, using concept constraints. As the held pointer is a primitive regular type with reference semantics, many operations can be defaulted and are <code>noexcept</code> by nature. See Downey_smd_optional_optional_T and rawgithu58:online. The <code>optional&lt;T&amp;&gt;</code> implementation is less than 200 lines of code, much of it the monadic functions with identical textual implementations with different signatures and different overloads being called.</p>
 </div>
 <div class="paragraph">
 <p>In place construction is not supported as it would just be a way of providing immediate life-time issues.</p>
@@ -463,7 +463,7 @@
 <div class="sect3">
 <h4 id="_shallow_vs_deep_const"><a class="anchor" href="#_shallow_vs_deep_const"></a>Shallow vs Deep const</h4>
 <div class="paragraph">
-<p>There is some implementation divergence in optionals about deep const for <code>optional&lt;T&amp;&gt;</code>. That is, can the referred to <code>int</code> be modified through a <code>const optional&lt;int&amp;&gt;</code>. Does <code>operator&#8594;()</code> return an <code>int*</code> or a <code>const int*</code>, and does <code>operator*()</code> return an <code>int&amp;</code> or a <code>const int&amp;</code>. I believe it is overall more defensible if the <code>const</code> is shallow as it would be for a <code>struct ref \{int * p;`</code> where the constness of the struct ref does not affect if the p pointer can be written through. This is consistent with the rebinding behavior being proposed.</p>
+<p>There is some implementation divergence in optionals about deep const for <code>optional&lt;T&amp;&gt;</code>. That is, can the referred to <code>int</code> be modified through a <code>const optional&lt;int&amp;&gt;</code>. Does <code>operator-&gt;()</code> return an <code>int*</code> or a <code>const int*</code>, and does <code>operator*()</code> return an <code>int&amp;</code> or a <code>const int&amp;</code>. I believe it is overall more defensible if the <code>const</code> is shallow as it would be for a `struct ref {int * p;`` where the constness of the struct ref does not affect if the p pointer can be written through. This is consistent with the rebinding behavior being proposed.</p>
 </div>
 <div class="paragraph">
 <p>Where deeper constness is desired, <code>optional&lt;const T&amp;&gt;</code> would prevent non const access to the underlying object.</p>
@@ -560,7 +560,7 @@
 <p>This will make a <code>process(std::string("sdfd"))</code> invocation ill-formed, despite the arg being safe to use from within the function body.</p>
 </div>
 <div class="paragraph">
-<p>This deviates from the design of the <code>`view'' parameters type, like `std::string_view</code> or <code>std::span</code>. However, we believe that this is the right choice due to the following:</p>
+<p>This deviates from the design of the ``view'' parameters type, like <code>std::string_view</code> or <code>std::span</code>. However, we believe that this is the right choice due to the following:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -586,7 +586,7 @@
 <p>One of the main motivational examples of <code>optional&lt;T const&amp;&gt;</code> is return from a lookup function, and eliminating dangling in such cases outweighs parameter cases.</p>
 </div>
 <div class="paragraph">
-<p>We are very grateful to Arthur O&#8217;Dwyer for his work on P2266R3 accepted in C++23, which makes it possible to implement this correctly.</p>
+<p>We are very grateful to Arthur O&#8217;Dwyer for his work on P2266R3 accepted in C&#43;&#43;23, which makes it possible to implement this correctly.</p>
 </div>
 <div class="ulist">
 <ul>

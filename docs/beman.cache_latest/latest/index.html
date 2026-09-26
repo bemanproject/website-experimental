@@ -410,13 +410,13 @@
 <p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg" alt="Library Status"></span></a> <a href="https://github.com/bemanproject/cache_latest/actions/workflows/ci_tests.yml"><span class="image"><img src="https://github.com/bemanproject/cache_latest/actions/workflows/ci_tests.yml/badge.svg" alt="Continuous Integration Tests"></span></a> <a href="https://github.com/bemanproject/cache_latest/actions/workflows/pre-commit-check.yml"><span class="image"><img src="https://github.com/bemanproject/cache_latest/actions/workflows/pre-commit-check.yml/badge.svg" alt="Lint Check (pre-commit)"></span></a> <a href="https://coveralls.io/github/bemanproject/cache_latest?branch=main"><span class="image"><img src="https://coveralls.io/repos/github/bemanproject/cache_latest/badge.svg?branch=main" alt="Coverage"></span></a> <span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp26.svg" alt="Standard Target"></span></p>
 </div>
 <div class="paragraph">
-<p><code>beman.cache_latest</code> is a C++ ranges adaptor that caches the result of the last dereference of the underlying iterator. The reason for doing this is efficiency - specifically avoiding extra iterator dereferences.</p>
+<p><code>beman.cache_latest</code> is a C&#43;&#43; ranges adaptor that caches the result of the last dereference of the underlying iterator. The reason for doing this is efficiency - specifically avoiding extra iterator dereferences.</p>
 </div>
 <div class="paragraph">
 <p>The library conforms to <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_standard.md">The Beman Standard</a>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Implements</strong>: <code>std::views::cache_latest</code> proposed in <a href="https://wg21.link/P3138">P3138 <code>views::cache_latest</code></a> and in the working draft for C++26.</p>
+<p><strong>Implements</strong>: <code>std::views::cache_latest</code> proposed in <a href="https://wg21.link/P3138">P3138 <code>views::cache_latest</code></a> and in the working draft for C&#43;&#43;26.</p>
 </div>
 <div class="paragraph">
 <p><strong>Status</strong>: <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#under-development-and-not-yet-ready-for-production-use">Under development and not yet ready for production use.</a></p>
@@ -471,7 +471,7 @@ int main()
 <div class="ulist">
 <ul>
 <li>
-<p>A C compiler that conforms to the C23 standard or greater</p>
+<p>A C&#43;&#43; compiler that conforms to the C&#43;&#43;23 standard or greater</p>
 </li>
 <li>
 <p>CMake 3.30 or later</p>
@@ -501,7 +501,7 @@ int main()
 <tr>
 <th class="tableblock halign-left valign-top">Compiler</th>
 <th class="tableblock halign-left valign-top">Version</th>
-<th class="tableblock halign-left valign-top">C++ Standards</th>
+<th class="tableblock halign-left valign-top">C&#43;&#43; Standards</th>
 <th class="tableblock halign-left valign-top">Standard Library</th>
 </tr>
 </thead>
@@ -509,14 +509,14 @@ int main()
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GCC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">16-14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26, C23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26, C&#43;&#43;23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">23-19</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26, C23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc, libc</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26, C&#43;&#43;23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;, libc&#43;&#43;</p></td>
 </tr>
 </tbody>
 </table>
@@ -627,7 +627,7 @@ int main()
 <div class="sect3">
 <h4 id="using-bemancache_latest"><a class="anchor" href="#using-bemancache_latest"></a>Using beman.cache_latest</h4>
 <div class="paragraph">
-<p>To use <code>beman.cache_latest</code> in your C++ project, include an appropriate <code>beman.cache_latest</code> header from your source code.</p>
+<p>To use <code>beman.cache_latest</code> in your C&#43;&#43; project, include an appropriate <code>beman.cache_latest</code> header from your source code.</p>
 </div>
 <div class="listingblock">
 <div class="content">

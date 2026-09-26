@@ -397,7 +397,7 @@
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><strong>Validate a unifying abstraction.</strong> Demonstrate that the monadic vocabulary (<code>and_then</code>, <code>transform</code>, <code>or_else</code>, <code>transform_error</code>) can be expressed as free functions over a single "box" abstraction that covers <code>std::optional</code>, <code>std::expected</code>, smart pointers, raw pointers, and arbitrary user types. This is intended to inform a future C++ standardization paper.</p>
+<p><strong>Validate a unifying abstraction.</strong> Demonstrate that the monadic vocabulary (<code>and_then</code>, <code>transform</code>, <code>or_else</code>, <code>transform_error</code>) can be expressed as free functions over a single "box" abstraction that covers <code>std::optional</code>, <code>std::expected</code>, smart pointers, raw pointers, and arbitrary user types. This is intended to inform a future C&#43;&#43; standardization paper.</p>
 </li>
 <li>
 <p><strong>Provide an open extension point.</strong> Give users a foundation on which they can build additional operations — <code>flatten</code>, <code>join</code>, <code>value_or</code>, <code>sequence</code>, and others — that automatically work for every adapted box type, without modifying the library or the box type itself.</p>
@@ -408,7 +408,7 @@
 <div class="sect2">
 <h3 id="_why_free_functions"><a class="anchor" href="#_why_free_functions"></a>Why Free Functions?</h3>
 <div class="paragraph">
-<p>C++23 adds monadic operations as member functions of <code>std::optional</code> and <code>std::expected</code>. This works for those types, but member functions cannot be added retroactively to existing types (<code>std::shared_ptr</code>, raw pointers, third-party types), and they cannot be added by users at all without modifying the type.</p>
+<p>C&#43;&#43;23 adds monadic operations as member functions of <code>std::optional</code> and <code>std::expected</code>. This works for those types, but member functions cannot be added retroactively to existing types (<code>std::shared_ptr</code>, raw pointers, third-party types), and they cannot be added by users at all without modifying the type.</p>
 </div>
 <div class="paragraph">
 <p>Free functions in a namespace make the operations open for extension:</p>
@@ -755,10 +755,10 @@ static_assert(v == 42);</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p><code>and_then(f)</code> — <code>f: T &#8594; expected&lt;U, E&gt;</code> (E is fixed)</p>
+<p><code>and_then(f)</code> — <code>f: T -&gt; expected&lt;U, E&gt;</code> (E is fixed)</p>
 </li>
 <li>
-<p><code>or_else(f)</code> — <code>f: E &#8594; expected&lt;T, F&gt;</code> (T is fixed)</p>
+<p><code>or_else(f)</code> — <code>f: E -&gt; expected&lt;T, F&gt;</code> (T is fixed)</p>
 </li>
 </ul>
 </div>

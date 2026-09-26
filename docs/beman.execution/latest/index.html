@@ -428,7 +428,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>The key operation is <code>schedule(scheduler) &#8594; sender</code>.</p>
+<p>The key operation is <code>schedule(scheduler) -&gt; sender</code>.</p>
 </li>
 </ul>
 </div>
@@ -438,7 +438,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>The key operation is <code>connect(sender, receiver) &#8594; operation-state</code>.</p>
+<p>The key operation is <code>connect(sender, receiver) -&gt; operation-state</code>.</p>
 </li>
 </ul>
 </div>
@@ -522,7 +522,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>A C compiler that conforms to the C23 standard or greater</p>
+<p>A C&#43;&#43; compiler that conforms to the C&#43;&#43;23 standard or greater</p>
 </li>
 <li>
 <p>CMake 3.30 or later</p>
@@ -536,7 +536,7 @@
 <p>You can disable building examples by setting CMake option <code>BEMAN_EXECUTION_BUILD_EXAMPLES</code> to <code>OFF</code> when configuring the project.</p>
 </div>
 <div class="paragraph">
-<p>By default, <code>beman.execution</code> provides <a href="https://eel.is/c++draft/exec.parschedrepl.query">query_parallel_scheduler_backend</a>. If you want to use a custom <code>parallel_scheduler_backend</code>, you can disable the default <code>query_parallel_scheduler_backend</code> implementation by setting CMake option <code>BEMAN_EXECUTION_WITH_DEFAULT_PARALLEL_SCHEDULER_BACKEND</code> to <code>OFF</code> when configuring the project.</p>
+<p>By default, <code>beman.execution</code> provides <a href="https://eel.is/cdraft/exec.parschedrepl.query[query" class="bare">https://eel.is/cdraft/exec.parschedrepl.query[query</a><em>parallel</em>scheduler<em>backend]. If you want to use a custom `parallel</em>scheduler<em>backend`, you can disable the default `query</em>parallel<em>scheduler</em>backend` implementation by setting CMake option `BEMAN<em>EXECUTION</em>WITH<em>DEFAULT</em>PARALLEL<em>SCHEDULER</em>++BACKEND` to <code>OFF</code> when configuring the project.</p>
 </div>
 <div class="paragraph">
 <p>The following instructions build the library and the examples:</p>
@@ -561,7 +561,7 @@ CXX=g++-15 cmake --workflow --preset release</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The implementation compiles and passes tests using <a href="https://clang.llvm.org/">clang</a>, <a href="http://gcc.gnu.org">gcc</a>, and <a href="https://visualstudio.microsoft.com/vs/features/cplusplus/">MSVC++</a>.</p>
+<p>The implementation compiles and passes tests using <a href="https://clang.llvm.org/">clang</a>, <a href="http://gcc.gnu.org">gcc</a>, and <a href="https://visualstudio.microsoft.com/vs/features/cplusplus/">MSVC&#43;&#43;</a>.</p>
 </div>
 </div>
 <div class="sect3">
@@ -577,7 +577,7 @@ CXX=g++-15 cmake --workflow --preset release</pre>
 <tr>
 <th class="tableblock halign-left valign-top">Compiler</th>
 <th class="tableblock halign-left valign-top">Version</th>
-<th class="tableblock halign-left valign-top">C++ Standards</th>
+<th class="tableblock halign-left valign-top">C&#43;&#43; Standards</th>
 <th class="tableblock halign-left valign-top">Standard Library</th>
 </tr>
 </thead>
@@ -585,19 +585,19 @@ CXX=g++-15 cmake --workflow --preset release</pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GCC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">15-14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26, C23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26, C&#43;&#43;23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">22-19</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26, C23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26, C&#43;&#43;23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MSVC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">latest</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C++23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;23</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MSVC STL</p></td>
 </tr>
 </tbody>

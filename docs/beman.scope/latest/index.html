@@ -410,10 +410,10 @@
 <p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg" alt="Library Status"></span></a> <span class="image"><img src="https://github.com/bemanproject/scope/actions/workflows/ci_tests.yml/badge.svg" alt="Continuous Integration Tests"></span> <span class="image"><img src="https://github.com/bemanproject/scope/actions/workflows/pre-commit.yml/badge.svg" alt="Lint Check (pre-commit)"></span> <a href="https://coveralls.io/github/bemanproject/scope?branch=main"><span class="image"><img src="https://coveralls.io/repos/github/bemanproject/scope/badge.svg?branch=main" alt="Coverage"></span></a> <span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp29.svg" alt="Standard Target"></span> <a href="https://godbolt.org/z/qMvrsPexd"><span class="image"><img src="https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&amp;logoColor=67c52a" alt="Compiler Explorer Example"></span></a></p>
 </div>
 <div class="paragraph">
-<p><code>beman.scope</code> is a C++ library that provides <code>scope_guard</code> facilities. The library conforms to <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_standard.md">The Beman Standard</a>.</p>
+<p><code>beman.scope</code> is a C&#43;&#43; library that provides <code>scope_guard</code> facilities. The library conforms to <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_standard.md">The Beman Standard</a>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Implements</strong>: <a href="https://github.com/bemanproject/scope/blob/main/papers/scope.org">D3610R0 Scope Guard</a> targeted at C++29.</p>
+<p><strong>Implements</strong>: <a href="https://github.com/bemanproject/scope/blob/main/papers/scope.org">D3610R0 Scope Guard</a> targeted at C&#43;&#43;29.</p>
 </div>
 <div class="paragraph">
 <p><strong>Status</strong>: <a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#under-development-and-not-yet-ready-for-production-use">Under development and not yet ready for production use.</a></p>
@@ -424,10 +424,10 @@
 <h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>During the C++20 cycle <a href="https://wg21.link/P0052">P0052 Generic Scope Guard and RAII Wrapper for the Standard Library</a> added 4 types: <code>scope_exit</code>, <code>scope_fail</code>, <code>scope_success</code> and <code>unique_resource</code> to <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/n4908#scopeguard">LTFSv3</a>.</p>
+<p>During the C&#43;&#43;20 cycle <a href="https://wg21.link/P0052">P0052 Generic Scope Guard and RAII Wrapper for the Standard Library</a> added 4 types: <code>scope_exit</code>, <code>scope_fail</code>, <code>scope_success</code> and <code>unique_resource</code> to <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/n4908#scopeguard">LTFSv3</a>.</p>
 </div>
 <div class="paragraph">
-<p>In the intervening time, two standard libraries have implemented support as well as Boost. With the imperative for safety and security in C++ developers need every tool in the toolbox. The authors believe it is time to move this facility into the standard. The paper will re-examine the five year old design and any learning from deployment of the LTFSv3.</p>
+<p>In the intervening time, two standard libraries have implemented support as well as Boost. With the imperative for safety and security in C&#43;&#43; developers need every tool in the toolbox. The authors believe it is time to move this facility into the standard. The paper will re-examine the five year old design and any learning from deployment of the LTFSv3.</p>
 </div>
 <div class="paragraph">
 <p>For discussions of this library and related work see:</p>
@@ -512,10 +512,10 @@
 <div class="sect2">
 <h3 id="integrate-bemanscope-into-your-project"><a class="anchor" href="#integrate-bemanscope-into-your-project"></a>Integrate beman.scope into your project</h3>
 <div class="paragraph">
-<p>Beman.scope is a header-only library that currently relies on TS implementations for <code>unique_resource</code> and is thus currently available only on g-13 and up, or clang 19 and up -- in C20 mode.</p>
+<p>Beman.scope is a header-only library that currently relies on TS implementations for <code>unique_resource</code> and is thus currently available only on g&#43;&#43;-13 and up, or clang 19 and up&#8201;&#8212;&#8201;in C&#43;&#43;20 mode.</p>
 </div>
 <div class="paragraph">
-<p>Note that modules support is currently tested only on clang-19 and above and g-15, and is not supported if the C standard is below C23.</p>
+<p>Note that modules support is currently tested only on clang&#43;&#43;-19 and above and g&#43;&#43;-15, and is not supported if the C&#43;&#43; standard is below C&#43;&#43;23.</p>
 </div>
 <div class="paragraph">
 <p>As a header only library no building is required to use in a project&#8201;&#8212;&#8201;simply make the <code>include</code> directory available add add the following to your source.</p>
@@ -543,7 +543,7 @@ import beman.scope;</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>A C compiler that conforms to the C20 standard or greater</p>
+<p>A C&#43;&#43; compiler that conforms to the C&#43;&#43;20 standard or greater</p>
 </li>
 <li>
 <p>CMake 3.30 or later</p>
@@ -608,7 +608,7 @@ import beman.scope;</code></pre>
 <tr>
 <th class="tableblock halign-left valign-top">Compiler</th>
 <th class="tableblock halign-left valign-top">Version</th>
-<th class="tableblock halign-left valign-top">C++ Standards</th>
+<th class="tableblock halign-left valign-top">C&#43;&#43; Standards</th>
 <th class="tableblock halign-left valign-top">Standard Library</th>
 </tr>
 </thead>
@@ -616,14 +616,14 @@ import beman.scope;</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GCC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">15-13</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C20</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26-C&#43;&#43;20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">20-19</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C20</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26-C&#43;&#43;20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;</p></td>
 </tr>
 </tbody>
 </table>

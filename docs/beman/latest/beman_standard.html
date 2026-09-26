@@ -518,7 +518,7 @@
 <div class="sect3">
 <h4 id="libraryname"><a class="anchor" href="#libraryname"></a><strong>[library.name]</strong></h4>
 <div class="paragraph">
-<p><strong>Recommendation</strong>: Beman libraries names begin with <code>beman.</code> followed by a <code>snake_case</code> short name. It should not contain a target C++ version.</p>
+<p><strong>Recommendation</strong>: Beman libraries names begin with <code>beman.</code> followed by a <code>snake_case</code> short name. It should not contain a target C&#43;&#43; version.</p>
 </div>
 <div class="paragraph">
 <p>Examples: <code>beman.smart_pointer</code> and <code>beman.sender_receiver</code>.</p>
@@ -533,7 +533,7 @@
 <div class="sect3">
 <h4 id="repositoryname"><a class="anchor" href="#repositoryname"></a><strong>[repository.name]</strong></h4>
 <div class="paragraph">
-<p><strong>Requirement</strong>: The repository must be named after the library name excluding the <code>beman.</code> prefix. It must not contain a target C++ version.</p>
+<p><strong>Requirement</strong>: The repository must be named after the library name excluding the <code>beman.</code> prefix. It must not contain a target C&#43;&#43; version.</p>
 </div>
 <div class="paragraph">
 <p>Examples: A <code>beman.smart_pointer</code> library&#8217;s repository should be named <code>smart_pointer</code>. A <code>beman.optional</code> library&#8217;s repository should be named <code>optional</code>.</p>
@@ -637,7 +637,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/mpark/wg21" class="bare">https://github.com/mpark/wg21</a>[mpark/wg21: Framework for Writing C Committee Papers]: A non-C submodule designed for drafting ISO C++ papers using LaTeX or Markdown.</p>
+<p><a href="https://github.com/mpark/wg21">mpark/wg21: Framework for Writing C&#43;&#43; Committee Papers</a>: A non-C&#43;&#43; submodule designed for drafting ISO C&#43;&#43; papers using LaTeX or Markdown.</p>
 </li>
 </ul>
 </div>
@@ -846,7 +846,7 @@
 <p>Use exactly one of the following entries for the standard target status badge.</p>
 </div>
 <div class="paragraph">
-<p>For C++26, use:</p>
+<p>For C&#43;&#43;26, use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -854,7 +854,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>For C++29, use:</p>
+<p>For C&#43;&#43;29, use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1027,7 +1027,7 @@ beman.exemplar is licensed under the Boost Software License 1.0 and under the ..
 <p>For common compiler/flag combinations, it is recommended to provide CMake presets as a convenient alternative for users.</p>
 </div>
 <div class="paragraph">
-<p>If specific compiler flags are essential for project functionality (e.g., C++ standard features), use utilities like <code>check_cxx_source_compiles</code> to detect support and provide a helpful error message suggesting appropriate flags for the user&#8217;s compiler.</p>
+<p>If specific compiler flags are essential for project functionality (e.g., C&#43;&#43; standard features), use utilities like <code>check_cxx_source_compiles</code> to detect support and provide a helpful error message suggesting appropriate flags for the user&#8217;s compiler.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1130,7 +1130,7 @@ gtest_discover_tests(myrepo-tests)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Document the option in <code>README.md</code> under <code><mark> Dependencies</code> → <code></mark># Build Environment</code>:</p>
+<p>Document the option in <code>README.md</code> under <code>## Dependencies</code> → <code>### Build Environment</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1185,7 +1185,7 @@ endif()</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Document the option in <code>README.md</code> under <code><mark> Dependencies</code> → <code></mark># Build Environment</code>:</p>
+<p>Document the option in <code>README.md</code> under <code>## Dependencies</code> → <code>### Build Environment</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1496,7 +1496,7 @@ tests
 <div class="sect3">
 <h4 id="filelicense_id"><a class="anchor" href="#filelicense_id"></a><strong>[file.license_id]</strong></h4>
 <div class="paragraph">
-<p><strong>Requirement</strong>: The <a href="https://spdx.dev/learn/handling-license-info/">SPDX license identifier</a> must be added within the first 25 lines in all files which can contain a comment (e.g., C++, scripts, CMake/Makefile, YAML/YML, JASON, XML, HTML, LaTeX, Dockerfile etc).</p>
+<p><strong>Requirement</strong>: The <a href="https://spdx.dev/learn/handling-license-info/">SPDX license identifier</a> must be added within the first 25 lines in all files which can contain a comment (e.g., C&#43;&#43;, scripts, CMake/Makefile, YAML/YML, JASON, XML, HTML, LaTeX, Dockerfile etc).</p>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -1504,7 +1504,7 @@ tests
 <div class="ulist">
 <ul>
 <li>
-<p>C++ files shall use the following form:</p>
+<p>C&#43;&#43; files shall use the following form:</p>
 </li>
 </ul>
 </div>
@@ -1550,7 +1550,7 @@ SPDX-License-Identifier: &lt;SPDX License Expression&gt;
 </div>
 </div>
 <div class="sect2">
-<h3 id="_c"><a class="anchor" href="#_c"></a>C++</h3>
+<h3 id="_c"><a class="anchor" href="#_c"></a>C&#43;&#43;</h3>
 <div class="sect3">
 <h4 id="cppnamespace"><a class="anchor" href="#cppnamespace"></a><strong>[cpp.namespace]</strong></h4>
 <div class="paragraph">
@@ -1560,7 +1560,7 @@ SPDX-License-Identifier: &lt;SPDX License Expression&gt;
 <div class="sect3">
 <h4 id="cppno_flag_forking"><a class="anchor" href="#cppno_flag_forking"></a><strong>[cpp.no_flag_forking]</strong></h4>
 <div class="paragraph">
-<p><strong>Requirement</strong>: C++ preprocessing must produce identical output regardless of compiler flags.</p>
+<p><strong>Requirement</strong>: C&#43;&#43; preprocessing must produce identical output regardless of compiler flags.</p>
 </div>
 <div class="paragraph">
 <p>Therefore, feature test macros such as <code>__cpp_explicit_this_parameter</code> should not be used directly.</p>
@@ -1617,10 +1617,10 @@ SPDX-License-Identifier: &lt;SPDX License Expression&gt;
 <div class="sect3">
 <h4 id="cppmin_std_version"><a class="anchor" href="#cppmin_std_version"></a><strong>[cpp.min_std_version]</strong></h4>
 <div class="paragraph">
-<p><strong>Recommendation</strong>: Beman authors can choose the minimum C standard version their library will support. C20 is the recommended default because concepts and other C20 features significantly simplify both implementation and code review. Additionally, most future Beman libraries target C29 or beyond, making C20 a practical baseline. That said, supporting C17 is also reasonable if an author has specific motivation to do so. Some libraries may require a higher minimum version for features like C26 reflection or other recent language capabilities. The readme should prominently display the minimum supported C standard version so users can quickly assess compatibility with their projects. Note that C modules are only supported in C23 and later due to <code>import std</code>, and this requirement should be clearly documented in the readme as well.</p>
+<p><strong>Recommendation</strong>: Beman authors can choose the minimum C&#43;&#43; standard version their library will support. C&#43;&#43;20 is the recommended default because concepts and other C&#43;&#43;20 features significantly simplify both implementation and code review. Additionally, most future Beman libraries target C&#43;&#43;29 or beyond, making C&#43;&#43;20 a practical baseline. That said, supporting C&#43;&#43;17 is also reasonable if an author has specific motivation to do so. Some libraries may require a higher minimum version for features like C&#43;&#43;26 reflection or other recent language capabilities. The readme should prominently display the minimum supported C&#43;&#43; standard version so users can quickly assess compatibility with their projects. Note that C&#43;&#43; modules are only supported in C&#43;&#43;23 and later due to <code>import std</code>, and this requirement should be clearly documented in the readme as well.</p>
 </div>
 <div class="paragraph">
-<p>Use the following style in <code>README.md</code> under <code><mark> Dependencies</code> → <code></mark># Build Environment</code>:</p>
+<p>Use the following style in <code>README.md</code> under <code>## Dependencies</code> → <code>### Build Environment</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">

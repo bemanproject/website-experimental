@@ -404,13 +404,13 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="bemanoptional-c26-extensions-for-stdoptional"><a class="anchor" href="#bemanoptional-c26-extensions-for-stdoptional"></a>beman.optional: C++26 Extensions for std::optional</h2>
+<h2 id="bemanoptional-c26-extensions-for-stdoptional"><a class="anchor" href="#bemanoptional-c26-extensions-for-stdoptional"></a>beman.optional: C&#43;&#43;26 Extensions for std::optional</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model"><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_production_ready_api_may_undergo_changes.svg" alt="Library Status"></span></a><span class="image"><img src="https://raw.githubusercontent.com/bemanproject/beman/main/images/badges/cpp26.svg" alt="Standard Target"></span><a href="https://godbolt.org/z/Gc6Y9j6zf"><span class="image"><img src="https://img.shields.io/badge/Try%20it%20on%20Compiler%20Explorer-grey?logo=compilerexplorer&amp;logoColor=67c52a" alt="Compiler Explorer Example"></span></a></p>
 </div>
 <div class="paragraph">
-<p>This repository implements <code>std::optional</code> extensions targeting C26. The `beman.optional` library aims to evaluate the stability, the usability, and the performance of these proposed changes before they are officially adopted by WG21 into the C Working Draft. Additionally, it allows developers to use these new features before they are implemented in major standard library compilers.</p>
+<p>This repository implements <code>std::optional</code> extensions targeting C&#43;&#43;26. The <code>beman.optional</code> library aims to evaluate the stability, the usability, and the performance of these proposed changes before they are officially adopted by WG21 into the C&#43;&#43; Working Draft. Additionally, it allows developers to use these new features before they are implemented in major standard library compilers.</p>
 </div>
 <div class="paragraph">
 <p><strong>Implements</strong>: <a href="https://wg21.link/P2988R12"><code>std::optional&lt;T&amp;&gt;</code> (P2988R12)</a> and <a href="https://wg21.link/P3168R2">Give <em>std::optional</em> Range Support (P3168R2)</a>.</p>
@@ -503,7 +503,7 @@ beman::optional::optional&lt;Cat&amp;&gt; cat = api();</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>A C compiler that conforms to the C20 standard or greater</p>
+<p>A C&#43;&#43; compiler that conforms to the C&#43;&#43;20 standard or greater</p>
 </li>
 <li>
 <p>CMake 3.27 or later</p>
@@ -526,10 +526,10 @@ beman::optional::optional&lt;Cat&amp;&gt; cat = api();</code></pre>
 <div class="sect3">
 <h4 id="_compiler_support"><a class="anchor" href="#_compiler_support"></a>Compiler Support</h4>
 <div class="paragraph">
-<p>This is a modern C project which can be compiled with the latest C standards (<strong>C++20 or later</strong>).</p>
+<p>This is a modern C&#43;&#43; project which can be compiled with the latest C&#43;&#43; standards (<strong>C&#43;&#43;20 or later</strong>).</p>
 </div>
 <div class="paragraph">
-<p>Default build: <code>C++23</code>. Please check <code>etc/${compiler}-flags.cmake</code>.</p>
+<p>Default build: <code>C&#43;&#43;23</code>. Please check <code>etc/${compiler}-flags.cmake</code>.</p>
 </div>
 </div>
 <div class="sect3">
@@ -585,12 +585,8 @@ apt-get install                           \
 </div>
 </details>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_supported_platforms"><a class="anchor" href="#_supported_platforms"></a>Supported Platforms</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_supported_platforms"><a class="anchor" href="#_supported_platforms"></a>Supported Platforms</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -602,7 +598,7 @@ apt-get install                           \
 <tr>
 <th class="tableblock halign-left valign-top">Compiler</th>
 <th class="tableblock halign-left valign-top">Version</th>
-<th class="tableblock halign-left valign-top">C++ Standards</th>
+<th class="tableblock halign-left valign-top">C&#43;&#43; Standards</th>
 <th class="tableblock halign-left valign-top">Standard Library</th>
 </tr>
 </thead>
@@ -610,48 +606,46 @@ apt-get install                           \
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GCC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">15-13</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C20</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26-C&#43;&#43;20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GCC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C23, C20</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;23, C&#43;&#43;20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">22-19</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C20</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc, libc</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26-C&#43;&#43;20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;, libc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C20</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26-C&#43;&#43;20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">AppleClang</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">latest</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26-C20</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26-C&#43;&#43;20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MSVC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">latest</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C++23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;23</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MSVC STL</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_instructions"><a class="anchor" href="#_instructions"></a>Instructions</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_develop_using_github_codespace"><a class="anchor" href="#_develop_using_github_codespace"></a>Develop using GitHub Codespace</h3>
+<div class="sect3">
+<h4 id="_instructions"><a class="anchor" href="#_instructions"></a>Instructions</h4>
+<div class="sect4">
+<h5 id="_develop_using_github_codespace"><a class="anchor" href="#_develop_using_github_codespace"></a>Develop using GitHub Codespace</h5>
 <div class="paragraph">
 <p>This project supports <a href="https://github.com/features/codespaces">GitHub Codespace</a> via <a href="https://containers.dev/">Development Containers</a>, which allows rapid development and instant hacking in your browser. We recommend using GitHub codespace to explore this project as it requires minimal setup.</p>
 </div>
@@ -664,19 +658,23 @@ apt-get install                           \
 <div class="paragraph">
 <p>For more documentation on GitHub codespaces, please see <a href="https://docs.github.com/en/codespaces/">this doc</a>.</p>
 </div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>[!NOTE]</p>
-</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
 <div class="paragraph">
 <p>The codespace container may take up to 5 minutes to build and spin-up; this is normal.</p>
 </div>
-</blockquote>
+</td>
+</tr>
+</table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_preset_cmake_flows"><a class="anchor" href="#_preset_cmake_flows"></a>Preset CMake Flows</h3>
+<div class="sect4">
+<h5 id="_preset_cmake_flows"><a class="anchor" href="#_preset_cmake_flows"></a>Preset CMake Flows</h5>
 <div class="paragraph">
 <p>This project recommends using <a href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html">CMake Presets</a> to configure, build and test the project. Appropriate presets for major compilers have been included by default. You can use <code>cmake --list-presets</code> to see all available presets.</p>
 </div>
@@ -694,24 +692,28 @@ apt-get install                           \
 <div class="paragraph">
 <p>The <code>debug</code> presets are designed to aid development, so it has debugging instrumentation enabled and many sanitizers enabled.</p>
 </div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>[!NOTE]</p>
-</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
 <div class="paragraph">
 <p>The sanitizers that are enabled vary from compiler to compiler. See the toolchain files under (<a href="https://github.com/bemanproject/optional/tree/main/cmake/"><code>cmake</code></a>) to determine the exact configuration used for each preset.</p>
 </div>
-</blockquote>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The <code>release</code> presets are designed for production use, and consequently have the highest optimization turned on (e.g. <code>O3</code>).</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_custom_cmake_flows"><a class="anchor" href="#_custom_cmake_flows"></a>Custom CMake Flows</h3>
-<div class="sect3">
-<h4 id="_build_and_run_tests"><a class="anchor" href="#_build_and_run_tests"></a>Build and Run Tests</h4>
+<div class="sect4">
+<h5 id="_custom_cmake_flows"><a class="anchor" href="#_custom_cmake_flows"></a>Custom CMake Flows</h5>
+<div class="sect5">
+<h6 id="_build_and_run_tests"><a class="anchor" href="#_build_and_run_tests"></a>Build and Run Tests</h6>
 <div class="paragraph">
 <p>CI current build and test flows:</p>
 </div>
@@ -742,8 +744,8 @@ Total Test time (real) =   0.67 sec</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_build_production_but_skip_tests"><a class="anchor" href="#_build_production_but_skip_tests"></a>Build Production, but Skip Tests</h4>
+<div class="sect5">
+<h6 id="_build_production_but_skip_tests"><a class="anchor" href="#_build_production_but_skip_tests"></a>Build Production, but Skip Tests</h6>
 <div class="paragraph">
 <p>By default, we build and run tests. You can disable building tests by setting CMake option <code>BEMAN_OPTIONAL_BUILD_TESTS</code> to <code>OFF</code> when configuring the project:</p>
 </div>
@@ -773,16 +775,16 @@ No tests were found!!!</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_pre_commit_for_linting"><a class="anchor" href="#_pre_commit_for_linting"></a>Pre-Commit for Linting</h3>
+<div class="sect4">
+<h5 id="_pre_commit_for_linting"><a class="anchor" href="#_pre_commit_for_linting"></a>Pre-Commit for Linting</h5>
 <div class="paragraph">
 <p>Various linting tools are configured and installed via the <a href="https://pre-commit.com/">pre-commit</a> framework. This requires a working python environment, but also allows the tools, such as clang-format and cmake-lint, to be versioned on a per project basis rather than being installed globally. Version changes in lint checks often means differences in success or failure between the versions in CI and the versions used by a developer. By using the same configurations, this problem is avoided.</p>
 </div>
 <div class="paragraph">
 <p>In order to set up a python environment, using a python virtual environment can simplify maintaining different configurations between projects. There is no particular dependency on a particular python3 version.</p>
 </div>
-<div class="sect3">
-<h4 id="_creating_and_configuring_a_venv"><a class="anchor" href="#_creating_and_configuring_a_venv"></a>Creating and configuring a venv</h4>
+<div class="sect5">
+<h6 id="_creating_and_configuring_a_venv"><a class="anchor" href="#_creating_and_configuring_a_venv"></a>Creating and configuring a venv</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">python3 -m venv .venv
@@ -797,8 +799,8 @@ No tests were found!!!</code></pre>
 <p>This will create the venv, install the python and python development tools, and run bash with the PATH and other environment variables set to use the venv preferentially.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_running_the_linting_tools"><a class="anchor" href="#_running_the_linting_tools"></a>Running the linting tools</h4>
+<div class="sect5">
+<h6 id="_running_the_linting_tools"><a class="anchor" href="#_running_the_linting_tools"></a>Running the linting tools</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">pre-commit run -a</code></pre>
@@ -817,8 +819,8 @@ No tests were found!!!</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="install-bemanoptional"><a class="anchor" href="#install-bemanoptional"></a>Install beman.optional</h3>
+<div class="sect4">
+<h5 id="install-bemanoptional"><a class="anchor" href="#install-bemanoptional"></a>Install beman.optional</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cmake --workflow --preset gcc-release
@@ -852,16 +854,15 @@ cmake --install build/gcc-release --prefix /opt/beman</code></pre>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_papers"><a class="anchor" href="#_papers"></a>Papers</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_papers"><a class="anchor" href="#_papers"></a>Papers</h3>
 <div class="paragraph">
 <p>Latest revision(s) of the papers can be built / found at:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/neatudarius/give-std-optional-range-support/">give-std-optional-range-support</a> for <code>Give <strong>std::optional</strong> Range Support (P3168)</code></p>
+<p><a href="https://github.com/neatudarius/give-std-optional-range-support/">give-std-optional-range-support</a> for <code>Give *std::optional* Range Support (P3168)</code></p>
 <div class="ulist">
 <ul>
 <li>
@@ -927,6 +928,7 @@ cmake --install build/gcc-release --prefix /opt/beman</code></pre>
 </div>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>

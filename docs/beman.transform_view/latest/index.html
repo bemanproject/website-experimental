@@ -475,7 +475,7 @@ int main() {
 <div class="ulist">
 <ul>
 <li>
-<p>A C compiler that conforms to the C23 standard or greater</p>
+<p>A C&#43;&#43; compiler that conforms to the C&#43;&#43;23 standard or greater</p>
 </li>
 <li>
 <p>CMake 3.30 or later</p>
@@ -505,7 +505,7 @@ int main() {
 <tr>
 <th class="tableblock halign-left valign-top">Compiler</th>
 <th class="tableblock halign-left valign-top">Version</th>
-<th class="tableblock halign-left valign-top">C++ Standards</th>
+<th class="tableblock halign-left valign-top">C&#43;&#43; Standards</th>
 <th class="tableblock halign-left valign-top">Standard Library</th>
 </tr>
 </thead>
@@ -513,31 +513,31 @@ int main() {
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GCC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">16-14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26, C23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26, C&#43;&#43;23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">22-19</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26, C23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc, libc</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26, C&#43;&#43;23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;, libc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Clang</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C++23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libstdc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">AppleClang</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">latest</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C26, C23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">libc++</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;26, C&#43;&#43;23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">libc&#43;&#43;</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MSVC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">latest</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C++23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C&#43;&#43;23</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MSVC STL</p></td>
 </tr>
 </tbody>
@@ -648,7 +648,7 @@ int main() {
 <div class="sect3">
 <h4 id="using-bemantransform_view"><a class="anchor" href="#using-bemantransform_view"></a>Using beman.transform_view</h4>
 <div class="paragraph">
-<p>To use <code>beman.transform_view</code> in your C++ project, include an appropriate <code>beman.transform_view</code> header from your source code.</p>
+<p>To use <code>beman.transform_view</code> in your C&#43;&#43; project, include an appropriate <code>beman.transform_view</code> header from your source code.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -670,7 +670,7 @@ int main() {
 <summary class="title">Details of CMake arguments.</summary>
 <div class="content">
 <div class="paragraph">
-<p>== <code>BEMAN_TRANSFORM_VIEW_BUILD_TESTS</code></p>
+<p>===== <code>BEMAN_TRANSFORM_VIEW_BUILD_TESTS</code></p>
 </div>
 <div class="paragraph">
 <p>Enable building tests and test infrastructure. Default: ON. Values: <code>{ ON, OFF }</code>.</p>
@@ -684,16 +684,16 @@ int main() {
 </div>
 </div>
 <div class="paragraph">
-<p>== <code>BEMAN_TRANSFORM_VIEW_BUILD_EXAMPLES</code></p>
+<p>===== <code>BEMAN_TRANSFORM_VIEW_BUILD_EXAMPLES</code></p>
 </div>
 <div class="paragraph">
-<p>Enable building examples. Default: ON. Values: \{ ON, OFF }.</p>
+<p>Enable building examples. Default: ON. Values: { ON, OFF }.</p>
 </div>
 <div class="paragraph">
-<p>== <code>BEMAN_TRANSFORM_VIEW_INSTALL_CONFIG_FILE_PACKAGE</code></p>
+<p>===== <code>BEMAN_TRANSFORM_VIEW_INSTALL_CONFIG_FILE_PACKAGE</code></p>
 </div>
 <div class="paragraph">
-<p>Enable installing the CMake config file package. Default: ON. Values: \{ ON, OFF }.</p>
+<p>Enable installing the CMake config file package. Default: ON. Values: { ON, OFF }.</p>
 </div>
 <div class="paragraph">
 <p>This is required so that users of <code>beman.transform_view</code> can use <code>find_package(beman.transform_view)</code> to locate the library.</p>
