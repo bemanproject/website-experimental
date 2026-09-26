@@ -75,13 +75,22 @@ Its final staged source tree lives at:
 $TMPDIR/beman-website-work/site/
 ```
 
-Its final rendered artifacts live in the local `build/` `gh-pages` worktree by default:
+Its final rendered artifacts live in the local `build/` directory by default:
 
 ```shell
 /path/to/website/build/
 ```
 
-If `build/` already exists as a legacy non-worktree directory, the script warns and asks before deleting and replacing it.
+Set `PAGES_DEPLOY=true` to make the default `build/` directory a `gh-pages`
+worktree for publishing. Normal local and preview builds do not fetch or require
+the `gh-pages` branch.
+
+When `CI=true`, configured library repositories are cloned into the temporary
+workspace as needed and updated to `main`. Local builds continue to use adjacent
+library checkouts unless `--clone-missing` or `--repos-root` is specified.
+
+`install-ci-docs-tools.sh` installs pinned, checksum-verified Pandoc and MrDocs
+Linux binaries for CI. GitHub Actions and Netlify use this same installer.
 
 ```shell
 $ python3 scripts/run-staged-website.py start

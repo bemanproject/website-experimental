@@ -45,7 +45,7 @@ def parse_args():
     )
     parser.add_argument(
         "--pages-root",
-        help="path to the gh-pages worktree/output directory (default: repo_root/build)",
+        help="path to the static output directory (default: repo_root/build)",
         type=str,
         default="",
     )
@@ -292,7 +292,7 @@ def build_antora_docs(repo_root: Path, build_root: Path, stage_root: Path, args)
         "--work-root",
         str(stage_root / "_antora-docs-work"),
         "--cache-dir",
-        str(repo_root / "build" / "antora-cache"),
+        str(stage_root.parent / "antora-cache"),
         "--site-url",
         os.environ.get("BEMAN_SITE_URL", "http://localhost:8000").rstrip("/") + "/docs",
     ]
@@ -676,6 +676,11 @@ def main():
     repo_root = Path(__file__).resolve().parent.parent
     default_work_root = Path(tempfile.gettempdir()) / "beman-website-work"
     work_root = Path(args.work_root) if args.work_root else default_work_root
+    if os.environ.get("CI") == "true":
+        args.clone_missing = True
+        args.update_repos = True
+        if not args.repos_root:
+            args.repos_root = str(work_root / "external-repos")
     pages_root = Path(args.pages_root) if args.pages_root else repo_root / "build"
     stage_root = work_root / "site"
     build_root = work_root / "_build"
@@ -689,8 +694,10 @@ def main():
         run_mkdocs(repo_root, stage_root, build_root, "serve")
         return
 
-    using_default_pages_root = not args.pages_root
-    if using_default_pages_root:
+    publishing_to_gh_pages = (
+        not args.pages_root and os.environ.get("PAGES_DEPLOY") == "true"
+    )
+    if publishing_to_gh_pages:
         ensure_pages_worktree(repo_root, pages_root, "gh-pages")
     else:
         pages_root.mkdir(parents=True, exist_ok=True)

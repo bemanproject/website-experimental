@@ -157,7 +157,7 @@ To add a library, edit `beman_libraries_to_import.yaml`, put the repo next to
 `website`, then run `make start`.
 
 The first Antora build downloads the default UI bundle; later builds reuse the
-local Antora cache under `build/antora-cache`.
+local Antora cache under `$TMPDIR/beman-website-work/antora-cache`.
 
 ## Automated `gh-pages` publishing
 
@@ -168,7 +168,8 @@ GitHub Actions publishes this site to the `gh-pages` branch on:
 - manual dispatch
 
 ```shell
-$ python3 scripts/run-staged-website.py build --repos-root /tmp/beman-external --clone-missing --update-repos
+$ PAGES_DEPLOY=true python3 scripts/run-staged-website.py build \
+    --repos-root /tmp/beman-external --clone-missing --update-repos
 ```
 
 For builds published from a fork or any GitHub Pages project site, set the site
